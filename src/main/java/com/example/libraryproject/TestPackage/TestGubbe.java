@@ -74,8 +74,6 @@ public class TestGubbe extends Application {
         sun.setStrokeWidth(5);
         sun.setFill(Color.YELLOW);
 
-        //Hoppas det fungerar rrdsfdsfs jasdjdaj
-
         root.getChildren().addAll(back,bottom,middle,top,button1,button2,button3,eye1,eye2,smile,sun);
 
         Scene scene = new Scene(root, 640, 480);
