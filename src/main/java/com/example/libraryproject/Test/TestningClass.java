@@ -1,10 +1,9 @@
-package Test;
+package com.example.libraryproject.Test;
 
-public class Average implements Testning{
+public class TestningClass {
 
     public int[] listArray;
 
-    @Override
     public double getAverage() {
         int length = listArray.length;
         int sum = 0;
