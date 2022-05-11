@@ -17,7 +17,7 @@ public class TestningClass {
         }
 
         double average = sum/length;
-
+//tjosan
         return average;
     }
 }
