@@ -1,4 +1,4 @@
-package com.example.libraryproject.TestPackage;
+package com.example.libraryproject;
 
 import javafx.application.Application;
 import javafx.scene.Group;
