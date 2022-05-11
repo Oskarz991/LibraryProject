@@ -15,7 +15,6 @@ public class TestningClass {
         if (listArray.length == 0) {
             throw new ArithmeticException("Listan är tom");
         }
-//Test
         double average = sum/length;
 
         return average;
