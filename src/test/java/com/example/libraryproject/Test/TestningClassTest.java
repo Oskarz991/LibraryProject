@@ -13,7 +13,7 @@ class TestningClassTest {
 
             assertEquals( 25,average.getAverage());
         }
-
+//Förändring
     @Test
     void getAverage2() {
         TestningClass average = new TestningClass();
