@@ -18,6 +18,7 @@ public class TestningClass {
 
         double average = sum/length;
 //tjosan
+        //tjo
         return average;
     }
 }
