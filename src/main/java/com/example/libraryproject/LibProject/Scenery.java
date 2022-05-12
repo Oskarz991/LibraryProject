@@ -1,6 +1,6 @@
-package com.example.libraryproject.Test;
+package com.example.libraryproject.LibProject;
 
-public class TestningClass {
+public class Scenery {
 
     public int[] listArray;
 
