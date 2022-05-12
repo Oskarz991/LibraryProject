@@ -8,6 +8,40 @@ public class Librarian {
     public int Id;
 
 
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getSurName() {
+        return SurName;
+    }
+
+    public void setSurName(String surName) {
+        SurName = surName;
+    }
+
+    public int getPNumber() {
+        return PNumber;
+    }
+
+    public void setPNumber(int PNumber) {
+        this.PNumber = PNumber;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+
+
 
     //Här skriver vi metoderna sen
 
