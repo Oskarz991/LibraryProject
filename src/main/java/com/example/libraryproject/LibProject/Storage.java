@@ -6,6 +6,7 @@ public class Storage {
     public String Title;
     public String Author;
     public int ISBN;
+    public int Quantity;
 
     public int getId() {
         return Id;
@@ -39,5 +40,14 @@ public class Storage {
         this.ISBN = ISBN;
     }
 
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+
+//Här skriver vi metoder
 
 }

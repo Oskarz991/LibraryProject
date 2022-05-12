@@ -6,6 +6,7 @@ public class Books {
     public String Title;
     public String Author;
     public int ISBN;
+    public int Quantity;
 
     public int getId() {
         return Id;
@@ -39,8 +40,13 @@ public class Books {
         this.ISBN = ISBN;
     }
 
+    public int getQuantity() {
+        return Quantity;
+    }
 
-
-    //Här skriver vi metoder
+    public void setQuantity(int quantity) {
+        Quantity = quantity;
+    }
+//Här skriver vi metoder
 
 }
