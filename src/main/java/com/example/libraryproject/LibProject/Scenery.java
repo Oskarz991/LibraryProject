@@ -44,12 +44,12 @@ import javafx.stage.Stage;
             pane.add(loginButtonB, 2, 1);
             GridPane.setHalignment(loginButtonB, HPos.LEFT);
 
-            Line mouth = new Line(220, 145, 0, 145);
-            mouth.setStrokeWidth(1.5);
-            mouth.setFill(Color.BLACK);
+            Line breakline = new Line(220, 145, 0, 145);
+            breakline.setStrokeWidth(1.5);
+            breakline.setFill(Color.BLACK);
 
             //Logga in som medelm
-         /*   pane.add(new Label("Login as member"),0,4);
+            pane.add(new Label("Login as member"),0,4);
             pane.add(new Label("Name"), 0, 5);
             final TextField insertNamee = new TextField();
             pane.add(insertNamee, 0, 6);
@@ -62,15 +62,13 @@ import javafx.stage.Stage;
             pane.add(loginButton, 2, 5);
             GridPane.setHalignment(loginButtonB ,HPos.LEFT);
 
-          */
-
         /*    pane.add(new Label("ID"), 1, 1);
             final TextField insertId = new TextField();
             pane.add(insertId, 1, 2);
 
          */
 
-            layout.getChildren().addAll(mouth,pane);
+            layout.getChildren().addAll(breakline,pane);
             Scene scene = new Scene(layout, 640, 480);
             primaryStage.setTitle("Snowman");
             primaryStage.setScene(scene);
