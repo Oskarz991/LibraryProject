@@ -1,6 +1,6 @@
 package com.example.libraryproject.LibProject;
 
-public class Books {
+public class Book {
 
     public int Id;
     public String Title;
