@@ -1,12 +1,22 @@
 package com.example.libraryproject.LibProject;
 
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
     public class Scenery extends Application {
@@ -18,67 +28,76 @@ import javafx.stage.Stage;
         @Override
         public void start(Stage primaryStage) {
 
-            Group root = new Group();
+            primaryStage.setTitle("Library");
+            GridPane grid = new GridPane();
+            grid.setAlignment(Pos.TOP_LEFT);
+            grid.setHgap(10);
+            grid.setVgap(10);
+            grid.setPadding(new Insets(25, 25, 25, 25));
 
-            Rectangle back = new Rectangle(640,330);
-            back.setFill(Color.DEEPSKYBLUE);
+            Text login_as_a_librarian = new Text("Login as a Librarian");
+            login_as_a_librarian.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+            grid.add(login_as_a_librarian, 0, 0, 2, 1);
 
-            Circle bottom = new Circle(320,280,60); //Skriv in kordinater och storlek
-            bottom.setStroke(Color.WHITE);
-            bottom.setStrokeWidth(10);
-            bottom.setFill(Color.WHITE);
+            Label userName = new Label("User Name:");
+            grid.add(userName, 0, 1);
 
-            Circle middle = new Circle(320,190,40); //Skriv in kordinater och storlek
-            middle.setStroke(Color.WHITE);
-            middle.setStrokeWidth(10);
-            middle.setFill(Color.WHITE);
+            TextField userTextField = new TextField();
+            grid.add(userTextField, 1, 1);
 
-            Circle top = new Circle(320,125,25); //Skriv in kordinater och storlek
-            top.setStroke(Color.WHITE);
-            top.setStrokeWidth(10);
-            top.setFill(Color.WHITE);
+            Label pw = new Label("Password:");
+            grid.add(pw, 0, 2);
 
-            Circle button1 = new Circle(320,190,3); //Skriv in kordinater och storlek
-            button1.setStroke(Color.BLACK);
-            button1.setStrokeWidth(2);
-            button1.setFill(Color.BLACK);
+            PasswordField pwBox = new PasswordField();
+            grid.add(pwBox, 1, 2);
 
-            Circle button2 = new Circle(320,210,3); //Skriv in kordinater och storlek
-            button2.setStroke(Color.BLACK);
-            button2.setStrokeWidth(2);
-            button2.setFill(Color.BLACK);
+            Button btn = new Button("Sign in");
+            HBox hbBtn = new HBox(10);
+            hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            hbBtn.getChildren().add(btn);
+            grid.add(hbBtn, 1, 4);
 
-            Circle button3 = new Circle(320,170,3); //Skriv in kordinater och storlek
-            button3.setStroke(Color.BLACK);
-            button3.setStrokeWidth(2);
-            button3.setFill(Color.BLACK);
+            final Text actiontarget = new Text();
+            grid.add(actiontarget, 1, 6);
 
-            Circle eye1 = new Circle(310,125,4); //Skriv in kordinater och storlek
-            eye1.setStroke(Color.BLACK);
-            eye1.setStrokeWidth(1);
-            eye1.setFill(Color.BLACK);
+            btn.setOnAction(new EventHandler<ActionEvent>() {
 
-            Circle eye2 = new Circle(330,125,4); //Skriv in kordinater och storlek
-            eye2.setStroke(Color.BLACK);
-            eye1.setStrokeWidth(1);
-            eye1.setFill(Color.BLACK);
+                @Override
+                public void handle(ActionEvent e) {
+                    actiontarget.setFill(Color.FIREBRICK);
+                    actiontarget.setText("You are now logged in");
+                }
+            });
 
-            Line smile = new Line(305,137, 335,137);
-            smile.setFill(Color.BLACK);
-            smile.setStrokeWidth(2);
+            Text searchBook = new Text("Search after book");
+            grid.add(searchBook, 0, 0, 3, 3);
 
-            Circle sun = new Circle(550,60,50); //Skriv in kordinater och storlek
-            sun.setStroke(Color.YELLOW);
-            sun.setStrokeWidth(5);
-            sun.setFill(Color.YELLOW);
+            Label bookName = new Label("Book name");
+            grid.add(bookName, 3, 3);
 
-            root.getChildren().addAll(back,bottom,middle,top,button1,button2,button3,eye1,eye2,smile,sun);
+            TextField bookNameText = new TextField();
+            grid.add(bookNameText, 3, 1);
 
-            Scene scene = new Scene(root, 640, 480);
-            primaryStage.setTitle("Snowman");
+            Button btnn = new Button("Sign in");
+            HBox hbBtnn = new HBox(10);
+            hbBtnn.setAlignment(Pos.BOTTOM_RIGHT);
+            hbBtnn.getChildren().add(btnn);
+            grid.add(hbBtnn, 3, 4);
+
+            final Text actiontargett = new Text();
+            grid.add(actiontargett, 3, 6);
+
+            btnn.setOnAction(new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent e) {
+                    actiontargett.setFill(Color.FIREBRICK);
+                    actiontargett.setText("You are now logged in");
+                }
+            });
+
+            Scene scene = new Scene(grid, 700, 500);
             primaryStage.setScene(scene);
             primaryStage.show();
-
-
         }
     }
