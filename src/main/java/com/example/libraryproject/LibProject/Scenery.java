@@ -6,12 +6,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
@@ -19,7 +17,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-    public class Scenery extends Application {
+
+public class Scenery extends Application {
 
         public static void main(String[] args) {
             launch(args);
@@ -28,76 +27,85 @@ import javafx.stage.Stage;
         @Override
         public void start(Stage primaryStage) {
 
-            primaryStage.setTitle("Library");
-            GridPane grid = new GridPane();
-            grid.setAlignment(Pos.TOP_LEFT);
-            grid.setHgap(10);
-            grid.setVgap(10);
-            grid.setPadding(new Insets(25, 25, 25, 25));
+            VBox root = new VBox();
+            root.setSpacing(5);
+            root.setPadding(new Insets(5, 5, 10, 5));
+            Label title = new Label("MusikDB Insättare");
+            title.setFont(new Font("Fira Sans", 32));
 
-            Text login_as_a_librarian = new Text("Login as a Librarian");
-            login_as_a_librarian.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-            grid.add(login_as_a_librarian, 0, 0, 2, 1);
+            GridPane pane = new GridPane();
+            pane.setAlignment(Pos.BASELINE_LEFT);
+            pane.setHgap(5);
+            pane.setVgap(5);
 
-            Label userName = new Label("User Name:");
-            grid.add(userName, 0, 1);
+            Label lblName = new Label("Namn:");
+            TextField name = new TextField();
+            Label lblUtgvAr = new Label("Utgivningsår:");
+            TextField utgvAr = new TextField();
 
-            TextField userTextField = new TextField();
-            grid.add(userTextField, 1, 1);
+            Label lblBildades = new Label("Bildades:");
+            TextField bildades = new TextField();
+            Label lblGenre = new Label("Genre:");
+            TextField genre = new TextField();
 
-            Label pw = new Label("Password:");
-            grid.add(pw, 0, 2);
+            lblBildades.setVisible(false);
+            bildades.setVisible(false);
+            lblGenre.setVisible(false);
+            genre.setVisible(false);
 
-            PasswordField pwBox = new PasswordField();
-            grid.add(pwBox, 1, 2);
+            Button skapaArtist = new Button("Skapa ny artist ");
+            Button skapaArtist2 = new Button("Skapa ny album ");
+            skapaArtist2.setVisible(false);
 
-            Button btn = new Button("Sign in");
-            HBox hbBtn = new HBox(10);
-            hbBtn.setAlignment(Pos.BOTTOM_RIGHT);
-            hbBtn.getChildren().add(btn);
-            grid.add(hbBtn, 1, 4);
+            Button insertAlbum = new Button("Sätt in ");
+            Label albumTillad = new Label();
+            Button insertArtist = new Button("Lägg till ");
+            insertArtist.setVisible(false);
 
-            final Text actiontarget = new Text();
-            grid.add(actiontarget, 1, 6);
+            ComboBox<String> artister = new ComboBox<>();
 
-            btn.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent e) {
-                    actiontarget.setFill(Color.FIREBRICK);
-                    actiontarget.setText("You are now logged in");
-                }
+            skapaArtist.setOnAction(e-> {
+                name.clear(); utgvAr.clear();
+                skapaArtist.setVisible(false); skapaArtist2.setVisible(true);
+                insertAlbum.setVisible(false); insertArtist.setVisible(true);
+                lblName.setVisible(true); name.setVisible(true);
+                lblUtgvAr.setVisible(false); utgvAr.setVisible(false);
+                lblBildades.setVisible(true);bildades.setVisible(true);
+                lblGenre.setVisible(true);genre.setVisible(true);
             });
 
-            Text searchBook = new Text("Search after book");
-            grid.add(searchBook, 0, 0, 3, 3);
-
-            Label bookName = new Label("Book name");
-            grid.add(bookName, 3, 3);
-
-            TextField bookNameText = new TextField();
-            grid.add(bookNameText, 3, 1);
-
-            Button btnn = new Button("Sign in");
-            HBox hbBtnn = new HBox(10);
-            hbBtnn.setAlignment(Pos.BOTTOM_RIGHT);
-            hbBtnn.getChildren().add(btnn);
-            grid.add(hbBtnn, 3, 4);
-
-            final Text actiontargett = new Text();
-            grid.add(actiontargett, 3, 6);
-
-            btnn.setOnAction(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(ActionEvent e) {
-                    actiontargett.setFill(Color.FIREBRICK);
-                    actiontargett.setText("You are now logged in");
-                }
+            skapaArtist2.setOnAction(e-> {
+                name.clear(); bildades.clear(); genre.clear();
+                skapaArtist.setVisible(true); skapaArtist2.setVisible(false);
+                insertAlbum.setVisible(true); insertArtist.setVisible(false);
+                lblName.setVisible(true); name.setVisible(true);
+                lblUtgvAr.setVisible(true); utgvAr.setVisible(true);
+                lblBildades.setVisible(false);bildades.setVisible(false);
+                lblGenre.setVisible(false);genre.setVisible(false);
             });
 
-            Scene scene = new Scene(grid, 700, 500);
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                System.out.println("Driver loaded");
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Driver did not load");
+            }
+
+            pane.add(artister,0,0); pane.add(skapaArtist,1,0); pane.add(skapaArtist2,1,0);
+            pane.add(lblName,0,1); pane.add(name,1,1);
+            pane.add(lblUtgvAr,0,2); pane.add(utgvAr,1,2);
+            pane.add(lblBildades,0,2); pane.add(bildades,1,2);
+            pane.add(lblGenre,0,3); pane.add(genre,1,3);
+            pane.add(insertAlbum,0,4); pane.add(insertArtist,0,4);
+
+
+
+            root.getChildren().addAll(title,albumTillad,pane);
+            Scene scene = new Scene(root ,500,400);
+            primaryStage.setTitle("Insättning");
             primaryStage.setScene(scene);
             primaryStage.show();
+
+
         }
-    }
+}
