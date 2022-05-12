@@ -1,12 +1,17 @@
 package com.example.libraryproject.LibProject;
 
 import javafx.application.Application;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
     public class Scenery extends Application {
@@ -18,63 +23,55 @@ import javafx.stage.Stage;
         @Override
         public void start(Stage primaryStage) {
 
-            Group root = new Group();
+            Group layout = new Group();
+            GridPane pane = new GridPane();
+            pane.setAlignment(Pos.TOP_LEFT);
+            pane.setPadding(new Insets(11.5, 12.5, 13.5, 14.4));
+            pane.setHgap(10);
+            pane.setVgap(10);
 
-            Rectangle back = new Rectangle(640,330);
-            back.setFill(Color.DEEPSKYBLUE);
+            //Logga in som bibliotikarie
+            pane.add(new Label("Login as Librarian"),0,0);
+            pane.add(new Label("Name"), 0, 1);
+            final TextField insertName = new TextField();
+            pane.add(insertName, 0, 2);
 
-            Circle bottom = new Circle(320,280,60); //Skriv in kordinater och storlek
-            bottom.setStroke(Color.WHITE);
-            bottom.setStrokeWidth(10);
-            bottom.setFill(Color.WHITE);
+            pane.add(new Label("ID"), 1, 1);
+            final TextField insertId = new TextField();
+            pane.add(insertId, 1, 2);
 
-            Circle middle = new Circle(320,190,40); //Skriv in kordinater och storlek
-            middle.setStroke(Color.WHITE);
-            middle.setStrokeWidth(10);
-            middle.setFill(Color.WHITE);
+            Button loginButtonB = new Button("Login");
+            pane.add(loginButtonB, 2, 1);
+            GridPane.setHalignment(loginButtonB, HPos.LEFT);
 
-            Circle top = new Circle(320,125,25); //Skriv in kordinater och storlek
-            top.setStroke(Color.WHITE);
-            top.setStrokeWidth(10);
-            top.setFill(Color.WHITE);
+            Line mouth = new Line(220, 145, 0, 145);
+            mouth.setStrokeWidth(1.5);
+            mouth.setFill(Color.BLACK);
 
-            Circle button1 = new Circle(320,190,3); //Skriv in kordinater och storlek
-            button1.setStroke(Color.BLACK);
-            button1.setStrokeWidth(2);
-            button1.setFill(Color.BLACK);
+            //Logga in som medelm
+         /*   pane.add(new Label("Login as member"),0,4);
+            pane.add(new Label("Name"), 0, 5);
+            final TextField insertNamee = new TextField();
+            pane.add(insertNamee, 0, 6);
 
-            Circle button2 = new Circle(320,210,3); //Skriv in kordinater och storlek
-            button2.setStroke(Color.BLACK);
-            button2.setStrokeWidth(2);
-            button2.setFill(Color.BLACK);
+            pane.add(new Label("ID"), 1, 5);
+            final TextField insertIdd = new TextField();
+            pane.add(insertIdd, 1, 6);
 
-            Circle button3 = new Circle(320,170,3); //Skriv in kordinater och storlek
-            button3.setStroke(Color.BLACK);
-            button3.setStrokeWidth(2);
-            button3.setFill(Color.BLACK);
+            Button loginButton = new Button("Login");
+            pane.add(loginButton, 2, 5);
+            GridPane.setHalignment(loginButtonB ,HPos.LEFT);
 
-            Circle eye1 = new Circle(310,125,4); //Skriv in kordinater och storlek
-            eye1.setStroke(Color.BLACK);
-            eye1.setStrokeWidth(1);
-            eye1.setFill(Color.BLACK);
+          */
 
-            Circle eye2 = new Circle(330,125,4); //Skriv in kordinater och storlek
-            eye2.setStroke(Color.BLACK);
-            eye1.setStrokeWidth(1);
-            eye1.setFill(Color.BLACK);
+        /*    pane.add(new Label("ID"), 1, 1);
+            final TextField insertId = new TextField();
+            pane.add(insertId, 1, 2);
 
-            Line smile = new Line(305,137, 335,137);
-            smile.setFill(Color.BLACK);
-            smile.setStrokeWidth(2);
+         */
 
-            Circle sun = new Circle(550,60,50); //Skriv in kordinater och storlek
-            sun.setStroke(Color.YELLOW);
-            sun.setStrokeWidth(5);
-            sun.setFill(Color.YELLOW);
-
-            root.getChildren().addAll(back,bottom,middle,top,button1,button2,button3,eye1,eye2,smile,sun);
-
-            Scene scene = new Scene(root, 640, 480);
+            layout.getChildren().addAll(mouth,pane);
+            Scene scene = new Scene(layout, 640, 480);
             primaryStage.setTitle("Snowman");
             primaryStage.setScene(scene);
             primaryStage.show();
