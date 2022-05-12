@@ -7,6 +7,7 @@ public class Storage {
     public String Author;
     public int ISBN;
     public int Quantity;
+    public Boolean BlackList;
 
     public int getId() {
         return Id;
@@ -48,6 +49,14 @@ public class Storage {
         Quantity = quantity;
     }
 
-//Här skriver vi metoder
+    public Boolean getBlackList() {
+        return BlackList;
+    }
+
+    public void setBlackList(Boolean blackList) {
+        BlackList = blackList;
+    }
+
+    //Här skriver vi metoder
 
 }
