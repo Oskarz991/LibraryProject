@@ -26,7 +26,7 @@ public class Scenery extends Application {
 
         @Override
         public void start(Stage primaryStage) {
-
+//Funkar detta?
             VBox root = new VBox();
             root.setSpacing(5);
             root.setPadding(new Insets(5, 5, 10, 5));
