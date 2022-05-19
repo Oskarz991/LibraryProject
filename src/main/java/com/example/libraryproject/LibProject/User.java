@@ -81,7 +81,7 @@ public class User {
 
     }
 
-    public void requestLoan(String name){
+    public void requestLoan(String bookTitle){
 
     }
 
