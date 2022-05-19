@@ -231,7 +231,7 @@ public class Librarian {
        }
 
        for (Book books : bookList) {
-           if (books == theBook) {
+           if (books.equals(theBook)) {
 
                Scanner userLoanScan = new Scanner(userLoanFile).useDelimiter(",");
 
