@@ -81,8 +81,6 @@ public class User {
         ViolationCounter = violationCounter;
     }
 
-
-
     public Book searchTitle(String Title, int id){
 
         Book temp = new Book();
