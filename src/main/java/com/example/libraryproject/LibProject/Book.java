@@ -6,7 +6,17 @@ public class Book {
     public String Title;
     public String Author;
     public int ISBN;
+
     public int Quantity;
+
+    public Book(int id,String titel,int isbn,int quantity,String author){
+        this.Id=id;
+        this.Title=titel;
+        this.ISBN = isbn;
+        this.Quantity= quantity;
+        this.Author=author;
+    }
+    public Book(){}
 
     public int getId() {
         return Id;
@@ -47,6 +57,12 @@ public class Book {
     public void setQuantity(int quantity) {
         Quantity = quantity;
     }
+
+    public String export (Book book){
+
+        return book.Id + "," + book.Title + "," + book.ISBN +","+book.Quantity +","+book.Author;
+    }
+
 //Här skriver vi metoder
 
 }
