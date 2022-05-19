@@ -9,12 +9,12 @@ public class Book {
 
     public int Quantity;
 
-    public Book(int id,String titel,String author,int isbn,int quantity){
+    public Book(int id,String titel,int isbn,int quantity,String author){
         this.Id=id;
         this.Title=titel;
-        this.Author=author;
         this.ISBN = isbn;
         this.Quantity= quantity;
+        this.Author=author;
     }
     public Book(){}
 
@@ -60,7 +60,7 @@ public class Book {
 
     public String export (Book book){
 
-        return book.Id + "," + book.Title +","+ book.Author + "," + book.ISBN + ","+book.Quantity;
+        return book.Id + "," + book.Title + "," + book.ISBN +","+book.Quantity +","+book.Author;
     }
 
 //Här skriver vi metoder

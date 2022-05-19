@@ -49,25 +49,41 @@ public class Librarian {
     // new methods
 
     public void addBook(int bookId,String titel,String author,int isbn,int quantity) throws IOException {
+
         File bookFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+
         Scanner bookScan = new Scanner(bookFile).useDelimiter(",");
+
         ArrayList<Book>bookList = new ArrayList<Book>();
+
         while (bookScan.hasNext()){
             int Id = Integer.parseInt(bookScan.next());
             String Name = bookScan.next();
-            String Author = bookScan.next();
             int ISBN = Integer.parseInt(bookScan.next());
             int Quantity = Integer.parseInt(bookScan.next());
-            bookList.add(new Book(Id,Name,Author,ISBN,Quantity));
+            String Author = bookScan.nextLine();
+            Author = Author.replace(",","");
+            bookList.add(new Book(Id,Name,ISBN,Quantity,Author));
         }
 
+        Book newBook = new Book(bookId,titel,isbn,quantity,author);
 
-        Book newBook = new Book(bookId,titel,author,isbn,quantity);
+        bookList.add(newBook);
 
+
+        for (int i = 0; i < bookList.size(); i++) {
+            for (int j = i+1; j < bookList.size(); j++)
+            if (bookList.get(i).Title.equals(bookList.get(j).Title)){
+                bookList.remove(i);
+                System.out.println("Duplicate removed");
+            }
+        }
 
         PrintWriter printWriter = new PrintWriter(bookFile);
 
-        printWriter.println(newBook.export(newBook));
+        for (Book books:bookList) {
+            printWriter.println(newBook.export(books));
+        }
 
         printWriter.close();
 
@@ -96,5 +112,12 @@ public class Librarian {
         Book temp = new Book();
         return temp;
    }
+
+
+    public static void main(String[] args)throws IOException {
+        Librarian librarian = new Librarian();
+        librarian.addBook(2,"Oskars resor","Stefan",2334,9);
+
+    }
 
 }
