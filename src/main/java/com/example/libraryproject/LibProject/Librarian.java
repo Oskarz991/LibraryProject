@@ -12,6 +12,9 @@ public class Librarian {
     public String SurName;
     public int PNumber;
     public int Id;
+    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+    public File userLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
+
 
     public String getName() {
         return Name;
@@ -45,14 +48,13 @@ public class Librarian {
         Id = id;
     }
 
+    // new methods _____________________________
 
-    // new methods
+    public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
-    public void addBook(int bookId,String titel,String author,int isbn,int quantity) throws IOException {
+      //  File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
 
-        File bookFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-
-        Scanner bookScan = new Scanner(bookFile).useDelimiter(",");
+        Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
         ArrayList<Book>bookList = new ArrayList<Book>();
 
@@ -70,7 +72,6 @@ public class Librarian {
 
         bookList.add(newBook);
 
-
         for (int i = 0; i < bookList.size(); i++) {
             for (int j = i+1; j < bookList.size(); j++)
             if (bookList.get(i).Title.equals(bookList.get(j).Title)){
@@ -79,7 +80,7 @@ public class Librarian {
             }
         }
 
-        PrintWriter printWriter = new PrintWriter(bookFile);
+        PrintWriter printWriter = new PrintWriter(AllBooksFile);
 
         for (Book books:bookList) {
             printWriter.println(newBook.export(books));
@@ -101,22 +102,84 @@ public class Librarian {
 
    }
 
-   public Book getBookByISBN(int ISBN){
+   public Book getBookByISBN(int ISBN)throws IOException{
 
-        Book temp = new Book();
+   //    File bookFileISBN = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
 
-        return temp;
+       Scanner bookScanByISBN = new Scanner(AllBooksFile).useDelimiter(",");
+
+       ArrayList<Book>bookList = new ArrayList<Book>();
+
+       while (bookScanByISBN.hasNext()){
+           int Id = Integer.parseInt(bookScanByISBN.next());
+           String Name = bookScanByISBN.next();
+           int ISBNScan = Integer.parseInt(bookScanByISBN.next());
+           int Quantity = Integer.parseInt(bookScanByISBN.next());
+           String Author = bookScanByISBN.nextLine();
+           Author = Author.replace(",","");
+           bookList.add(new Book(Id,Name,ISBNScan,Quantity,Author));
+       }
+
+       Book theBook = new Book();
+
+       for (Book books: bookList) {
+           if (books.ISBN == ISBN){
+               theBook = books;
+           }
+       }
+        return theBook;
    }
 
-   public Book lendBook(Book theBook){
-        Book temp = new Book();
-        return temp;
+   public void lendBook(Book theBook, User theUser)throws IOException {
+
+       Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
+
+       ArrayList<Book> bookList = new ArrayList<Book>();
+
+       while (bookScanLend.hasNext()) {
+           int Id = Integer.parseInt(bookScanLend.next());
+           String Name = bookScanLend.next();
+           int ISBNScan = Integer.parseInt(bookScanLend.next());
+           int Quantity = Integer.parseInt(bookScanLend.next());
+           String Author = bookScanLend.nextLine();
+           Author = Author.replace(",", "");
+           bookList.add(new Book(Id, Name, ISBNScan, Quantity, Author));
+       }
+
+       for (Book books : bookList) {
+           if (books == theBook) {
+
+               Scanner userLoanScan = new Scanner(userLoanFile).useDelimiter(",");
+
+               books.Quantity--;
+
+               PrintWriter printWriter = new PrintWriter(userLoanFile);
+
+               printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
+
+               printWriter.close();
+
+           } else {
+               System.out.println("The book does not exists");
+           }
+
+       }
    }
 
 
     public static void main(String[] args)throws IOException {
         Librarian librarian = new Librarian();
-        librarian.addBook(2,"Oskars resor","Stefan",2334,9);
+
+        librarian.addBook(2,"Oskars resor",2334,9,"Stefan");
+
+        Book testBook = librarian.getBookByISBN(2334);
+
+        testBook = librarian.getBookByISBN(2334);
+        System.out.println(testBook.Title);
+
+        User testUser = new User();
+
+        librarian.lendBook(testBook,testUser);
 
     }
 
