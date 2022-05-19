@@ -7,7 +7,6 @@ public class Librarian {
     public int PNumber;
     public int Id;
 
-
     public String getName() {
         return Name;
     }
@@ -40,10 +39,6 @@ public class Librarian {
         Id = id;
     }
 
-
-
-
     //Här skriver vi metoderna sen
-
 
 }
