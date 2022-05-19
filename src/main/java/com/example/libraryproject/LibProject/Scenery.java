@@ -26,10 +26,11 @@ public class Scenery extends Application {
 //Funkar detta?
             VBox root = new VBox();
             root.setSpacing(5);
-            root.setPadding(new Insets(5, 5, 10, 5));
+            root.setPadding(new Insets(5, 5, 5, 5));
             Label titleLibrarian = new Label("Login as a libriarian");
             Label titleMember = new Label("Login as a member");
             Label titleNewAccount = new Label("Register new account");
+            titleNewAccount.setVisible(false);
             titleLibrarian.setFont(new Font("Fira Sans", 32));
             titleMember.setFont(new Font("Fira Sans", 32));
             titleNewAccount.setFont(new Font("Fira Sans", 32));
@@ -38,6 +39,9 @@ public class Scenery extends Application {
 
             VBox leftControl  = new VBox(new Label("Left Control"));
             VBox rightControl = new VBox(new Label("Right Control"));
+
+            VBox leftControl2  = new VBox(new Label("Left Control"));
+            VBox rightControl2 = new VBox(new Label("Right Control"));
 
             GridPane paneLeft = new GridPane();
             paneLeft.setAlignment(Pos.BASELINE_LEFT);
@@ -55,6 +59,12 @@ public class Scenery extends Application {
             Label idMemberLbl = new Label("ID-number:");
             TextField idMemberTxt = new TextField();
 
+            //Logga in som bibliotikarie
+            Label nameLibrarianLbl = new Label("Name:");
+            TextField nameLibrarianTxt = new TextField();
+            Label idLibrarianLbl = new Label("ID-number:");
+            TextField idLibrarianTxt = new TextField();
+
             //Skapa nytt konto
             Label surnameMemberLbl = new Label("Surname:");
             TextField surnameMemberTxt = new TextField();
@@ -70,49 +80,80 @@ public class Scenery extends Application {
             Button loginAsAMember = new Button("Login as a member");
             loginAsAMember.setVisible(false);
 
+            Button loginAsLibraryan = new Button("Login as a librarian ");
+
             Button loginBtn = new Button("Login ");
-            Button registerBtn = new Button("Register account");
+            Button registerBtn = new Button("Create account");
             registerBtn.setVisible(false);
 
-            ComboBox<String> artister = new ComboBox<>();
+            ComboBox<String> chooseRole = new ComboBox<>();
+            chooseRole.setVisible(false);
 
             registerNewAccount.setOnAction(e-> {
                 nameMemberTxt.clear(); idMemberTxt.clear();
+                titleMember.setVisible(false); titleNewAccount.setVisible(true);
                 registerNewAccount.setVisible(false); loginAsAMember.setVisible(true);
                 loginBtn.setVisible(false); registerBtn.setVisible(true);
                 nameMemberTxt.setVisible(true); nameMemberTxt.setVisible(true);
                 idMemberLbl.setVisible(false); idMemberTxt.setVisible(false);
                 surnameMemberLbl.setVisible(true); surnameMemberTxt.setVisible(true);
                 personalNrMemberLbl.setVisible(true); personalNrMemberTxt.setVisible(true);
+                chooseRole.setVisible(true);
             });
 
             loginAsAMember.setOnAction(e-> {
                 nameMemberTxt.clear();
+                titleMember.setVisible(true); titleNewAccount.setVisible(false);
                 registerNewAccount.setVisible(true); loginAsAMember.setVisible(false);
                 loginBtn.setVisible(true); registerBtn.setVisible(false);
                 nameMemberTxt.setVisible(true); nameMemberTxt.setVisible(true);
                 idMemberLbl.setVisible(true); idMemberTxt.setVisible(true);
                 surnameMemberLbl.setVisible(false); surnameMemberTxt.setVisible(false);
                 personalNrMemberLbl.setVisible(false); personalNrMemberTxt.setVisible(false);
+                chooseRole.setVisible(false);
 
             });
+
+            loginAsLibraryan.setOnAction(e-> {
+                titleLibrarian.setVisible(true);
+                nameLibrarianTxt.setVisible(true); nameLibrarianLbl.setVisible(true);
+                idLibrarianLbl.setVisible(true); idLibrarianTxt.setVisible(true);
+                loginAsLibraryan.setVisible(true);
+            });
+
+            loginBtn.setOnAction(e-> {
+                rightControl.getChildren().clear();
+
+            });
+
+            registerBtn.setOnAction(e-> {
+                rightControl.getChildren().clear();
+
+            });
+
             //Lägg till på vänster sida
             paneLeft.add(titleLibrarian,0,0);
-            paneLeft.add(artister,0,1);
+            paneLeft.add(nameLibrarianLbl,0,1); paneLeft.add(nameLibrarianTxt,1,1);
+            paneLeft.add(idLibrarianLbl,0,2); paneLeft.add(idLibrarianTxt,1,2);
+            paneLeft.add(loginAsLibraryan,0,5);
 
+         //   paneLeft.add(chooseRole,2,1);
 
             //Lägg till på höger sida
-            paneRight.add(titleMember,0,0);
+            paneRight.add(titleMember,0,0);   paneRight.add(titleNewAccount,0,0);
             paneRight.add(loginAsAMember,0,1); paneRight.add(registerNewAccount,0,1);
             paneRight.add(nameMemberLbl,0,2); paneRight.add(nameMemberTxt,1,2);
             paneRight.add(idMemberLbl,0,3); paneRight.add(idMemberTxt,1,3);
             paneRight.add(personalNrMemberLbl,0,4); paneRight.add(personalNrMemberTxt,1,4);
             paneRight.add(surnameMemberLbl,0,3); paneRight.add(surnameMemberTxt,1,3);
             paneRight.add(loginBtn,1,6); paneRight.add(registerBtn,1,6);
-
+            paneRight.add(chooseRole,2,1);
 
             leftControl.getChildren().addAll(paneLeft);
             rightControl.getChildren().addAll(paneRight);
+
+        //    leftControl2.getChildren().addAll(paneLeft);
+        //    rightControl2.getChildren().addAll(paneRight);
 
             splitPane.getItems().addAll(leftControl,rightControl);
             root.getChildren().addAll(splitPane);
