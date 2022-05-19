@@ -13,8 +13,8 @@ public class Librarian {
     public int PNumber;
     public int Id;
     public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-    public File userLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
-
+    public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
+    public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
 
     public String getName() {
         return Name;
@@ -90,10 +90,9 @@ public class Librarian {
 
     }
 
+    // Add User är knas, men mer rätt nu. Blir fel i filen och kan inte läsa av blacklisten. Kan även lägga till dubbletter verkar det som
    public void addUser(String name, String surName, int pNumber, String role) throws IOException{
-       File userFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
-
-       Scanner userScan = new Scanner(userFile).useDelimiter(",");
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
 
        ArrayList<User>userList = new ArrayList<User>();
        ArrayList<User>blackList = new ArrayList<User>();
@@ -101,13 +100,10 @@ public class Librarian {
        while (userScan.hasNext()){
            String Name = userScan.next();
            String SurName = userScan.next();
-
            int PNumber = Integer.parseInt(userScan.next());
            int Id = Integer.parseInt(userScan.next());
-
            int LoanCounter = Integer.parseInt(userScan.next());
            int ViolationCounter = Integer.parseInt(userScan.next());
-
            String Role = userScan.nextLine();
            Role = Role.replace(",","");
 
@@ -138,8 +134,17 @@ public class Librarian {
        User newUser = new User(name,surName,pNumber,id,loanCounter,violationCounter,role);
        userList.add(newUser);
 
-        File blackfile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-        Scanner blacklisted = new Scanner(blackfile);
+       for (int i = 0; i < userList.size(); i++) {
+           for (int j = i+1; j < userList.size(); j++){
+               if (userList.get(i).Id == (userList.get(j).Id)){
+                   userList.remove(i);
+                   System.out.println("Duplicate removed");
+               }
+           }
+       }
+
+        File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
+        Scanner blacklisted = new Scanner(blackFile);
 
        while (blacklisted.hasNext()){
            String Name = blacklisted.next();
@@ -158,17 +163,14 @@ public class Librarian {
        }
 
        for (int i = 0; i < userList.size(); i++) {
-           for (int j = i+1; j < blackList.size(); j++)
-               if (userList.get(i).equals(userList.get(j))){
+           for (int j = 0; j < blackList.size(); j++)
+               if (userList.get(i).equals(blackList.get(j))){
                    userList.remove(i);
-                   System.out.println("Duplicate removed");
-               } else if (userList.get(i).equals(blackList.get(j-1))){
-                   userList.remove(i);
-                   System.out.println("User is blacklisted");
+                   System.out.println("Whitelisted removed because of blacklist");
                }
        }
 
-       PrintWriter printWriter = new PrintWriter(userFile);
+       PrintWriter printWriter = new PrintWriter(UserFile);
 
        for (User user:userList) {
            printWriter.println(newUser.export(user));
@@ -233,11 +235,11 @@ public class Librarian {
        for (Book books : bookList) {
            if (books.equals(theBook)) {
 
-               Scanner userLoanScan = new Scanner(userLoanFile).useDelimiter(",");
+               Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
                books.Quantity--;
 
-               PrintWriter printWriter = new PrintWriter(userLoanFile);
+               PrintWriter printWriter = new PrintWriter(UserLoanFile);
 
                printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
 
@@ -264,6 +266,7 @@ public class Librarian {
 
         librarian.lendBook(testBook,testUser);
 
-    }
+        librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
 
+    }
 }
