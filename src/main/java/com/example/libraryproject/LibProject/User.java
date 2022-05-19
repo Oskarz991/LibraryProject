@@ -12,6 +12,19 @@ public class User {
     public int LoanCounter;
     public int ViolationCounter;
 
+   public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role){
+        this.Name = name;
+        this.Surname = surname;
+        this.Role = role;
+        this.PNumber = pnumber;
+        this.Id = id;
+        this.LoanCounter = loancounter;
+        this.ViolationCounter = violationcounter;
+    }
+
+    public User(){
+    }
+
     public String getName() {
         return Name;
     }
@@ -68,8 +81,6 @@ public class User {
         ViolationCounter = violationCounter;
     }
 
-
-
     public Book searchTitle(String Title, int id){
 
         Book temp = new Book();
@@ -93,6 +104,10 @@ public class User {
 
     }
 
+    public String export (User user){
+
+        return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Id + "," + user.Role;
+    }
 
 
 }
