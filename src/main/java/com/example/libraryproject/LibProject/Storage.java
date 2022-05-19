@@ -57,6 +57,7 @@ public class Storage {
         BlackList = blackList;
     }
 
+
     //Här skriver vi metoder
 
 }

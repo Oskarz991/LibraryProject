@@ -1,5 +1,7 @@
 package com.example.libraryproject.LibProject;
 
+import java.util.Date;
+
 public class User {
 
     public String Name;
@@ -9,7 +11,6 @@ public class User {
     public int Id;
     public int LoanCounter;
     public int ViolationCounter;
-
 
     public String getName() {
         return Name;
@@ -68,9 +69,27 @@ public class User {
     }
 
 
+    public Book searchTitle(String Title, int id){
 
+        Book temp = new Book();
 
-    //Här skriver vi metoderna
+        return temp;
+    }
 
+    public void requestDelete(int id){
+
+    }
+
+    public void requestLoan(String name){
+
+    }
+
+    public void requestTime (Date time){
+
+    }
+
+    public void returnBook(Book bookTitle, int id){
+
+    }
 
 }
