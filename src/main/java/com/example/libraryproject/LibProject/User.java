@@ -12,7 +12,6 @@ public class User {
     public int LoanCounter;
     public int ViolationCounter;
 
-
     public String getName() {
         return Name;
     }
@@ -70,7 +69,12 @@ public class User {
     }
 
 
+    public Book searchTitle(String Title, int id){
 
+        Book temp = new Book();
+
+        return temp;
+    }
 
     public void requestDelete(int id){
 
@@ -87,7 +91,5 @@ public class User {
     public void returnBook(Book bookTitle, int id){
 
     }
-
-
 
 }
