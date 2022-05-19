@@ -39,6 +39,31 @@ public class Librarian {
         Id = id;
     }
 
-    //Här skriver vi metoderna sen
+
+    // new methods
+
+   public void addUser(String name, String surName, int pNumber, String role){
+
+   }
+
+   public void deleteUser(int id){
+
+   }
+
+   public void giveTimeout(int id){
+
+   }
+
+   public Book getBookByISBN(int ISBN){
+
+        Book temp = new Book();
+
+        return temp;
+   }
+
+   public Book lendBook(Book theBook){
+        Book temp = new Book();
+        return temp;
+   }
 
 }
