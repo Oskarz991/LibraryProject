@@ -105,7 +105,6 @@ public class User {
     }
 
     public String export (User user){
-
         return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Id + "," + user.Role;
     }
 
