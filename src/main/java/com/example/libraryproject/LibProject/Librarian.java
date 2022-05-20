@@ -90,7 +90,6 @@ public class Librarian {
 
     }
 
-    // Add User är knas, men mer rätt nu. Blir fel i filen och kan inte läsa av blacklisten. Kan även lägga till dubbletter verkar det som
    public void addUser(String name, String surName, int pNumber, String role) throws IOException{
        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
 
