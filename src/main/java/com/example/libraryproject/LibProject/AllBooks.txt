@@ -1,3 +1,2 @@
-1,Stefans resor,3434,9,Stefan
-2,Victors resor,2334,9,Stefan
-2,Oskars resor,2334,9,Stefan
+1,Stefans resor,3434,6,Stefan
+2,Oskars resor,2334,8,Stefan
