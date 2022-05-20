@@ -136,7 +136,7 @@ public class Librarian {
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
-               if (userList.get(i).Id == (userList.get(j).Id)){
+               if (userList.get(i).PNumber == (userList.get(j).PNumber)){
                    userList.remove(i);
                    System.out.println("Duplicate removed");
                }
@@ -164,7 +164,7 @@ public class Librarian {
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = 0; j < blackList.size(); j++)
-               if (userList.get(i).equals(blackList.get(j))){
+               if (userList.get(i).PNumber == blackList.get(j).PNumber){
                    userList.remove(i);
                    System.out.println("Whitelisted removed because of blacklist");
                }
@@ -173,7 +173,7 @@ public class Librarian {
        PrintWriter printWriter = new PrintWriter(UserFile);
 
        for (User user:userList) {
-           printWriter.println(newUser.export(user));
+           printWriter.println(user.export(user));
        }
 
        printWriter.close();

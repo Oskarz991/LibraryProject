@@ -1,3 +1,0 @@
-Oskar,Andersson,1999,1339,3,0,Undergraduate Student
-Oskar,Andersson,1999,0,1338,3,Undergraduate Student
-Oskar,Andersson,1999,3,0,1888,Undergraduate Student
