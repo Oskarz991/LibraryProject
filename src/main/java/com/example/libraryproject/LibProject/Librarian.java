@@ -52,8 +52,6 @@ public class Librarian {
 
     public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
-      //  File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-
         Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
         ArrayList<Book>bookList = new ArrayList<Book>();
@@ -230,17 +228,32 @@ public class Librarian {
        }
 
        for (Book books : bookList) {
-           if (books.equals(theBook)) {
+           if (books.Title.equals(theBook.Title)) {
+               if (books.Quantity > 0) {
 
-               Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+                   Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
-               books.Quantity--;
+                   books.Quantity--;
 
-               PrintWriter printWriter = new PrintWriter(UserLoanFile);
+                   PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
 
-               printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
+                   for (Book book:bookList) {
+                       printWriterAllBooks.println(book.export(book));
 
-               printWriter.close();
+                   }
+
+                   printWriterAllBooks.close();
+
+                   PrintWriter printWriter = new PrintWriter(UserLoanFile);
+
+                   printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
+
+                   printWriter.close();
+
+                   break;
+               }else {
+                   System.out.println("The book is not available right now");
+               }
 
            } else {
                System.out.println("The book does not exists");
@@ -254,16 +267,26 @@ public class Librarian {
 
         librarian.addBook(2,"Oskars resor",2334,9,"Stefan");
 
-        Book testBook = librarian.getBookByISBN(2334);
+        Book testBook;
+        Book testBook2;
 
         testBook = librarian.getBookByISBN(2334);
+        testBook2 = librarian.getBookByISBN(3434);
         System.out.println(testBook.Title);
 
-        User testUser = new User();
+        User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
+        User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
 
+        System.out.println(testUser.getLoanCounter());
+        System.out.println(testUser2.getLoanCounter());
         librarian.lendBook(testBook,testUser);
+        librarian.lendBook(testBook2,testUser2);
 
+        System.out.println(testUser.getLoanCounter());
+        System.out.println(testUser2.getLoanCounter());
 
+        librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+        librarian.addUser("Rolf","Andersson",8299,"PhD Student");
 
     }
 }
