@@ -107,7 +107,7 @@ public class Librarian {
            String Role = userScan.nextLine();
            Role = Role.replace(",","");
 
-           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
+          userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
        }
 
        int id = (int) (Math.random()*999) +1;
@@ -130,13 +130,13 @@ public class Librarian {
            id = id+5000;
            loanCounter = 9999;
        }
-
+       //  userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
        User newUser = new User(name,surName,pNumber,id,loanCounter,violationCounter,role);
        userList.add(newUser);
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
-               if (userList.get(i).PNumber == (userList.get(j).PNumber)){
+               if (userList.get(i).Id == (userList.get(j).Id)){
                    userList.remove(i);
                    System.out.println("Duplicate removed");
                }
@@ -159,12 +159,13 @@ public class Librarian {
            String Role = blacklisted.nextLine();
            Role = Role.replace(",","");
 
+           //  userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
            blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
        }
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = 0; j < blackList.size(); j++)
-               if (userList.get(i).PNumber == blackList.get(j).PNumber){
+               if (userList.get(i).equals(blackList.get(j))){
                    userList.remove(i);
                    System.out.println("Whitelisted removed because of blacklist");
                }
@@ -173,7 +174,7 @@ public class Librarian {
        PrintWriter printWriter = new PrintWriter(UserFile);
 
        for (User user:userList) {
-           printWriter.println(user.export(user));
+           printWriter.println(newUser.export(user));
        }
 
        printWriter.close();
