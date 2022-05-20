@@ -106,7 +106,7 @@ public class User {
 
     public String export (User user){
 
-        return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Id + "," + user.Role;
+        return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
     }
 
 

@@ -52,8 +52,6 @@ public class Librarian {
 
     public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
-      //  File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-
         Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
         ArrayList<Book>bookList = new ArrayList<Book>();
@@ -90,7 +88,6 @@ public class Librarian {
 
     }
 
-    // Add User är knas, men mer rätt nu. Blir fel i filen och kan inte läsa av blacklisten. Kan även lägga till dubbletter verkar det som
    public void addUser(String name, String surName, int pNumber, String role) throws IOException{
        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
 
@@ -107,7 +104,7 @@ public class Librarian {
            String Role = userScan.nextLine();
            Role = Role.replace(",","");
 
-           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
        }
 
        int id = (int) (Math.random()*999) +1;
@@ -117,7 +114,7 @@ public class Librarian {
        if (role.equalsIgnoreCase("Undergraduate Student")){
            loanCounter = 3;
            id = id+1000;
-       }else if (role.equalsIgnoreCase("Post Graduate student")){
+       }else if (role.equalsIgnoreCase("Postgraduate student")){
            loanCounter = 5;
            id = id+2000;
        }else if (role.equalsIgnoreCase("PhD Student")){
@@ -136,7 +133,7 @@ public class Librarian {
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
-               if (userList.get(i).Id == (userList.get(j).Id)){
+               if (userList.get(i).PNumber == (userList.get(j).PNumber)){
                    userList.remove(i);
                    System.out.println("Duplicate removed");
                }
@@ -144,18 +141,15 @@ public class Librarian {
        }
 
         File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-        Scanner blacklisted = new Scanner(blackFile);
+        Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
 
        while (blacklisted.hasNext()){
            String Name = blacklisted.next();
            String SurName = blacklisted.next();
-
            int PNumber = Integer.parseInt(blacklisted.next());
            int Id = Integer.parseInt(blacklisted.next());
-
            int LoanCounter = Integer.parseInt(blacklisted.next());
            int ViolationCounter = Integer.parseInt(blacklisted.next());
-
            String Role = blacklisted.nextLine();
            Role = Role.replace(",","");
 
@@ -164,16 +158,17 @@ public class Librarian {
 
        for (int i = 0; i < userList.size(); i++) {
            for (int j = 0; j < blackList.size(); j++)
-               if (userList.get(i).equals(blackList.get(j))){
+               if (userList.get(i).PNumber == blackList.get(j).PNumber){
                    userList.remove(i);
                    System.out.println("Whitelisted removed because of blacklist");
+                   break;
                }
        }
 
        PrintWriter printWriter = new PrintWriter(UserFile);
 
        for (User user:userList) {
-           printWriter.println(newUser.export(user));
+           printWriter.println(user.export(user));
        }
 
        printWriter.close();
@@ -233,17 +228,32 @@ public class Librarian {
        }
 
        for (Book books : bookList) {
-           if (books.equals(theBook)) {
+           if (books.Title.equals(theBook.Title)) {
+               if (books.Quantity > 0) {
 
-               Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+                   Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
-               books.Quantity--;
+                   books.Quantity--;
 
-               PrintWriter printWriter = new PrintWriter(UserLoanFile);
+                   PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
 
-               printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
+                   for (Book book:bookList) {
+                       printWriterAllBooks.println(book.export(book));
 
-               printWriter.close();
+                   }
+
+                   printWriterAllBooks.close();
+
+                   PrintWriter printWriter = new PrintWriter(UserLoanFile);
+
+                   printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
+
+                   printWriter.close();
+
+                   break;
+               }else {
+                   System.out.println("The book is not available right now");
+               }
 
            } else {
                System.out.println("The book does not exists");
@@ -257,16 +267,26 @@ public class Librarian {
 
         librarian.addBook(2,"Oskars resor",2334,9,"Stefan");
 
-        Book testBook = librarian.getBookByISBN(2334);
+        Book testBook;
+        Book testBook2;
 
         testBook = librarian.getBookByISBN(2334);
+        testBook2 = librarian.getBookByISBN(3434);
         System.out.println(testBook.Title);
 
-        User testUser = new User();
+        User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
+        User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
 
+        System.out.println(testUser.getLoanCounter());
+        System.out.println(testUser2.getLoanCounter());
         librarian.lendBook(testBook,testUser);
+        librarian.lendBook(testBook2,testUser2);
+
+        System.out.println(testUser.getLoanCounter());
+        System.out.println(testUser2.getLoanCounter());
 
         librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+        librarian.addUser("Rolf","Andersson",8299,"PhD Student");
 
     }
 }
