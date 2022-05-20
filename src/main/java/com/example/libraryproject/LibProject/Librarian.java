@@ -107,7 +107,7 @@ public class Librarian {
            String Role = userScan.nextLine();
            Role = Role.replace(",","");
 
-           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
        }
 
        int id = (int) (Math.random()*999) +1;
@@ -117,7 +117,7 @@ public class Librarian {
        if (role.equalsIgnoreCase("Undergraduate Student")){
            loanCounter = 3;
            id = id+1000;
-       }else if (role.equalsIgnoreCase("Post Graduate student")){
+       }else if (role.equalsIgnoreCase("Postgraduate student")){
            loanCounter = 5;
            id = id+2000;
        }else if (role.equalsIgnoreCase("PhD Student")){
@@ -144,18 +144,15 @@ public class Librarian {
        }
 
         File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-        Scanner blacklisted = new Scanner(blackFile);
+        Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
 
        while (blacklisted.hasNext()){
            String Name = blacklisted.next();
            String SurName = blacklisted.next();
-
            int PNumber = Integer.parseInt(blacklisted.next());
            int Id = Integer.parseInt(blacklisted.next());
-
            int LoanCounter = Integer.parseInt(blacklisted.next());
            int ViolationCounter = Integer.parseInt(blacklisted.next());
-
            String Role = blacklisted.nextLine();
            Role = Role.replace(",","");
 
@@ -167,6 +164,7 @@ public class Librarian {
                if (userList.get(i).PNumber == blackList.get(j).PNumber){
                    userList.remove(i);
                    System.out.println("Whitelisted removed because of blacklist");
+                   break;
                }
        }
 
@@ -266,7 +264,7 @@ public class Librarian {
 
         librarian.lendBook(testBook,testUser);
 
-        librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+
 
     }
 }
