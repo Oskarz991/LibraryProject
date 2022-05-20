@@ -211,7 +211,32 @@ public class Librarian {
         return theBook;
    }
 
-   public void lendBook(Book theBook, User theUser)throws IOException {
+   public void lendBook(Book theBook, int userId)throws IOException {
+
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+       ArrayList<User>userList = new ArrayList<User>();
+
+       while (userScan.hasNext()){
+           String Name = userScan.next();
+           String SurName = userScan.next();
+           int PNumber = Integer.parseInt(userScan.next());
+           int Id = Integer.parseInt(userScan.next());
+           int LoanCounter = Integer.parseInt(userScan.next());
+           int ViolationCounter = Integer.parseInt(userScan.next());
+           String Role = userScan.nextLine();
+           Role = Role.replace(",","");
+
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+       }
+
+       User tempUser = new User();
+
+       for (User user:userList) {
+           if (userId == user.Id){
+               tempUser = user;
+           }
+       }
 
        Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -224,43 +249,36 @@ public class Librarian {
            int Quantity = Integer.parseInt(bookScanLend.next());
            String Author = bookScanLend.nextLine();
            Author = Author.replace(",", "");
+
            bookList.add(new Book(Id, Name, ISBNScan, Quantity, Author));
        }
 
-       for (Book books : bookList) {
-           if (books.Title.equals(theBook.Title)) {
-               if (books.Quantity > 0) {
+       if (tempUser.LoanCounter > 0){
+           for (Book book:bookList) {
+               if (book.Title.equals(theBook.Title)){
+                   if (book.Quantity > 0){
 
-                   Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+                       book.Quantity--;
 
-                   books.Quantity--;
 
-                   PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
 
-                   for (Book book:bookList) {
-                       printWriterAllBooks.println(book.export(book));
+                       Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+
+
 
                    }
-
-                   printWriterAllBooks.close();
-
-                   PrintWriter printWriter = new PrintWriter(UserLoanFile);
-
-                   printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
-
-                   printWriter.close();
-
-                   break;
-               }else {
-                   System.out.println("The book is not available right now");
                }
-
-           } else {
-               System.out.println("The book does not exists");
            }
 
        }
+
+
+
+
+
+
    }
+
 
     public static void main(String[] args)throws IOException {
         Librarian librarian = new Librarian();
@@ -279,8 +297,9 @@ public class Librarian {
 
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
-        librarian.lendBook(testBook,testUser);
-        librarian.lendBook(testBook2,testUser2);
+
+        librarian.lendBook(testBook,321);
+        librarian.lendBook(testBook2,123);
 
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
