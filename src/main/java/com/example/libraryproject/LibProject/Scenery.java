@@ -23,14 +23,12 @@ import java.util.jar.Attributes;
 
 public class Scenery extends Application {
 
-   /*    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+       public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
        public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
        public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
 
-
-    */
         public static void main(String[] args) {
 
        launch(args);
@@ -76,7 +74,9 @@ public class Scenery extends Application {
             paneRight2.setHgap(5);
             paneRight2.setVgap(5);
 
-            File UserFile = new File("/Users/stefanbucei/LibraryProject/src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+               Librarian librarianObj = new Librarian();            
+               Book bookObj;
+
             Scanner userScan = null;
             try {
                 userScan = new Scanner(UserFile).useDelimiter(",");
@@ -104,8 +104,6 @@ public class Scenery extends Application {
               memberList.getItems().addAll(userList.get(i).Name);  
             }
 
-
-
             Font fira = new Font(15);
             Text namn = new Text();
             namn.setStyle("-fx-font-weight: bold");
@@ -115,6 +113,12 @@ public class Scenery extends Application {
             role.setFont(fira);
             Text surname = new Text();
             surname.setFont(fira);
+
+             ToggleGroup deleteTgl = new ToggleGroup();
+             RadioButton deleteByChoise = new RadioButton("Detele by choies");
+             RadioButton deleteByPenalties = new RadioButton("Delete by penalties");
+             deleteByChoise.setToggleGroup(deleteTgl); deleteByPenalties.setToggleGroup(deleteTgl);
+             deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
                 namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
@@ -145,7 +149,7 @@ public class Scenery extends Application {
 
             Button loanBookBtn = new Button("Loan Book");
 
-            //Medlem se alla lånade böcker
+            //Medlem ser alla lånade böcker
             Label titleAllLoanedBooks = new Label("All loaned Books");
             titleAllLoanedBooks.setFont(new Font("Fira Sans", 32));
 
@@ -168,7 +172,7 @@ public class Scenery extends Application {
             Label idMemberLbl = new Label("ID-number:");
             TextField idMemberTxt = new TextField();
 
-            //Logga in som bibliotikarie
+            //Logga in som bibliotekarie
             Label nameLibrarianLbl = new Label("Name:");
             TextField nameLibrarianTxt = new TextField();
             Label idLibrarianLbl = new Label("ID-number:");
@@ -194,14 +198,11 @@ public class Scenery extends Application {
             bookIdTxt.setMaxWidth(80); bookNameTxt.setMaxWidth(80); bookAuthorTxt.setMaxWidth(80); bookISBNTxt.setMaxWidth(80); bookQuantityTxt.setMaxWidth(80);
             Label addBookText = new Label();
 
-            Librarian librarianObj = new Librarian();
-            Book bookObj;
-
             //Ändra tillbaka till att kunna adda en bok
-            Button changeSearchAddBookBtn2 = new Button("Add"); changeSearchAddBookBtn2.setVisible(false);
+            Button changeSearchAddBookBtn2 = new Button("To Add"); changeSearchAddBookBtn2.setVisible(false);
 
             //Bibliotekarie söker efter en bok
-            Button changeSearchAddBookBtn = new Button("Search");
+            Button changeSearchAddBookBtn = new Button("To Search");
 
             Label titleSearchBook = new Label("Search for book"); titleSearchBook.setVisible(false);
             titleSearchBook.setFont(new Font("Fira Sans", 32));
@@ -216,8 +217,14 @@ public class Scenery extends Application {
             Text bokQ = new Text();
             Text bokISBNN = new Text();
 
-            //Bibliotekarien deletar en befintlig medlem
-            Button deleteUserBtn = new Button("Delete User");
+             //Bibliotekarien raderar en befintlig medlem
+             Button formDeteleUserBtn = new Button("To delete");
+             Button overviewMembersBtn = new Button("To overview");
+             overviewMembersBtn.setVisible(false);
+             Button deleteUserBtn = new Button("Delete User");
+             Label userIdLbl = new Label("User ID: ");
+             TextField userIdTxt = new TextField();
+             deleteUserBtn.setVisible(false);
 
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
@@ -362,6 +369,19 @@ public class Scenery extends Application {
                 addBookText.setText("Book added");
             });
 
+            formDeteleUserBtn.setOnAction(e->{
+                memberList.setVisible(false); textMembers.setVisible(false);
+                overviewMembersBtn.setVisible(true);
+                deleteByChoise.setVisible(true); deleteByPenalties.setVisible(true); deleteUserBtn.setVisible(true);
+
+                    });
+
+            overviewMembersBtn.setOnAction(e->{
+                formDeteleUserBtn.setVisible(true); overviewMembersBtn.setVisible(false);
+                memberList.setVisible(true); textMembers.setVisible(true);
+                deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false); deleteUserBtn.setVisible(false);
+                    });
+
             //Lägg till på vänster sida login funktionen
             paneLeft.add(titleLibrarian,0,0);
             paneLeft.add(nameLibrarianLbl,0,1); paneLeft.add(nameLibrarianTxt,1,1);
@@ -386,12 +406,14 @@ public class Scenery extends Application {
             paneLeft2.add(bookAuthorLbl,0,4); paneLeft2.add(bookAuthorTxt,1,4);
             paneLeft2.add(bookISBNLbl,0,5); paneLeft2.add(bookISBNTxt,1,5);
             paneLeft2.add(bookQuantityLbl,0,6); paneLeft2.add(bookQuantityTxt,1,6);
+            paneLeft2.add(formDeteleUserBtn,0,7); paneLeft2.add(overviewMembersBtn,0,7);
             paneLeft2.add(addANewBookBtn,1,7); paneLeft2.add(addBookText,2,7); paneLeft2.add(searchBookByISBNBtn,1,7);
 
             paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
-         
+
             paneLeft2.add(memberList,0,8); paneLeft2.add(textMembers,1,8);
-            paneLeft2.add(deleteUserBtn,2,8);
+            paneLeft2.add(deleteByChoise, 0,8); paneLeft2.add(deleteByPenalties,1,8); paneLeft2.add(deleteUserBtn,2,8);
+            paneLeft2.add(userIdLbl,0,9); paneLeft2.add(userIdTxt,1,9);
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
@@ -411,7 +433,7 @@ public class Scenery extends Application {
 
             splitPane.getItems().addAll(leftControl,rightControl);
             root.getChildren().addAll(splitPane);
-            Scene scene = new Scene(root,1000,600);
+            Scene scene = new Scene(root,1250,650);
             primaryStage.setTitle("Library");
             primaryStage.setScene(scene);
             primaryStage.show();
