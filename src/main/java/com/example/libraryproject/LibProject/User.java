@@ -111,8 +111,5 @@ public class User {
 
     public String loanExport (User user){
 
-        return user.Name + "," + user.Surname + "," + user.Id + ", ";}
-
-
-
+        return user.Name + "," + user.Surname + "," + user.Id + ",";}
 }
