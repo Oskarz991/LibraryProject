@@ -486,7 +486,8 @@ public class Librarian {
             userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
         }
 
-
+        boolean control = false;
+        ArrayList<User> tempUserList = new ArrayList<User>();
 
         for (User user:timeoutList) {
 
@@ -495,26 +496,38 @@ public class Librarian {
 
             if (today.isAfter(expireDate)){
                 userList.add(user);
-                timeoutList.remove(user);
 
-                PrintWriter printWriterTimeoutList = new PrintWriter(timeoutFile);
+                control = true;
 
-                PrintWriter printWriterUserList = new PrintWriter(UserFile);
 
-                for (User users : timeoutList) {
-                    printWriterTimeoutList.println(users.timeoutExport(users));
-                }
-                printWriterTimeoutList.close();
-
-                for (User use : userList) {
-                    printWriterUserList.println(use.export(use));
-                }
-                printWriterUserList.close();
+            }else{
+                tempUserList.add(user);
 
             }
+
+        } if (control){
+
+          timeoutList.clear();
+
+            for (User addUser:tempUserList) {
+                timeoutList.add(addUser);
+            }
+
+            PrintWriter printWriterTimeoutList = new PrintWriter(timeoutFile);
+
+            PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+            for (User users : timeoutList) {
+                printWriterTimeoutList.println(users.timeoutExport(users));
+            }
+            printWriterTimeoutList.close();
+
+            for (User use : userList) {
+                printWriterUserList.println(use.export(use));
+            }
+            printWriterUserList.close();
+
         }
-
-
 
     }
 
