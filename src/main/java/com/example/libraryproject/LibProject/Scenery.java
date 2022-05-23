@@ -76,7 +76,7 @@ public class Scenery extends Application {
             paneRight2.setHgap(5);
             paneRight2.setVgap(5);
 
-            File UserFile = new File("/Users/stefanbucei/LibraryProject/src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+            File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
             Scanner userScan = null;
             try {
                 userScan = new Scanner(UserFile).useDelimiter(",");
