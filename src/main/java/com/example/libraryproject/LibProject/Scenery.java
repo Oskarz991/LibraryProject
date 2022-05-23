@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class Scenery extends Application {
@@ -127,7 +128,7 @@ public class Scenery extends Application {
             returnBook2.setToggleGroup(tglReturnBook);
             returnBook3.setToggleGroup(tglReturnBook);
             returnBook4.setToggleGroup(tglReturnBook);
-
+        
             Button returnBookBtn = new Button("Return Book");
 
             //Logga in som medlem
@@ -159,9 +160,32 @@ public class Scenery extends Application {
             Label bookISBNLbl = new Label("ISBN:"); TextField bookISBNTxt = new TextField();
             Label bookQuantityLbl = new Label("Quantity:"); TextField bookQuantityTxt = new TextField();
             Button addANewBookBtn = new Button("Add a new Book");
+            bookIdTxt.setMaxWidth(80); bookNameTxt.setMaxWidth(80); bookAuthorTxt.setMaxWidth(80); bookISBNTxt.setMaxWidth(80); bookQuantityTxt.setMaxWidth(80);
+            Label addBookText = new Label();
 
-            Librarian temporary = new Librarian();
-            
+            Librarian librarianObj = new Librarian();
+            Book bookObj;
+
+            //Ändra tillbaka till att kunna adda en bok
+            Button changeSearchAddBookBtn2 = new Button("Add"); changeSearchAddBookBtn2.setVisible(false);
+
+            //Bibliotikarie söker efter en bok
+            Button changeSearchAddBookBtn = new Button("Search");
+
+            Label titleSearchBook = new Label("Search for book"); titleSearchBook.setVisible(false);
+            titleSearchBook.setFont(new Font("Fira Sans", 32));
+            Label searchBookISBNLbl = new Label("Search after ISBN:"); TextField searchBookISBNTxt = new TextField(); searchBookISBNTxt.setMaxWidth(80);
+            searchBookISBNLbl.setVisible(false); searchBookISBNTxt.setVisible(false);
+            Button searchBookByISBNBtn = new Button("Search book");
+            searchBookByISBNBtn.setVisible(false);
+
+            Text bokN = new Text();
+            Text bokId = new Text();
+            Text bokA = new Text();
+            Text bokQ = new Text();
+            Text bokISBNN = new Text();
+
+
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
             Button loginAsAMember = new Button("Login as a member");
@@ -198,7 +222,6 @@ public class Scenery extends Application {
                 surnameMemberLbl.setVisible(false); surnameMemberTxt.setVisible(false);
                 personalNrMemberLbl.setVisible(false); personalNrMemberTxt.setVisible(false);
                 chooseRole.setVisible(false);
-
             });
 
             loginAsLibraryan.setOnAction(e-> {
@@ -220,6 +243,7 @@ public class Scenery extends Application {
             });
 
             searchBookBtn.setOnAction(e-> {
+
                 loanBook1.setVisible(true);
                 loanBook2.setVisible(true);
                 loanBook3.setVisible(true);
@@ -229,16 +253,79 @@ public class Scenery extends Application {
             registerBtn.setOnAction(e-> {
                 rightControl.getChildren().clear();
 
+                    });
+
+            changeSearchAddBookBtn.setOnAction(e->  {
+             titleAddNewBook.setVisible(false);
+             bookIDLbl.setVisible(false); bookIdTxt.setVisible(false);
+             bookNameLbl.setVisible(false); bookNameTxt.setVisible(false);
+             bookAuthorLbl.setVisible(false); bookAuthorTxt.setVisible(false);
+             bookISBNLbl.setVisible(false); bookISBNTxt.setVisible(false);
+             bookQuantityLbl.setVisible(false); bookQuantityTxt.setVisible(false);
+             addANewBookBtn.setVisible(false);
+             changeSearchAddBookBtn2.setVisible(true);
+             changeSearchAddBookBtn.setVisible(false);
+             searchBookISBNLbl.setVisible(true); searchBookISBNTxt.setVisible(true); searchBookByISBNBtn.setVisible(true);
+             titleSearchBook.setVisible(true);
+             bokN.setVisible(true); bokA.setVisible(true); bokId.setVisible(true); bokISBNN.setVisible(true); bokQ.setVisible(true);
+             addBookText.setVisible(false);
+
+                  });
+
+            changeSearchAddBookBtn2.setOnAction(e ->{
+             changeSearchAddBookBtn.setVisible(true);
+             changeSearchAddBookBtn2.setVisible(false);
+             titleAddNewBook.setVisible(true);
+             bookIDLbl.setVisible(true); bookIdTxt.setVisible(true);
+             bookNameLbl.setVisible(true); bookNameTxt.setVisible(true);
+             bookAuthorLbl.setVisible(true); bookAuthorTxt.setVisible(true);
+             bookISBNLbl.setVisible(true); bookISBNTxt.setVisible(true);
+             bookQuantityLbl.setVisible(true); bookQuantityTxt.setVisible(true);
+             addANewBookBtn.setVisible(true);
+             searchBookISBNLbl.setVisible(false); searchBookISBNTxt.setVisible(false); searchBookByISBNBtn.setVisible(false);
+             titleSearchBook.setVisible(false);
+             bokN.setVisible(false); bokA.setVisible(false); bokId.setVisible(false); bokISBNN.setVisible(false); bokQ.setVisible(false);
+             addBookText.setVisible(true);
+
+                });
+
+            searchBookByISBNBtn.setOnAction(e-> {
+                Book bookObc = new Book();
+                String ISBNtext = searchBookISBNTxt.getText();
+                int id;
+                String bokName;
+                int ISBN;
+                int bokQuant;
+                String bokAuthor;
+
+                try {
+                   int ISBNnr = Integer.parseInt(ISBNtext);
+                   bookObc = librarianObj.getBookByISBN(ISBNnr);
+                   id = bookObc.getId();
+                   bokName = bookObc.getTitle();
+                   ISBN = bookObc.getISBN();
+                   bokQuant = bookObc.getQuantity();
+                   bokAuthor = bookObc.getAuthor();
+
+                   bokId.setText("ID: " + Integer.toString(id));
+                   bokN.setText("Title: " + bokName);
+                   bokISBNN.setText("ISBN: " + Integer.toString(ISBN));
+                   bokQ.setText("Quantity: " + Integer.toString(bokQuant));
+                   bokA.setText("Author: " + bokAuthor);
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             });
 
             addANewBookBtn.setOnAction(e-> {
-
                 try {
-                    temporary.addBook(Integer.parseInt(bookIdTxt.getText()),bookNameTxt.getText(),Integer.parseInt(bookISBNTxt.getText()),Integer.parseInt(bookQuantityTxt.getText()),bookAuthorTxt.getText());
+                    librarianObj.addBook(Integer.parseInt(bookIdTxt.getText()),bookNameTxt.getText(),Integer.parseInt(bookISBNTxt.getText()),Integer.parseInt(bookQuantityTxt.getText()),bookAuthorTxt.getText());
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-
+                bookIdTxt.clear(); bookNameTxt.clear(); bookISBNTxt.clear(); bookQuantityTxt.clear(); bookAuthorTxt.clear();
+                addBookText.setText("Book added");
             });
 
             //Lägg till på vänster sida login funktionen
@@ -258,16 +345,18 @@ public class Scenery extends Application {
             paneRight.add(chooseRole,2,1);
 
             //Lägg till på vänster sida -  det som bibliotikarien ser
-            paneLeft2.add(titleAddNewBook,0,0);
-            paneLeft2.add(bookIDLbl,0,1); paneLeft2.add(bookIdTxt,1,1);
-            paneLeft2.add(bookNameLbl,0,2); paneLeft2.add(bookNameTxt,1,2);
-            paneLeft2.add(bookAuthorLbl,0,3); paneLeft2.add(bookAuthorTxt,1,3);
-            paneLeft2.add(bookISBNLbl,0,4); paneLeft2.add(bookISBNTxt,1,4);
-            paneLeft2.add(bookQuantityLbl,0,5); paneLeft2.add(bookQuantityTxt,1,5);
-            paneLeft2.add(addANewBookBtn,1,6);
+            paneLeft2.add(titleAddNewBook,0,0); paneLeft2.add(titleSearchBook,0,0);
+            paneLeft2.add(changeSearchAddBookBtn,0,1); paneLeft2.add(changeSearchAddBookBtn2,0,1);
+            paneLeft2.add(bookIDLbl,0,2); paneLeft2.add(bookIdTxt,1,2); paneLeft2.add(searchBookISBNLbl,0,2); paneLeft2.add(searchBookISBNTxt,1,2);
+            paneLeft2.add(bookNameLbl,0,3); paneLeft2.add(bookNameTxt,1,3);
+            paneLeft2.add(bookAuthorLbl,0,4); paneLeft2.add(bookAuthorTxt,1,4);
+            paneLeft2.add(bookISBNLbl,0,5); paneLeft2.add(bookISBNTxt,1,5);
+            paneLeft2.add(bookQuantityLbl,0,6); paneLeft2.add(bookQuantityTxt,1,6);
+            paneLeft2.add(addANewBookBtn,1,7); paneLeft2.add(addBookText,2,7); paneLeft2.add(searchBookByISBNBtn,1,7);
 
-            paneLeft2.add(memberList,1,7); paneLeft2.add(textMembers,2,7);
-
+            paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
+         
+            paneLeft2.add(memberList,0,8); paneLeft2.add(textMembers,1,8);
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
@@ -287,7 +376,7 @@ public class Scenery extends Application {
 
             splitPane.getItems().addAll(leftControl,rightControl);
             root.getChildren().addAll(splitPane);
-            Scene scene = new Scene(root,1000,500);
+            Scene scene = new Scene(root,1000,600);
             primaryStage.setTitle("Library");
             primaryStage.setScene(scene);
             primaryStage.show();
