@@ -161,12 +161,7 @@ public class Scenery extends Application {
             Button addANewBookBtn = new Button("Add a new Book");
 
             Librarian temporary = new Librarian();
-
-
-
-
-         
-
+            
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
             Button loginAsAMember = new Button("Login as a member");
