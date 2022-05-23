@@ -63,6 +63,8 @@ public class Book {
         return book.Id + "," + book.Title + "," + book.ISBN +","+book.Quantity +","+book.Author;
     }
 
-//Här skriver vi metoder
+    public String loanExport (Book book){
+        return book.Title + "," + book.ISBN + "," +book.Author;
+    }
 
 }
