@@ -17,6 +17,7 @@ public class Librarian {
     public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
     public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+    public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
 
     public String getName() {
         return Name;
@@ -142,7 +143,6 @@ public class Librarian {
            }
        }
 
-        File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
         Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
 
        while (blacklisted.hasNext()){
@@ -155,7 +155,7 @@ public class Librarian {
            String Role = blacklisted.nextLine();
            Role = Role.replace(",","");
 
-           blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
+           blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
        }
 
        for (int i = 0; i < userList.size(); i++) {
@@ -177,7 +177,91 @@ public class Librarian {
 
    }
 
-   public void deleteUser(int id){
+   public void deleteUser(int id, boolean request) throws IOException{
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+       ArrayList<User>userList = new ArrayList<User>();
+       ArrayList<User>blackList = new ArrayList<User>();
+
+       while (userScan.hasNext()){
+           String Name = userScan.next();
+           String SurName = userScan.next();
+           int PNumber = Integer.parseInt(userScan.next());
+           int Id = Integer.parseInt(userScan.next());
+           int LoanCounter = Integer.parseInt(userScan.next());
+           int ViolationCounter = Integer.parseInt(userScan.next());
+           String Role = userScan.nextLine();
+           Role = Role.replace(",","");
+
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+       }
+
+       if (request) {
+
+           for (User user : userList) {
+               if (id == user.Id) {
+                   userList.remove(user);
+                   break;
+               }
+           }
+
+           PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+           for (User user : userList) {
+               printWriterUserList.println(user.export(user));
+           }
+
+           printWriterUserList.close();
+
+       } else {
+
+           Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
+
+           while (blacklisted.hasNext()){
+               String Name = blacklisted.next();
+               String SurName = blacklisted.next();
+               int PNumber = Integer.parseInt(blacklisted.next());
+               int Id = Integer.parseInt(blacklisted.next());
+               int LoanCounter = Integer.parseInt(blacklisted.next());
+               int ViolationCounter = Integer.parseInt(blacklisted.next());
+               String Role = blacklisted.nextLine();
+               Role = Role.replace(",","");
+
+               blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+           }
+
+           for (User user : userList) {
+               if (id == user.Id) {
+                   blackList.add(user);
+               }
+           }
+
+           PrintWriter printWriterBlackList = new PrintWriter(blackFile);
+
+           for (User user : blackList) {
+               printWriterBlackList.println(user.export(user));
+           }
+
+           printWriterBlackList.close();
+
+           for (User user : userList) {
+               if (id == user.Id) {
+                   userList.remove(user);
+                   break;
+               }
+           }
+
+           PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+           for (User user : userList) {
+               printWriterUserList.println(user.export(user));
+           }
+
+           printWriterUserList.close();
+
+
+       }
+
 
    }
 
@@ -186,8 +270,6 @@ public class Librarian {
    }
 
    public Book getBookByISBN(int ISBN)throws IOException{
-
-   //    File bookFileISBN = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
 
        Scanner bookScanByISBN = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -326,7 +408,6 @@ public class Librarian {
 
    }
 
-
     public static void main(String[] args)throws IOException {
         Librarian librarian = new Librarian();
 
@@ -335,19 +416,15 @@ public class Librarian {
 
         testBook = librarian.getBookByISBN(2334);
         testBook2 = librarian.getBookByISBN(3434);
-        System.out.println(testBook.Title);
-        System.out.println(testBook2.Title);
+
+    //    librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+     //   librarian.addUser("Stefan","Andersson",3999,"Undergraduate Student");
 
         User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
         User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
 
-        System.out.println(testUser.getLoanCounter());
-        System.out.println(testUser2.getLoanCounter());
+       librarian.deleteUser(1407,true);
+       librarian.deleteUser(1315,false);
 
-        librarian.lendBook(testBook2,1471);
-        librarian.lendBook(testBook,1571);
-
-        System.out.println(testUser.getLoanCounter());
-        System.out.println(testUser2.getLoanCounter());
     }
 }
