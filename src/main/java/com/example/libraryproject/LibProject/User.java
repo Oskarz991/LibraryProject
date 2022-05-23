@@ -105,7 +105,6 @@ public class User {
     }
 
     public String export (User user){
-
         return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
     }
 
@@ -113,6 +112,10 @@ public class User {
 
         return user.Name + "," + user.Surname + "," + user.Id + ", ";}
 
+
+    public String loanExport (User user){
+       return user.Name + "," + user.Surname + "," + user.Id + ", ";
+    }
 
 
 }
