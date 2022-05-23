@@ -1,5 +1,7 @@
 package com.example.libraryproject.LibProject;
 
+import java.security.PublicKey;
+
 public class Book {
 
     public int Id;
@@ -59,7 +61,6 @@ public class Book {
     }
 
     public String export (Book book){
-
         return book.Id + "," + book.Title + "," + book.ISBN +","+book.Quantity +","+book.Author;
     }
 
