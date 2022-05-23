@@ -1,1 +1,1 @@
-Stefan,Andersson,3999,1471,2,0,Undergraduate Student,2,Victors resor,3434,4,Janne
+Stefan,Andersson,1471, Victors resor,3434,Janne

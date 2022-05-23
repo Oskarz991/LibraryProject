@@ -265,20 +265,26 @@ public class Librarian {
                        ArrayList<String> userLoanList = new ArrayList<String>();
 
                        while (userLoanScan.hasNext()) {
-                           int Id = Integer.parseInt(userLoanScan.next());
                            String Name = userLoanScan.next();
-                           int ISBNScan = Integer.parseInt(userScan.next());
-                           int Quantity = Integer.parseInt(userScan.next());
+                           String Surname = userLoanScan.next();
+                           String Id = userLoanScan.next();
+
+                           String Title = userLoanScan.next();
+                           String ISBN = userScan.next();
                            String Author = userLoanScan.nextLine();
-
-
-
                            Author = Author.replace(",", "");
 
-                     //      userLoanList.add(Id,Name,ISBNScan,Quantity,Author,));
+                         userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
                        }
 
-                       printWriterUserLoanFile.println(tempUser.export(tempUser) + "," + book.export(book));
+                       String tempLoanString = tempUser.loanExport(tempUser) + book.loanExport(book);
+
+                       userLoanList.add(tempLoanString);
+
+                       for (String row:userLoanList) {
+                           printWriterUserLoanFile.println(row);
+
+                       }
 
                        printWriterUserLoanFile.close();
 
