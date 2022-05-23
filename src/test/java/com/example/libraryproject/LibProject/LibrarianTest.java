@@ -16,9 +16,9 @@ class LibrarianTest {
     @Test
     void addBook_Normal() throws IOException {
             Librarian librarian = Mockito.mock(Librarian.class);
-           doThrow(new RuntimeException()).when(librarian).addBook(isA(Integer.class),isA(String.class),isA(Integer.class),isA(Integer.class),isA(String.class));
-           librarian.addBook(0,"test",1111,10,"victor");
+           doThrow(IOException.class).when(librarian).addBook(0,"test",1111,10,"victor");
 
+           assertThrows(IOException.class, ()-> librarian.addBook(0,"test",1111,10,"victor"));
            verify(librarian,times(1)).addBook(0,"test",1111,10,"victor");
     }
 
