@@ -18,6 +18,7 @@ public class Librarian {
     public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
     public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
+    public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
 
     public String getName() {
         return Name;
@@ -267,7 +268,16 @@ public class Librarian {
 
    public void giveTimeout(int id){
 
+
+
    }
+
+    public void controlTimeouts(){
+
+
+
+    }
+
 
    public Book getBookByISBN(int ISBN)throws IOException{
 
