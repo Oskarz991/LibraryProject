@@ -8,7 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Scenery extends Application {
@@ -56,6 +61,37 @@ public class Scenery extends Application {
             paneRight2.setAlignment(Pos.BASELINE_LEFT);
             paneRight2.setHgap(5);
             paneRight2.setVgap(5);
+
+            //List view som bibliotikarien ser
+            ListView<String> memberList = new ListView<>();
+            memberList.setPrefWidth(150);
+            memberList.getItems().addAll(
+                    "Stefan Bucei",
+                    "Victor Almqvist"
+            );
+            ArrayList<User> showUser = new ArrayList<>();
+            User StefanB = new User("Stefan", "Bucei", 3333, 4444, 0, 0,"Student");
+            User VictorA = new User("Victor", "Almqvist", 4322, 1222, 0, 0,"Phd-Student");
+            showUser.add(StefanB);
+            showUser.add(VictorA);
+
+            Font fira = new Font(15);
+            Text namn = new Text();
+            namn.setStyle("-fx-font-weight: bold");
+            namn.setFont(fira);
+            Font tre = new Font(10);
+            Text role = new Text();
+            role.setFont(tre);
+            Text surname = new Text();
+
+            memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                namn.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
+                role.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n");
+                surname.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getSurname());
+            });
+
+            TextFlow textMembers = new TextFlow(namn, role, surname);
+            textMembers.setPrefWidth(250);
 
             //Medlem ansöker om att låna en bok
             Label titleRequestLoan = new Label("Request for a loan");
@@ -124,6 +160,8 @@ public class Scenery extends Application {
             Label bookQuantityLbl = new Label("Quantity:"); TextField bookQuantityTxt = new TextField();
             Button addANewBookBtn = new Button("Add a new Book");
 
+            Librarian temporary = new Librarian();
+            
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
             Button loginAsAMember = new Button("Login as a member");
@@ -180,6 +218,7 @@ public class Scenery extends Application {
                 paneRight2.setVisible(true);
                 loanBook1.setVisible(false);  loanBook2.setVisible(false);  loanBook3.setVisible(false);  loanBook4.setVisible(false);
             });
+
             searchBookBtn.setOnAction(e-> {
                 loanBook1.setVisible(true);
                 loanBook2.setVisible(true);
@@ -189,6 +228,16 @@ public class Scenery extends Application {
 
             registerBtn.setOnAction(e-> {
                 rightControl.getChildren().clear();
+
+            });
+
+            addANewBookBtn.setOnAction(e-> {
+
+                try {
+                    temporary.addBook(Integer.parseInt(bookIdTxt.getText()),bookNameTxt.getText(),Integer.parseInt(bookISBNTxt.getText()),Integer.parseInt(bookQuantityTxt.getText()),bookAuthorTxt.getText());
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
 
             });
 
@@ -216,6 +265,9 @@ public class Scenery extends Application {
             paneLeft2.add(bookISBNLbl,0,4); paneLeft2.add(bookISBNTxt,1,4);
             paneLeft2.add(bookQuantityLbl,0,5); paneLeft2.add(bookQuantityTxt,1,5);
             paneLeft2.add(addANewBookBtn,1,6);
+
+            paneLeft2.add(memberList,1,7); paneLeft2.add(textMembers,2,7);
+
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
@@ -239,7 +291,5 @@ public class Scenery extends Application {
             primaryStage.setTitle("Library");
             primaryStage.setScene(scene);
             primaryStage.show();
-
-
         }
 }
