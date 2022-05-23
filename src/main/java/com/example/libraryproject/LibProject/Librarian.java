@@ -1,5 +1,7 @@
 package com.example.libraryproject.LibProject;
 
+import javafx.scene.control.Alert;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -260,8 +262,6 @@ public class Librarian {
 
                        Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
-                       PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
-
                        ArrayList<String> userLoanList = new ArrayList<String>();
 
                        while (userLoanScan.hasNext()) {
@@ -270,7 +270,7 @@ public class Librarian {
                            String Id = userLoanScan.next();
 
                            String Title = userLoanScan.next();
-                           String ISBN = userScan.next();
+                           String ISBN = userLoanScan.next();
                            String Author = userLoanScan.nextLine();
                            Author = Author.replace(",", "");
 
@@ -281,9 +281,10 @@ public class Librarian {
 
                        userLoanList.add(tempLoanString);
 
+                       PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
+
                        for (String row:userLoanList) {
                            printWriterUserLoanFile.println(row);
-
                        }
 
                        printWriterUserLoanFile.close();
@@ -305,10 +306,14 @@ public class Librarian {
                        }
                        printWriterUserList.close();
 
+                   }else {
+                       System.out.println("The title is not available right now");
                    }
                }
            }
 
+       } else {
+           System.out.println("You have too many loaned books");
        }
 
        PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
@@ -328,14 +333,10 @@ public class Librarian {
         Book testBook;
         Book testBook2;
 
-        librarian.addBook(1,"Oskars resor",2334,5,"Sven");
-        librarian.addBook(2,"Victors resor",3434,5,"Janne");
-
         testBook = librarian.getBookByISBN(2334);
         testBook2 = librarian.getBookByISBN(3434);
         System.out.println(testBook.Title);
         System.out.println(testBook2.Title);
-
 
         User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
         User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
@@ -343,8 +344,8 @@ public class Librarian {
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
 
-        librarian.lendBook(testBook,1571);
         librarian.lendBook(testBook2,1471);
+        librarian.lendBook(testBook,1571);
 
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
