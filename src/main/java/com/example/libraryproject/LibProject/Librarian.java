@@ -1,10 +1,9 @@
 package com.example.libraryproject.LibProject;
 
-import javafx.scene.control.Alert;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -138,13 +137,13 @@ public class Librarian {
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
                if (userList.get(i).PNumber == (userList.get(j).PNumber)){
-                   userList.remove(i);
+                   userList.remove(j);
                    System.out.println("Duplicate removed");
                }
            }
        }
 
-        Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
+       Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
 
        while (blacklisted.hasNext()){
            String Name = blacklisted.next();
@@ -167,6 +166,36 @@ public class Librarian {
                    break;
                }
        }
+
+       Scanner timeoutListScan = new Scanner(timeoutFile).useDelimiter(",");
+
+       ArrayList<User>timeoutList = new ArrayList<User>();
+
+       while (timeoutListScan.hasNext()){
+           String Name = timeoutListScan.next();
+           String SurName = timeoutListScan.next();
+           int PNumber = Integer.parseInt(timeoutListScan.next());
+           int Id = Integer.parseInt(timeoutListScan.next());
+           int LoanCounter = Integer.parseInt(timeoutListScan.next());
+           int ViolationCounter = Integer.parseInt(timeoutListScan.next());
+
+           LocalDate timer = LocalDate.parse(timeoutListScan.next());
+
+           String Role = timeoutListScan.nextLine();
+           Role = Role.replace(",","");
+
+           timeoutList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role,timer));
+       }
+
+       for (int i = 0; i < userList.size(); i++) {
+           for (int j = 0; j < timeoutList.size(); j++)
+               if (userList.get(i).PNumber == timeoutList.get(j).PNumber){
+                   userList.remove(i);
+                   System.out.println("Whitelisted removed because of timeout");
+                   break;
+               }
+       }
+
 
        PrintWriter printWriter = new PrintWriter(UserFile);
 
@@ -210,13 +239,6 @@ public class Librarian {
        }
 
        boolean hasLoan = false;
-
-       //Hämta alla böcker o lägg i lista
-       //if user har lånade böcker(kolla lista)
-       //ifall user har böcker skicka alert "Lämna tillbaka böcker snåla jävel"
-       //Men ifall man tas bort genom att ha för många violations så knäpper vi jäveln o tar tillbaka alla böcker som hen har lånat.
-       //Man tas bort ifall man inte har böcker utlånade.
-       //request är tänkt att vara en radiobutton typ.
 
        if (request) {
 
@@ -358,15 +380,154 @@ public class Librarian {
        }
    }
 
-   public void giveTimeout(int id){
+   public void giveTimeout(int id)throws IOException{
+       Scanner timeoutListScan = new Scanner(timeoutFile).useDelimiter(",");
+       Scanner userListScan = new Scanner(UserFile).useDelimiter(",");
 
+       ArrayList<User>timeoutList = new ArrayList<User>();
+       ArrayList<User>userList = new ArrayList<User>();
 
+       while (timeoutListScan.hasNext()){
+           String Name = timeoutListScan.next();
+           String SurName = timeoutListScan.next();
+           int PNumber = Integer.parseInt(timeoutListScan.next());
+           int Id = Integer.parseInt(timeoutListScan.next());
+           int LoanCounter = Integer.parseInt(timeoutListScan.next());
+           int ViolationCounter = Integer.parseInt(timeoutListScan.next());
+
+           LocalDate timer = LocalDate.parse(timeoutListScan.next());
+
+           String Role = timeoutListScan.nextLine();
+           Role = Role.replace(",","");
+
+           timeoutList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role,timer));
+       }
+
+       for (User user:timeoutList) {
+           if (id == user.Id) {
+               System.out.println("Already on a timeout");
+           }
+       }
+
+       while (userListScan.hasNext()){
+           String Name = userListScan.next();
+           String SurName = userListScan.next();
+           int PNumber = Integer.parseInt(userListScan.next());
+           int Id = Integer.parseInt(userListScan.next());
+           int LoanCounter = Integer.parseInt(userListScan.next());
+           int ViolationCounter = Integer.parseInt(userListScan.next());
+           String Role = userListScan.nextLine();
+           Role = Role.replace(",","");
+
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+       }
+
+       LocalDate timer = LocalDate.now();
+
+       for (User users:userList) {
+           if (id == users.Id){
+               timeoutList.add(new User(users.Name,users.Surname,users.PNumber,users.Id,users.LoanCounter,users.ViolationCounter,users.Role,timer));
+               userList.remove(users);
+               break;
+           }
+       }
+
+       PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+       for (User use:userList) {
+           printWriterUserList.println(use.export(use));
+       }
+       printWriterUserList.close();
+
+       PrintWriter printWriterTimeoutList = new PrintWriter(timeoutFile);
+
+       for (User us : timeoutList) {
+           printWriterTimeoutList.println(us.timeoutExport(us));
+       }
+
+       printWriterTimeoutList.close();
 
    }
 
-    public void controlTimeouts(){
+    public void controlTimeouts()throws IOException{
+
+        Scanner timeoutListScan = new Scanner(timeoutFile).useDelimiter(",");
+        Scanner userListScan = new Scanner(UserFile).useDelimiter(",");
+
+        ArrayList<User>timeoutList = new ArrayList<User>();
+        ArrayList<User>userList = new ArrayList<User>();
+
+        while (timeoutListScan.hasNext()){
+            String Name = timeoutListScan.next();
+            String SurName = timeoutListScan.next();
+            int PNumber = Integer.parseInt(timeoutListScan.next());
+            int Id = Integer.parseInt(timeoutListScan.next());
+            int LoanCounter = Integer.parseInt(timeoutListScan.next());
+            int ViolationCounter = Integer.parseInt(timeoutListScan.next());
+
+            LocalDate timer = LocalDate.parse(timeoutListScan.next());
+
+            String Role = timeoutListScan.nextLine();
+            Role = Role.replace(",","");
+
+            timeoutList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role,timer));
+        }
+
+        while (userListScan.hasNext()){
+            String Name = userListScan.next();
+            String SurName = userListScan.next();
+            int PNumber = Integer.parseInt(userListScan.next());
+            int Id = Integer.parseInt(userListScan.next());
+            int LoanCounter = Integer.parseInt(userListScan.next());
+            int ViolationCounter = Integer.parseInt(userListScan.next());
+            String Role = userListScan.nextLine();
+            Role = Role.replace(",","");
+
+            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+        }
+
+        boolean control = false;
+        ArrayList<User> tempUserList = new ArrayList<User>();
+
+        for (User user:timeoutList) {
+
+            LocalDate expireDate = user.Timer.plusDays(15);
+            LocalDate today = LocalDate.now();
+
+            if (today.isAfter(expireDate)){
+                userList.add(user);
+
+                control = true;
 
 
+            }else{
+                tempUserList.add(user);
+
+            }
+
+        } if (control){
+
+          timeoutList.clear();
+
+            for (User addUser:tempUserList) {
+                timeoutList.add(addUser);
+            }
+
+            PrintWriter printWriterTimeoutList = new PrintWriter(timeoutFile);
+
+            PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+            for (User users : timeoutList) {
+                printWriterTimeoutList.println(users.timeoutExport(users));
+            }
+            printWriterTimeoutList.close();
+
+            for (User use : userList) {
+                printWriterUserList.println(use.export(use));
+            }
+            printWriterUserList.close();
+
+        }
 
     }
 
@@ -516,25 +677,17 @@ public class Librarian {
         Book testBook;
         Book testBook2;
 
-        testBook = librarian.getBookByISBN(2334);
-        testBook2 = librarian.getBookByISBN(3434);
+       testBook = librarian.getBookByISBN(2334);
+       testBook2 = librarian.getBookByISBN(3434);
 
-    //    librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
-     //   librarian.addUser("Stefan","Andersson",3999,"Undergraduate Student");
+        //       librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+        //  librarian.addUser("Stefan","Andersson",3999,"Undergraduate Student");
 
         User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
         User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
 
-        try {
-            librarian.deleteUser(1407,true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            librarian.deleteUser(1315,false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+     //   librarian.giveTimeout(1838);
+      //  librarian.giveTimeout(1399);
+       librarian.controlTimeouts();
     }
 }
