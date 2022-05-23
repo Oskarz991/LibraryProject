@@ -227,8 +227,6 @@ public class User {
         }
 
         printWriterPendingFile.close();
-
-
     }
 
     public void requestTime (Date time){
@@ -236,9 +234,6 @@ public class User {
     }
 
     public void returnBook(Book bookTitle, int id){
-
-
-
 
     }
 
