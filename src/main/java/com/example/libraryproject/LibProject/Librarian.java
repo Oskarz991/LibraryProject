@@ -1,5 +1,7 @@
 package com.example.libraryproject.LibProject;
 
+import javafx.scene.control.Alert;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +17,8 @@ public class Librarian {
     public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
     public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+    public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
+    public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
 
     public String getName() {
         return Name;
@@ -140,7 +144,6 @@ public class Librarian {
            }
        }
 
-        File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
         Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
 
        while (blacklisted.hasNext()){
@@ -153,7 +156,7 @@ public class Librarian {
            String Role = blacklisted.nextLine();
            Role = Role.replace(",","");
 
-           blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,role));
+           blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
        }
 
        for (int i = 0; i < userList.size(); i++) {
@@ -175,17 +178,200 @@ public class Librarian {
 
    }
 
-   public void deleteUser(int id){
+   public void deleteUser(int id, boolean request) throws Exception {
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+       Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
+       ArrayList<User>userList = new ArrayList<User>();
+       ArrayList<User>blackList = new ArrayList<User>();
+       ArrayList<Book>bookList = new ArrayList<Book>();
+
+       while (userScan.hasNext()){
+           String Name = userScan.next();
+           String SurName = userScan.next();
+           int PNumber = Integer.parseInt(userScan.next());
+           int Id = Integer.parseInt(userScan.next());
+           int LoanCounter = Integer.parseInt(userScan.next());
+           int ViolationCounter = Integer.parseInt(userScan.next());
+           String Role = userScan.nextLine();
+           Role = Role.replace(",","");
+
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+       }
+
+       while (bookScan.hasNext()){
+           int Id = Integer.parseInt(bookScan.next());
+           String Name = bookScan.next();
+           int ISBN = Integer.parseInt(bookScan.next());
+           int Quantity = Integer.parseInt(bookScan.next());
+           String Author = bookScan.nextLine();
+           Author = Author.replace(",","");
+           bookList.add(new Book(Id,Name,ISBN,Quantity,Author));
+       }
+
+       boolean hasLoan = false;
+
+       //Hämta alla böcker o lägg i lista
+       //if user har lånade böcker(kolla lista)
+       //ifall user har böcker skicka alert "Lämna tillbaka böcker snåla jävel"
+       //Men ifall man tas bort genom att ha för många violations så knäpper vi jäveln o tar tillbaka alla böcker som hen har lånat.
+       //Man tas bort ifall man inte har böcker utlånade.
+       //request är tänkt att vara en radiobutton typ.
+
+       if (request) {
+
+           for (User user : userList) {
+               if (user.Id == id) {
+                   if (user.Id > 999 && user.Id <= 1999) {
+                       if (user.LoanCounter < 3) {
+                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           hasLoan = true;
+                       }
+                   } else if (user.Id > 1999 && user.Id <= 2999) {
+                       if (user.LoanCounter < 5) {
+                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           hasLoan = true;
+                       }
+                   } else if (user.Id > 2999 && user.Id <= 3999) {
+                       if (user.LoanCounter < 7) {
+                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           hasLoan = true;
+                       }
+                   } else {
+                       if (user.LoanCounter < 10) {
+                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           hasLoan = true;
+                       }
+                   }
+               }
+           }
+
+           if (!hasLoan) {
+
+               for (User user : userList) {
+                   if (id == user.Id) {
+                       userList.remove(user);
+                       break;
+                   }
+               }
+
+               PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+               for (User user : userList) {
+                   printWriterUserList.println(user.export(user));
+               }
+
+               printWriterUserList.close();
+
+           } else {
+
+               Scanner blacklisted = new Scanner(blackFile).useDelimiter(",");
+
+               while (blacklisted.hasNext()) {
+                   String Name = blacklisted.next();
+                   String SurName = blacklisted.next();
+                   int PNumber = Integer.parseInt(blacklisted.next());
+                   int Id = Integer.parseInt(blacklisted.next());
+                   int LoanCounter = Integer.parseInt(blacklisted.next());
+                   int ViolationCounter = Integer.parseInt(blacklisted.next());
+                   String Role = blacklisted.nextLine();
+                   Role = Role.replace(",", "");
+
+                   blackList.add(new User(Name, SurName, PNumber, Id, LoanCounter, ViolationCounter, Role));
+               }
+
+               for (User user : userList) {
+                   if (id == user.Id) {
+                       blackList.add(user);
+                   }
+               }
+
+               PrintWriter printWriterBlackList = new PrintWriter(blackFile);
+
+               for (User user : blackList) {
+                   printWriterBlackList.println(user.export(user));
+               }
+
+               printWriterBlackList.close();
+
+               for (User user : userList) {
+                   if (id == user.Id) {
+                       userList.remove(user);
+                       break;
+                   }
+               }
+
+               PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+               for (User user : userList) {
+                   printWriterUserList.println(user.export(user));
+               }
+
+               printWriterUserList.close();
+
+
+           }
+
+       }else {
+           Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+
+           ArrayList<String> userLoanList = new ArrayList<String>();
+           ArrayList<Book> loanedBook = new ArrayList<>();
+
+           while (userLoanScan.hasNext()) {
+               String Name = userLoanScan.next();
+               String Surname = userLoanScan.next();
+               String Id = userLoanScan.next();
+
+               String Title = userLoanScan.next();
+               String ISBN = userLoanScan.next();
+               String Author = userLoanScan.nextLine();
+               Author = Author.replace(",", "");
+               if (Integer.parseInt(Id)==id) {
+                   Book book = new Book(0, Title, Integer.parseInt(ISBN), 0, Author);
+                   loanedBook.add(book);
+               }
+               userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
+           }
+           for (User user: userList) {
+                if (user.Id==id){
+                    for (String loan: userLoanList) {
+                        if (loan.contains(Integer.toString(user.Id))){
+                            for (Book book:loanedBook) {
+
+                            }
+                            userLoanList.remove(loan);
+                        }
+                    }
+                }
+           }
+           PrintWriter users = new PrintWriter(UserFile);
+           PrintWriter loanUsers = new PrintWriter(UserLoanFile);
+           for (User user:userList) {
+               users.println(user.export(user));
+           }
+           for (String userLoaner: userLoanList) {
+               loanUsers.println(userLoaner);
+           }
+           users.close();
+           loanUsers.close();
+       }
    }
 
    public void giveTimeout(int id){
 
+
+
    }
 
-   public Book getBookByISBN(int ISBN)throws IOException{
+    public void controlTimeouts(){
 
-   //    File bookFileISBN = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+
+
+    }
+
+
+   public Book getBookByISBN(int ISBN)throws IOException{
 
        Scanner bookScanByISBN = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -211,7 +397,32 @@ public class Librarian {
         return theBook;
    }
 
-   public void lendBook(Book theBook, User theUser)throws IOException {
+   public void lendBook(Book theBook, int userId)throws IOException {
+
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+       ArrayList<User>userList = new ArrayList<User>();
+
+       while (userScan.hasNext()){
+           String Name = userScan.next();
+           String SurName = userScan.next();
+           int PNumber = Integer.parseInt(userScan.next());
+           int Id = Integer.parseInt(userScan.next());
+           int LoanCounter = Integer.parseInt(userScan.next());
+           int ViolationCounter = Integer.parseInt(userScan.next());
+           String Role = userScan.nextLine();
+           Role = Role.replace(",","");
+
+           userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+       }
+
+       User tempUser = new User();
+
+       for (User user:userList) {
+           if (userId == user.getId()){
+               tempUser = user;
+           }
+       }
 
        Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -224,69 +435,106 @@ public class Librarian {
            int Quantity = Integer.parseInt(bookScanLend.next());
            String Author = bookScanLend.nextLine();
            Author = Author.replace(",", "");
+
            bookList.add(new Book(Id, Name, ISBNScan, Quantity, Author));
        }
 
-       for (Book books : bookList) {
-           if (books.Title.equals(theBook.Title)) {
-               if (books.Quantity > 0) {
+       if (tempUser.LoanCounter > 0){
+           for (Book book:bookList) {
+               if (book.Title.equals(theBook.Title)){
+                   if (book.Quantity > 0){
 
-                   Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+                       Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
-                   books.Quantity--;
+                       ArrayList<String> userLoanList = new ArrayList<String>();
 
-                   PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
+                       while (userLoanScan.hasNext()) {
+                           String Name = userLoanScan.next();
+                           String Surname = userLoanScan.next();
+                           String Id = userLoanScan.next();
 
-                   for (Book book:bookList) {
-                       printWriterAllBooks.println(book.export(book));
+                           String Title = userLoanScan.next();
+                           String ISBN = userLoanScan.next();
+                           String Author = userLoanScan.nextLine();
+                           Author = Author.replace(",", "");
 
+                         userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
+                       }
+
+                       String tempLoanString = tempUser.loanExport(tempUser) + book.loanExport(book);
+
+                       userLoanList.add(tempLoanString);
+
+                       PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
+
+                       for (String row:userLoanList) {
+                           printWriterUserLoanFile.println(row);
+                       }
+
+                       printWriterUserLoanFile.close();
+
+                       book.Quantity--;
+
+                       tempUser.LoanCounter--;
+
+                       for (User user:userList) {
+                           if (userId == user.Id){
+                               user = tempUser;
+                           }
+                       }
+
+                       PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+                       for (User user: userList) {
+                           printWriterUserList.println(user.export(user));
+                       }
+                       printWriterUserList.close();
+
+                   }else {
+                       System.out.println("The title is not available right now");
                    }
-
-                   printWriterAllBooks.close();
-
-                   PrintWriter printWriter = new PrintWriter(UserLoanFile);
-
-                   printWriter.println(books.Title + "," + books.ISBN + "," + theUser.Id);
-
-                   printWriter.close();
-
-                   break;
-               }else {
-                   System.out.println("The book is not available right now");
                }
-
-           } else {
-               System.out.println("The book does not exists");
            }
 
+       } else {
+           System.out.println("You have too many loaned books");
        }
+
+       PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
+
+       for (Book books : bookList) {
+           printWriterAllBooks.println(books.export(books));
+       }
+
+       printWriterAllBooks.close();
+
    }
 
     public static void main(String[] args)throws IOException {
         Librarian librarian = new Librarian();
-
-        librarian.addBook(2,"Oskars resor",2334,9,"Stefan");
 
         Book testBook;
         Book testBook2;
 
         testBook = librarian.getBookByISBN(2334);
         testBook2 = librarian.getBookByISBN(3434);
-        System.out.println(testBook.Title);
+
+    //    librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
+     //   librarian.addUser("Stefan","Andersson",3999,"Undergraduate Student");
 
         User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
         User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
 
-        System.out.println(testUser.getLoanCounter());
-        System.out.println(testUser2.getLoanCounter());
-        librarian.lendBook(testBook,testUser);
-        librarian.lendBook(testBook2,testUser2);
-
-        System.out.println(testUser.getLoanCounter());
-        System.out.println(testUser2.getLoanCounter());
-
-        librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
-        librarian.addUser("Rolf","Andersson",8299,"PhD Student");
+        try {
+            librarian.deleteUser(1407,true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            librarian.deleteUser(1315,false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
