@@ -1,3 +1,0 @@
-Stefan,Andersson,1471,Victors resor,3434,Janne
-Oskar,Andersson,1571,Oskars resor,2334,Stefan
-Stefan,Andersson,1471,Victors resor,3434,Janne

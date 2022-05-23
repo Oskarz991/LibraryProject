@@ -1,1 +1,1 @@
-Stefan,Andersson,9299,2392,5,0,Postgraduate Student
+Stefan,Andersson,3999,1315,3,0,Undergraduate Student
