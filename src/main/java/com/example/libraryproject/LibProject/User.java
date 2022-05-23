@@ -2,6 +2,7 @@ package com.example.libraryproject.LibProject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,11 +19,13 @@ public class User {
     public int LoanCounter;
     public int ViolationCounter;
     public LocalDate Timer;
+    public String Request;
     public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
     public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
     public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
     public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+    public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
 
    public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role){
         this.Name = name;
@@ -44,6 +47,13 @@ public class User {
         this.ViolationCounter = violationcounter;
         this.Timer = timer;
    }
+
+    public User(String name,String surname,int id,String request){
+        this.Name = name;
+        this.Surname = surname;
+        this.Id = id;
+        this.Request = request;
+    }
 
     public User(){
     }
@@ -139,11 +149,85 @@ public class User {
         return theBook;
     }
 
-    public void requestDelete(int id){
+    public void requestDelete(int id, String name, String surName)throws IOException{
+        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+
+        ArrayList<User> pendingList = new ArrayList<User>();
+
+        while (pendingScan.hasNext()) {
+            String Name = pendingScan.next();
+            String Surname = pendingScan.next();
+            int Id = Integer.parseInt(pendingScan.next());
+            String Request = pendingScan.nextLine();
+            Request = Request.replace(",", "");
+
+            pendingList.add(new User(Name,Surname,Id,Request));
+        }
+
+
+        User tempUser = new User(name,surName,id,"Delete");
+        pendingList.add(tempUser);
+
+        for (int i = 0; i < pendingList.size(); i++) {
+            for (int j = i+1; j < pendingList.size(); j++){
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)){
+                    pendingList.remove(j);
+                    System.out.println("You have already requested a delete");
+                }
+            }
+        }
+
+        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
+
+        for (User user : pendingList) {
+            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.Id + "," + user.Request);
+        }
+
+        printWriterPendingFile.close();
+
+
 
     }
 
-    public void requestLoan(String bookTitle){
+    public void requestLoan(String bookTitle, String name, String surName, int id)throws IOException{
+
+        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+
+        ArrayList<User> pendingList = new ArrayList<User>();
+
+        while (pendingScan.hasNext()) {
+            String Name = pendingScan.next();
+            String Surname = pendingScan.next();
+            int Id = Integer.parseInt(pendingScan.next());
+            String Request = pendingScan.nextLine();
+            Request = Request.replace(",", "");
+
+            pendingList.add(new User(Name,Surname,Id,Request));
+        }
+
+
+        String request = ("Loan: " + bookTitle);
+
+        User tempUser = new User(name,surName,id,request);
+        pendingList.add(tempUser);
+
+        for (int i = 0; i < pendingList.size(); i++) {
+            for (int j = i+1; j < pendingList.size(); j++){
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)){
+                    pendingList.remove(j);
+                    System.out.println("You have already requested a loan of this book");
+                }
+            }
+        }
+
+        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
+
+        for (User user : pendingList) {
+            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.Id + "," + user.Request);
+        }
+
+        printWriterPendingFile.close();
+
 
     }
 
@@ -152,6 +236,9 @@ public class User {
     }
 
     public void returnBook(Book bookTitle, int id){
+
+
+
 
     }
 
@@ -176,6 +263,10 @@ public class User {
 
        testBook = testUser.searchTitle("Oskars resor");
        System.out.println(testBook.Title);
+
+
+       testUser.requestDelete(1234,"Oskar","Andersson");
+       testUser.requestLoan("Oskars resor","Oskar","Andersson",1234);
 
     }
 }
