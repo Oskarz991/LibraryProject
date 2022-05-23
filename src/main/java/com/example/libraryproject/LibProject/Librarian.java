@@ -361,6 +361,8 @@ public class Librarian {
                         if (loan.contains(Integer.toString(user.Id))){
                             for (Book book:loanedBook) {
 
+//HÄR VILL VI HA EN RETURNERA BOK METOD FRÅN USER
+
                             }
                             userLoanList.remove(loan);
                         }
@@ -670,24 +672,4 @@ public class Librarian {
        printWriterAllBooks.close();
 
    }
-
-    public static void main(String[] args)throws IOException {
-        Librarian librarian = new Librarian();
-
-        Book testBook;
-        Book testBook2;
-
-       testBook = librarian.getBookByISBN(2334);
-       testBook2 = librarian.getBookByISBN(3434);
-
-        //       librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
-        //  librarian.addUser("Stefan","Andersson",3999,"Undergraduate Student");
-
-        User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
-        User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
-
-     //   librarian.giveTimeout(1838);
-      //  librarian.giveTimeout(1399);
-       librarian.controlTimeouts();
-    }
 }
