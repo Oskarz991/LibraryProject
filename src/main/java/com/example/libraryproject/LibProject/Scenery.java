@@ -12,15 +12,28 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.jar.Attributes;
 
 
 public class Scenery extends Application {
 
+   /*    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+       public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
+       public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+       public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
+       public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+
+
+    */
         public static void main(String[] args) {
-            launch(args);
+
+       launch(args);
         }
 
         @Override
@@ -63,18 +76,35 @@ public class Scenery extends Application {
             paneRight2.setHgap(5);
             paneRight2.setVgap(5);
 
-            //List view som bibliotikarien ser
+            File UserFile = new File("/Users/stefanbucei/LibraryProject/src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+            Scanner userScan = null;
+            try {
+                userScan = new Scanner(UserFile).useDelimiter(",");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<User> userList = new ArrayList<>();
+
+            while (userScan.hasNext()){
+                 String Name = userScan.next();
+                 String SurName = userScan.next();
+                 int PNumber = Integer.parseInt(userScan.next());
+                 int Id = Integer.parseInt(userScan.next());
+                 int LocalCounter = Integer.parseInt(userScan.next());
+                 int ViolationCounter = Integer.parseInt(userScan.next());
+                 String Role = userScan.nextLine();
+                 Role = Role.replace(",","");
+                 userList.add(new User(Name,SurName,PNumber,Id,LocalCounter,ViolationCounter,Role));
+            }
+
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
-            memberList.getItems().addAll(
-                    "Stefan Bucei",
-                    "Victor Almqvist"
-            );
-            ArrayList<User> showUser = new ArrayList<>();
-            User StefanB = new User("Stefan", "Bucei", 3333, 4444, 0, 0,"Student");
-            User VictorA = new User("Victor", "Almqvist", 4322, 1222, 0, 0,"Phd-Student");
-            showUser.add(StefanB);
-            showUser.add(VictorA);
+            for ( int i = 0; i <userList.size(); i++){
+              memberList.getItems().addAll(userList.get(i).Name);  
+            }
+
+
 
             Font fira = new Font(15);
             Text namn = new Text();
@@ -82,13 +112,14 @@ public class Scenery extends Application {
             namn.setFont(fira);
             Font tre = new Font(10);
             Text role = new Text();
-            role.setFont(tre);
+            role.setFont(fira);
             Text surname = new Text();
+            surname.setFont(fira);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
-                namn.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
-                role.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n");
-                surname.setText(showUser.get(memberList.getSelectionModel().getSelectedIndex()).getSurname());
+                namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
+                role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n");
+                surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname());
             });
 
             TextFlow textMembers = new TextFlow(namn, role, surname);
@@ -169,7 +200,7 @@ public class Scenery extends Application {
             //Ändra tillbaka till att kunna adda en bok
             Button changeSearchAddBookBtn2 = new Button("Add"); changeSearchAddBookBtn2.setVisible(false);
 
-            //Bibliotikarie söker efter en bok
+            //Bibliotekarie söker efter en bok
             Button changeSearchAddBookBtn = new Button("Search");
 
             Label titleSearchBook = new Label("Search for book"); titleSearchBook.setVisible(false);
@@ -185,6 +216,8 @@ public class Scenery extends Application {
             Text bokQ = new Text();
             Text bokISBNN = new Text();
 
+            //Bibliotekarien deletar en befintlig medlem
+            Button deleteUserBtn = new Button("Delete User");
 
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
@@ -242,6 +275,7 @@ public class Scenery extends Application {
                 loanBook1.setVisible(false);  loanBook2.setVisible(false);  loanBook3.setVisible(false);  loanBook4.setVisible(false);
             });
 
+            //Fixa så att man får fram det böcker som man söker på
             searchBookBtn.setOnAction(e-> {
 
                 loanBook1.setVisible(true);
@@ -357,6 +391,7 @@ public class Scenery extends Application {
             paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
          
             paneLeft2.add(memberList,0,8); paneLeft2.add(textMembers,1,8);
+            paneLeft2.add(deleteUserBtn,2,8);
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
