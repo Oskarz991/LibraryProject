@@ -1,5 +1,7 @@
 package com.example.libraryproject.LibProject;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 public class User {
@@ -11,6 +13,7 @@ public class User {
     public int Id;
     public int LoanCounter;
     public int ViolationCounter;
+    public LocalDate Timer;
 
    public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role){
         this.Name = name;
@@ -22,7 +25,26 @@ public class User {
         this.ViolationCounter = violationcounter;
     }
 
+    public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role, LocalDate timer){
+        this.Name = name;
+        this.Surname = surname;
+        this.Role = role;
+        this.PNumber = pnumber;
+        this.Id = id;
+        this.LoanCounter = loancounter;
+        this.ViolationCounter = violationcounter;
+        this.Timer = timer;
+   }
+
     public User(){
+    }
+
+    public LocalDate getTimer() {
+        return Timer;
+    }
+
+    public void setTimer(LocalDate timer) {
+        Timer = timer;
     }
 
     public String getName() {
@@ -112,4 +134,9 @@ public class User {
     public String loanExport (User user){
 
         return user.Name + "," + user.Surname + "," + user.Id + ",";}
+
+    public String timeoutExport (User user){
+
+        return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
+   }
 }
