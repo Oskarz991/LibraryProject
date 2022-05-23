@@ -1,2 +1,0 @@
-Oskar,Andersson,1999,1026,3,0,2022-05-23,Undergraduate Student
-Stefan,Andersson,3999,1835,3,0,2022-05-23,Undergraduate Student
