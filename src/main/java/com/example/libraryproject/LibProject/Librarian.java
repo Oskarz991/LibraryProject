@@ -233,7 +233,7 @@ public class Librarian {
        User tempUser = new User();
 
        for (User user:userList) {
-           if (userId == user.Id){
+           if (userId == user.getId()){
                tempUser = user;
            }
        }
@@ -258,13 +258,46 @@ public class Librarian {
                if (book.Title.equals(theBook.Title)){
                    if (book.Quantity > 0){
 
-                       book.Quantity--;
-
-
-
                        Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
 
+                       PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
 
+                       ArrayList<String> userLoanList = new ArrayList<String>();
+
+                       while (userLoanScan.hasNext()) {
+                           int Id = Integer.parseInt(userLoanScan.next());
+                           String Name = userLoanScan.next();
+                           int ISBNScan = Integer.parseInt(userScan.next());
+                           int Quantity = Integer.parseInt(userScan.next());
+                           String Author = userLoanScan.nextLine();
+
+
+
+                           Author = Author.replace(",", "");
+
+                     //      userLoanList.add(Id,Name,ISBNScan,Quantity,Author,));
+                       }
+
+                       printWriterUserLoanFile.println(tempUser.export(tempUser) + "," + book.export(book));
+
+                       printWriterUserLoanFile.close();
+
+                       book.Quantity--;
+
+                       tempUser.LoanCounter--;
+
+                       for (User user:userList) {
+                           if (userId == user.Id){
+                               user = tempUser;
+                           }
+                       }
+
+                       PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+                       for (User user: userList) {
+                           printWriterUserList.println(user.export(user));
+                       }
+                       printWriterUserList.close();
 
                    }
                }
@@ -272,10 +305,13 @@ public class Librarian {
 
        }
 
+       PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
 
+       for (Book books : bookList) {
+           printWriterAllBooks.println(books.export(books));
+       }
 
-
-
+       printWriterAllBooks.close();
 
    }
 
@@ -283,14 +319,17 @@ public class Librarian {
     public static void main(String[] args)throws IOException {
         Librarian librarian = new Librarian();
 
-        librarian.addBook(2,"Oskars resor",2334,9,"Stefan");
-
         Book testBook;
         Book testBook2;
+
+        librarian.addBook(1,"Oskars resor",2334,5,"Sven");
+        librarian.addBook(2,"Victors resor",3434,5,"Janne");
 
         testBook = librarian.getBookByISBN(2334);
         testBook2 = librarian.getBookByISBN(3434);
         System.out.println(testBook.Title);
+        System.out.println(testBook2.Title);
+
 
         User testUser = new User("Oskar","Andersson",1999,1571,3,0,"Undergraduate Student");
         User testUser2 = new User("Stefan","Andersson",3999,1471,3,0,"Undergraduate Student");
@@ -298,14 +337,10 @@ public class Librarian {
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
 
-        librarian.lendBook(testBook,321);
-        librarian.lendBook(testBook2,123);
+        librarian.lendBook(testBook,1571);
+        librarian.lendBook(testBook2,1471);
 
         System.out.println(testUser.getLoanCounter());
         System.out.println(testUser2.getLoanCounter());
-
-        librarian.addUser("Oskar","Andersson",1999,"Undergraduate Student");
-        librarian.addUser("Rolf","Andersson",8299,"PhD Student");
-
     }
 }
