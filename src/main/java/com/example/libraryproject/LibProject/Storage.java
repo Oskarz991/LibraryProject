@@ -1,60 +1,41 @@
 package com.example.libraryproject.LibProject;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class Storage {
 
-    public int Id;
-    public String Title;
-    public String Author;
-    public int ISBN;
-    public int Quantity;
-    public Boolean BlackList;
+    public ArrayList<Book> bookList = new ArrayList<>();
+    public ArrayList<User> userList = new ArrayList<>();
+    public ArrayList<User> blackList = new ArrayList<>();
+    public ArrayList<String> loanedBooksList = new ArrayList<>();
+    public ArrayList<User> timeoutList = new ArrayList<>();
+    public ArrayList<String> logList = new ArrayList<>();
 
-    public int getId() {
-        return Id;
+    public Storage(){
+        ArrayList<Book> bookList = new ArrayList<>();
+         ArrayList<User> userList = new ArrayList<>();
     }
 
-    public void setId(int id) {
-        Id = id;
-    }
+    public ArrayList<Book> getBooks() throws IOException {
+        ArrayList<Book> bookList = new ArrayList<>();
+        File bookFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
 
-    public String getTitle() {
-        return Title;
-    }
+        Scanner bookScan = new Scanner(bookFile).useDelimiter(",");
 
-    public void setTitle(String title) {
-        Title = title;
-    }
+        while (bookScan.hasNext()){
+            int Id = Integer.parseInt(bookScan.next());
+            String Name = bookScan.next();
+            int ISBN = Integer.parseInt(bookScan.next());
+            int Quantity = Integer.parseInt(bookScan.next());
+            String Author = bookScan.nextLine();
+            Author = Author.replace(",","");
+            bookList.add(new Book(Id,Name,ISBN,Quantity,Author));
+        }
 
-    public String getAuthor() {
-        return Author;
-    }
-
-    public void setAuthor(String author) {
-        Author = author;
-    }
-
-    public int getISBN() {
-        return ISBN;
-    }
-
-    public void setISBN(int ISBN) {
-        this.ISBN = ISBN;
-    }
-
-    public int getQuantity() {
-        return Quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        Quantity = quantity;
-    }
-
-    public Boolean getBlackList() {
-        return BlackList;
-    }
-
-    public void setBlackList(Boolean blackList) {
-        BlackList = blackList;
+        return bookList;
     }
 
 

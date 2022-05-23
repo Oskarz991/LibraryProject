@@ -18,6 +18,14 @@ public class Librarian {
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
     public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
     public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+    public Storage storage = new Storage();
+
+    public Librarian(Storage obj){
+        storage = obj;
+    }
+
+    public Librarian(){
+    }
 
     public String getName() {
         return Name;
@@ -55,19 +63,7 @@ public class Librarian {
 
     public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
-        Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
-
-        ArrayList<Book>bookList = new ArrayList<Book>();
-
-        while (bookScan.hasNext()){
-            int Id = Integer.parseInt(bookScan.next());
-            String Name = bookScan.next();
-            int ISBN = Integer.parseInt(bookScan.next());
-            int Quantity = Integer.parseInt(bookScan.next());
-            String Author = bookScan.nextLine();
-            Author = Author.replace(",","");
-            bookList.add(new Book(Id,Name,ISBN,Quantity,Author));
-        }
+        ArrayList<Book>bookList = storage.getBooks();
 
         Book newBook = new Book(bookId,titel,isbn,quantity,author);
 
@@ -330,7 +326,6 @@ public class Librarian {
                }
 
                printWriterUserList.close();
-
 
            }
 

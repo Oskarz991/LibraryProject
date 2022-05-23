@@ -6,6 +6,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.isA;
@@ -15,11 +16,16 @@ class LibrarianTest {
 
     @Test
     void addBook_Normal() throws IOException {
-            Librarian librarian = Mockito.mock(Librarian.class);
-           doThrow(IOException.class).when(librarian).addBook(0,"test",1111,10,"victor");
 
-           assertThrows(IOException.class, ()-> librarian.addBook(0,"test",1111,10,"victor"));
-           verify(librarian,times(1)).addBook(0,"test",1111,10,"victor");
+        Storage storage = Mockito.mock(Storage.class);
+         Librarian librarian = new Librarian(storage);
+        // Book book = new Book(1,"Test",1111,1,"Victor");
+        librarian.addBook(1,"Test",1111,1,"Victor");
+
+         when(storage.getBooks().get(0)).thenReturn(new Book(1,"Test",1111,1,"Victor"));
+
+         assertEquals(storage.getBooks().get(0),new Book(1,"Test",1111,1,"Victor"));
+
     }
 
     @Test
