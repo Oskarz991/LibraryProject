@@ -23,14 +23,12 @@ import java.util.jar.Attributes;
 
 public class Scenery extends Application {
 
-   /*    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+       public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
        public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
        public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
 
-
-    */
         public static void main(String[] args) {
 
        launch(args);
@@ -76,7 +74,7 @@ public class Scenery extends Application {
             paneRight2.setHgap(5);
             paneRight2.setVgap(5);
 
-            File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
+
             Scanner userScan = null;
             try {
                 userScan = new Scanner(UserFile).useDelimiter(",");
@@ -168,7 +166,7 @@ public class Scenery extends Application {
             Label idMemberLbl = new Label("ID-number:");
             TextField idMemberTxt = new TextField();
 
-            //Logga in som bibliotikarie
+            //Logga in som bibliotekarie
             Label nameLibrarianLbl = new Label("Name:");
             TextField nameLibrarianTxt = new TextField();
             Label idLibrarianLbl = new Label("ID-number:");
