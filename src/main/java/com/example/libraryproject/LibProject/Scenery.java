@@ -164,10 +164,10 @@ public class Scenery extends Application {
             Button returnBookBtn = new Button("Return Book");
 
             //Logga in som medlem
-            Label nameMemberLbl = new Label("Name:");
-            TextField nameMemberTxt = new TextField();
-            Label idMemberLbl = new Label("ID-number:");
-            TextField idMemberTxt = new TextField();
+            Label nameMemberLoginLbl = new Label("Name:");
+            TextField nameMemberLoginTxt = new TextField();
+            Label idMemberLoginLbl = new Label("ID-number:");
+            TextField idMemberLoginTxt = new TextField();
 
             //Logga in som bibliotekarie
             Label nameLibrarianLbl = new Label("Name:");
@@ -176,7 +176,13 @@ public class Scenery extends Application {
             TextField idLibrarianTxt = new TextField();
 
             //Skapa nytt konto
-            Label surnameMemberLbl = new Label("Surname:"); TextField surnameMemberTxt = new TextField();
+            Label nameMemberRegisterLbl = new Label("Nam");
+            nameMemberRegisterLbl.setVisible(false);
+            TextField nameMemberRegisterTxt = new TextField();
+            nameMemberRegisterTxt.setVisible(false);
+            Label surnameMemberLbl = new Label("Surname:");
+            TextField surnameMemberTxt = new TextField();
+            surnameMemberTxt.setVisible(false);
             surnameMemberLbl.setVisible(false);
             Label personalNrMemberLbl = new Label("Personal Number:");
             TextField personalNrMemberTxt = new TextField();
@@ -240,54 +246,74 @@ public class Scenery extends Application {
             chooseRole.setVisible(false);
 
             registerNewAccount.setOnAction(e-> {
-                nameMemberTxt.clear(); idMemberTxt.clear();
+                nameMemberLoginTxt.clear(); idMemberLoginTxt.clear();
                 titleMember.setVisible(false); titleNewAccount.setVisible(true);
                 registerNewAccount.setVisible(false); loginAsAMember.setVisible(true);
                 loginBtn.setVisible(false); registerBtn.setVisible(true);
-                nameMemberTxt.setVisible(true); nameMemberTxt.setVisible(true);
-                idMemberLbl.setVisible(false); idMemberTxt.setVisible(false);
+                nameMemberLoginTxt.setVisible(false); nameMemberLoginTxt.setVisible(false);
+                nameMemberRegisterLbl.setVisible(true); nameMemberRegisterTxt.setVisible(true);
+                idMemberLoginLbl.setVisible(false); idMemberLoginTxt.setVisible(false);
                 surnameMemberLbl.setVisible(true); surnameMemberTxt.setVisible(true);
                 personalNrMemberLbl.setVisible(true); personalNrMemberTxt.setVisible(true);
                 chooseRole.setVisible(true);
             });
 
             loginAsAMember.setOnAction(e-> {
-                nameMemberTxt.clear();
+                nameMemberLoginTxt.clear(); surnameMemberTxt.clear(); personalNrMemberTxt.clear();
                 titleMember.setVisible(true); titleNewAccount.setVisible(false);
                 registerNewAccount.setVisible(true); loginAsAMember.setVisible(false);
                 loginBtn.setVisible(true); registerBtn.setVisible(false);
-                nameMemberTxt.setVisible(true); nameMemberTxt.setVisible(true);
-                idMemberLbl.setVisible(true); idMemberTxt.setVisible(true);
+                nameMemberLoginLbl.setVisible(true); nameMemberLoginTxt.setVisible(true);
+                nameMemberRegisterLbl.setVisible(false); nameMemberRegisterTxt.setVisible(false);
+                idMemberLoginLbl.setVisible(true); idMemberLoginTxt.setVisible(true);
                 surnameMemberLbl.setVisible(false); surnameMemberTxt.setVisible(false);
                 personalNrMemberLbl.setVisible(false); personalNrMemberTxt.setVisible(false);
                 chooseRole.setVisible(false);
             });
 
             loginAsLibraryan.setOnAction(e-> {
-                titleLibrarian.setVisible(true);
-                nameLibrarianTxt.setVisible(true); nameLibrarianLbl.setVisible(true);
-                idLibrarianLbl.setVisible(true); idLibrarianTxt.setVisible(true);
-                loginAsLibraryan.setVisible(true);
-                leftControl.getChildren().clear();
-                leftControl.getChildren().addAll(paneLeft2);
-                paneLeft2.setVisible(true);
+
+                try {
+                    if(librarianObj.loginLibrarian(nameLibrarianTxt.getText(), Integer.parseInt(idLibrarianTxt.getText()))) {
+                    titleLibrarian.setVisible(true);
+                    nameLibrarianTxt.setVisible(true);
+                    nameLibrarianLbl.setVisible(true);
+                    idLibrarianLbl.setVisible(true);
+                    idLibrarianTxt.setVisible(true);
+                    loginAsLibraryan.setVisible(true);
+                    leftControl.getChildren().clear();
+                    leftControl.getChildren().addAll(paneLeft2);
+                    paneLeft2.setVisible(true);
+                } else {
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("This isn't an active librarian account ");
+                    aler.showAndWait();
+                }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             loginBtn.setOnAction(e-> {
-                String name;
-
-                if (userObj.Name.equals(nameMemberTxt.getText())){
-                    rightControl.getChildren().clear();
-                    paneRight.setVisible(false);
-                    rightControl.getChildren().addAll(paneRight2);
-                    paneRight2.setVisible(true);
-                    loanBook1.setVisible(false);
-                } else {
-                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                    aler.setHeaderText("User doesnt exist");
-                    aler.showAndWait();
+                String name = nameMemberLoginTxt.getText();
+                String id = idMemberLoginTxt.getText();
+                int idNr = Integer.parseInt(id);
+                try {
+                    boolean verify = userObj.loginUser(name,idNr);
+                    if (verify){
+                        rightControl.getChildren().clear();
+                        paneRight.setVisible(false);
+                        rightControl.getChildren().addAll(paneRight2);
+                        paneRight2.setVisible(true);
+                        loanBook1.setVisible(false);
+                    } else {
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("User doesnt exist");
+                        aler.showAndWait();
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-
             });
 
             //Fixa så att man får fram det böcker som man söker på
@@ -410,8 +436,8 @@ public class Scenery extends Application {
             //Lägg till på höger sida login funktion
             paneRight.add(titleMember,0,0);   paneRight.add(titleNewAccount,0,0);
             paneRight.add(loginAsAMember,0,1); paneRight.add(registerNewAccount,0,1);
-            paneRight.add(nameMemberLbl,0,2); paneRight.add(nameMemberTxt,1,2);
-            paneRight.add(idMemberLbl,0,3); paneRight.add(idMemberTxt,1,3);
+            paneRight.add(nameMemberLoginLbl,0,2); paneRight.add(nameMemberLoginTxt,1,2); paneRight.add(nameMemberRegisterLbl,0,2); paneRight.add(nameMemberRegisterTxt,1,2);
+            paneRight.add(idMemberLoginLbl,0,3); paneRight.add(idMemberLoginTxt,1,3);
             paneRight.add(personalNrMemberLbl,0,4); paneRight.add(personalNrMemberTxt,1,4);
             paneRight.add(surnameMemberLbl,0,3); paneRight.add(surnameMemberTxt,1,3);
             paneRight.add(loginBtn,1,6); paneRight.add(registerBtn,1,6);

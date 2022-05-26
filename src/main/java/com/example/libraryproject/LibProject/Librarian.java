@@ -696,10 +696,7 @@ public class Librarian {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id > 4999){
                 verify = true;
-
-            }else
-                verify = false;
-
+          }
         }
 
         return verify;

@@ -308,10 +308,7 @@ public class User {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000){
                 verify = true;
-
-            }else
-                verify = false;
-
+            }
         }
 
        return verify;
