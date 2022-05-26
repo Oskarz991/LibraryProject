@@ -717,4 +717,13 @@ public class Librarian {
         return verify;
     }
 
+    public static void main(String[] args) throws IOException {
+        Librarian lib = new Librarian();
+        lib.addUser("Oskar","Andersson",19990906,"");
+        lib.addUser("Stefan","Bucei",20001006,"Undergraduate student");
+
+
+
+    }
+
 }
