@@ -168,6 +168,8 @@ public class Scenery extends Application {
             TextField nameMemberLoginTxt = new TextField();
             Label idMemberLoginLbl = new Label("ID-number:");
             TextField idMemberLoginTxt = new TextField();
+            Text idForUser = new Text();
+            idForUser.setVisible(false);
 
             //Logga in som bibliotekarie
             Label nameLibrarianLbl = new Label("Name:");
@@ -306,6 +308,8 @@ public class Scenery extends Application {
                         rightControl.getChildren().addAll(paneRight2);
                         paneRight2.setVisible(true);
                         loanBook1.setVisible(false);
+                        idForUser.setText("User: " + name + "/ID: "+Integer.toString(idNr));
+                        idForUser.setVisible(true);
                     } else {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
                         aler.setHeaderText("User doesnt exist");
@@ -443,7 +447,7 @@ public class Scenery extends Application {
             paneRight.add(loginBtn,1,6); paneRight.add(registerBtn,1,6);
             paneRight.add(chooseRole,2,1);
 
-            //Lägg till på vänster sida -  det som bibliotikarien ser
+            //Lägg till på vänster sida -  det som bibliotekarien ser
             paneLeft2.add(titleAddNewBook,0,0); paneLeft2.add(titleSearchBook,0,0);
             paneLeft2.add(changeSearchAddBookBtn,0,1); paneLeft2.add(changeSearchAddBookBtn2,0,1);
             paneLeft2.add(bookIDLbl,0,2); paneLeft2.add(bookIdTxt,1,2); paneLeft2.add(searchBookISBNLbl,0,2); paneLeft2.add(searchBookISBNTxt,1,2);
@@ -462,7 +466,7 @@ public class Scenery extends Application {
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
-            paneRight2.add(titleRequestLoan,0,0);
+            paneRight2.add(titleRequestLoan,0,0); paneRight2.add(idForUser,1,0);
             paneRight2.add(bookTitleLbl,0,1); paneRight2.add(bookTitleTxt,1,1); paneRight2.add(searchBookBtn,2,1);
             paneRight2.add(loanBook1,0,2);
             paneRight2.add(bookUserSearchTxt,0,2);
