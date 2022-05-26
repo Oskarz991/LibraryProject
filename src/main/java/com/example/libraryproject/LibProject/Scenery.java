@@ -110,25 +110,39 @@ public class Scenery extends Application {
             Text namn = new Text();
             namn.setStyle("-fx-font-weight: bold");
             namn.setFont(fira);
-            Font tre = new Font(10);
-            Text role = new Text();
-            role.setFont(fira);
             Text surname = new Text();
             surname.setFont(fira);
+            Font tre = new Font(14);
+            Text role = new Text();
+            role.setFont(tre);
+            Text idid = new Text();
+            idid.setFont(tre);
+            Text violationCounter = new Text();
+            violationCounter.setFont(tre);
+            Text prNumber = new Text();
+            prNumber.setFont(tre);
+            Text loanCount = new Text();
+            loanCount.setFont(tre);
 
-             ToggleGroup deleteTgl = new ToggleGroup();
+
+            ToggleGroup deleteTgl = new ToggleGroup();
              RadioButton deleteByChoise = new RadioButton("Detele by choies");
              RadioButton deleteByPenalties = new RadioButton("Delete by penalties");
              deleteByChoise.setToggleGroup(deleteTgl); deleteByPenalties.setToggleGroup(deleteTgl);
              deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
-                namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
-                role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n");
-                surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname());
+                namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ " ");
+                surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname()+ "\n" );
+                role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n" + "Id: ");
+                idid.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getId())+"\n" + "Personal Nr: ");
+                prNumber.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber())+"\n" + "Violation counter: ");
+                violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter())+"\n" + "Loan counter: ");
+                loanCount.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter())+"\n");
+
             });
 
-            TextFlow textMembers = new TextFlow(namn, role, surname);
+            TextFlow textMembers = new TextFlow(namn, surname, role, idid, prNumber, violationCounter, loanCount);
             textMembers.setPrefWidth(250);
 
             //Medlem ansöker om att låna en bok
