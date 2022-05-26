@@ -2,12 +2,8 @@ package com.example.libraryproject.LibProject;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
 
 public class User {
 
@@ -26,6 +22,7 @@ public class User {
     public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
     public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
     public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
+    public Storage storage = new Storage();
 
     public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role) {
         this.Name = name;
@@ -56,6 +53,10 @@ public class User {
     }
 
     public User() {
+    }
+
+    public User(Storage obj){
+        this.storage = obj;
     }
 
     public LocalDate getTimer() {
@@ -124,46 +125,22 @@ public class User {
 
     public Book searchTitle(String title) throws IOException {
 
-        Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
+        ArrayList<Book> bookList = storage.getBooks();
 
-        ArrayList<Book> bookList = new ArrayList<Book>();
-
-        while (bookScan.hasNext()) {
-            int Id = Integer.parseInt(bookScan.next());
-            String Name = bookScan.next();
-            int ISBN = Integer.parseInt(bookScan.next());
-            int Quantity = Integer.parseInt(bookScan.next());
-            String Author = bookScan.nextLine();
-            Author = Author.replace(",", "");
-
-            bookList.add(new Book(Id, Name, ISBN, Quantity, Author));
-        }
-
-        Book theBook = new Book();
+        Book theBook =new Book();
 
         for (Book book : bookList) {
             if (title.equals(book.Title)) {
                 theBook = book;
+                return theBook;
             }
         }
-        return theBook;
+        return null;
     }
 
     public void requestDelete(int id, String name, int persNr) throws IOException {
-        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 
-        ArrayList<User> pendingList = new ArrayList<User>();
-
-        while (pendingScan.hasNext()) {
-            String Name = pendingScan.next();
-            int PersNr = Integer.parseInt(pendingScan.next());
-            int Id = Integer.parseInt(pendingScan.next());
-            String Request = pendingScan.nextLine();
-            Request = Request.replace(",", "");
-
-            pendingList.add(new User(Name, PersNr, Id, Request));
-        }
-
+        ArrayList<User> pendingList = storage.getPendingList();
 
         User tempUser = new User(name,persNr, id, "Delete");
         pendingList.add(tempUser);
@@ -177,32 +154,12 @@ public class User {
             }
         }
 
-        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
-
-        for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
-        }
-
-        printWriterPendingFile.close();
-
-
+        storage.updatePendingFile(pendingList);
     }
 
     public void requestLoan(int id, String bookTitle, String name, int persNr) throws IOException {
 
-        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
-
-        ArrayList<User> pendingList = new ArrayList<User>();
-
-        while (pendingScan.hasNext()) {
-            String Name = pendingScan.next();
-            int PersNr = Integer.parseInt(pendingScan.next());
-            int Id = Integer.parseInt(pendingScan.next());
-            String Request = pendingScan.nextLine();
-            Request = Request.replace(",", "");
-
-            pendingList.add(new User(Name,PersNr,Id,Request));
-        }
+        ArrayList<User> pendingList = storage.getPendingList();
 
         String request = ("Loan: " + bookTitle);
 
@@ -211,73 +168,23 @@ public class User {
 
         for (int i = 0; i < pendingList.size(); i++) {
             for (int j = i + 1; j < pendingList.size(); j++) {
-                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request) && pendingList.get(i).Id == pendingList.get(j).Id) {
                     pendingList.remove(j);
                     System.out.println("You have already requested a loan of this book");
                 }
             }
         }
 
-        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
-
-        for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
-        }
-
-        printWriterPendingFile.close();
+       storage.updatePendingFile(pendingList);
     }
 
     public void returnBook(Book book, int id) throws IOException {
 
+        ArrayList<User> userList = storage.getUserList();
 
-        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+        ArrayList<Book> bookList = storage.getBooks();
 
-        ArrayList<User> userList = new ArrayList<User>();
-
-        while (userScan.hasNext()) {
-            String Name = userScan.next();
-            String SurName = userScan.next();
-            int PNumber = Integer.parseInt(userScan.next());
-            int Id = Integer.parseInt(userScan.next());
-            int LoanCounter = Integer.parseInt(userScan.next());
-            int ViolationCounter = Integer.parseInt(userScan.next());
-            String Role = userScan.nextLine();
-            Role = Role.replace(",", "");
-
-            userList.add(new User(Name, SurName, PNumber, Id, LoanCounter, ViolationCounter, Role));
-        }
-
-        Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
-
-        ArrayList<Book> bookList = new ArrayList<Book>();
-
-        while (bookScanLend.hasNext()) {
-            int Id = Integer.parseInt(bookScanLend.next());
-            String Name = bookScanLend.next();
-            int ISBNScan = Integer.parseInt(bookScanLend.next());
-            int Quantity = Integer.parseInt(bookScanLend.next());
-            String Author = bookScanLend.nextLine();
-            Author = Author.replace(",", "");
-
-            bookList.add(new Book(Id, Name, ISBNScan, Quantity, Author));
-        }
-
-        Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
-
-        ArrayList<String> userLoanList = new ArrayList<String>();
-
-        while (userLoanScan.hasNext()) {
-            String Name = userLoanScan.next();
-            String Surname = userLoanScan.next();
-            String Id = userLoanScan.next();
-
-            String Title = userLoanScan.next();
-            String ISBN = userLoanScan.next();
-            String Author = userLoanScan.nextLine();
-            Author = Author.replace(",", "");
-
-            userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
-        }
+        ArrayList<String> userLoanList = storage.getUserLoanList();
 
         boolean verify = true;
             for (String row : userLoanList) {
@@ -311,46 +218,14 @@ public class User {
             }
         }
 
-        PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
-
-        for (String row:userLoanList) {
-            printWriterUserLoanFile.println(row);
-        }
-
-        printWriterUserLoanFile.close();
-
-        PrintWriter printWriterUserList = new PrintWriter(UserFile);
-
-        for (User user: userList) {
-            printWriterUserList.println(user.export(user));
-        }
-        printWriterUserList.close();
-
-        PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
-
-        for (Book books : bookList) {
-            printWriterAllBooks.println(books.export(books));
-        }
-
-        printWriterAllBooks.close();
+        storage.updateUserLoanFile(userLoanList);
+        storage.updateUserFile(userList);
+        storage.updateBookFile(bookList);
     }
 
     public void requestAddUser(String name, String surName, int persNr, String role) throws IOException {
 
-        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
-
-        ArrayList<User> pendingList = new ArrayList<User>();
-
-        while (pendingScan.hasNext()) {
-            String Name = pendingScan.next();
-            int PersNr = Integer.parseInt(pendingScan.next());
-            int Id = Integer.parseInt(pendingScan.next());
-            String Request = pendingScan.nextLine();
-            Request = Request.replace(",", "");
-
-          pendingList.add(new User(Name, PersNr, Id, Request));
-        }
-
+        ArrayList<User> pendingList = storage.getPendingList();
 
         String request = ("AddMe: " + role);
 
@@ -366,36 +241,15 @@ public class User {
             }
         }
 
-        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
-
-        for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
-        }
-
-        printWriterPendingFile.close();
+       storage.updatePendingFile(pendingList);
     }
 
 
     public boolean loginUser (String name, int id)throws IOException{
 
-       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
-
        boolean verify = false;
 
-        ArrayList<User>userList = new ArrayList<User>();
-
-        while (userScan.hasNext()){
-            String Name = userScan.next();
-            String SurName = userScan.next();
-            int PNumber = Integer.parseInt(userScan.next());
-            int Id = Integer.parseInt(userScan.next());
-            int LoanCounter = Integer.parseInt(userScan.next());
-            int ViolationCounter = Integer.parseInt(userScan.next());
-            String Role = userScan.nextLine();
-            Role = Role.replace(",","");
-
-            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
-        }
+        ArrayList<User>userList = storage.getUserList();
 
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
@@ -403,7 +257,6 @@ public class User {
             }
         }
        return verify;
-
     }
 
 
