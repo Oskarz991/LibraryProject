@@ -313,7 +313,6 @@ public class Librarian {
                            book.Quantity++;
                            break;
                        }
-
                    }
                    break;
                }
