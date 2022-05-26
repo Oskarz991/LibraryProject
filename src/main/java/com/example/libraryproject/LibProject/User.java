@@ -335,7 +335,7 @@ public class User {
         printWriterAllBooks.close();
     }
 
-    public void requestAddUser(String name, String surName, int persNr, String role) throws IOException {
+    public void requestAddUser(String name, int persNr, String role) throws IOException {
 
         Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 

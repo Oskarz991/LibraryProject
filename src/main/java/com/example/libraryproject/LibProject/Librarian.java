@@ -169,6 +169,7 @@ public class Librarian {
 
        ArrayList<User>timeoutList = new ArrayList<User>();
 
+
        while (timeoutListScan.hasNext()){
            String Name = timeoutListScan.next();
            String SurName = timeoutListScan.next();
@@ -301,8 +302,15 @@ public class Librarian {
                userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
            }
 
-           boolean stopStart = true;
+           boolean stopStart = false;
            String textId = String.valueOf(id);
+
+           for (String row : userLoanList) {
+                   if (row.contains(textId)) {
+                    stopStart = true;
+                    break;
+                   }
+           }
 
            while(stopStart) {
                for (String row : userLoanList) {
