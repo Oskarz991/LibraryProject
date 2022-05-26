@@ -51,8 +51,6 @@ public class Librarian {
         Id = id;
     }
 
-    // new methods _____________________________
-
     public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
         Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
@@ -84,7 +82,7 @@ public class Librarian {
         PrintWriter printWriter = new PrintWriter(AllBooksFile);
 
         for (Book books:bookList) {
-            printWriter.println(newBook.export(books));
+            printWriter.println(books.export(books));
         }
 
         printWriter.close();
@@ -276,7 +274,6 @@ public class Librarian {
                        break;
                    }
                }
-
                PrintWriter printWriterUserList = new PrintWriter(UserFile);
 
                for (User user : userList) {
@@ -284,6 +281,7 @@ public class Librarian {
                }
 
                printWriterUserList.close();
+
 
            } else {
 
@@ -672,4 +670,49 @@ public class Librarian {
        printWriterAllBooks.close();
 
    }
+
+
+    public boolean loginLibrarian (String name, int id)throws IOException{
+
+        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+        boolean verify = false;
+
+        ArrayList<User>userList = new ArrayList<User>();
+
+        while (userScan.hasNext()){
+            String Name = userScan.next();
+            String SurName = userScan.next();
+            int PNumber = Integer.parseInt(userScan.next());
+            int Id = Integer.parseInt(userScan.next());
+            int LoanCounter = Integer.parseInt(userScan.next());
+            int ViolationCounter = Integer.parseInt(userScan.next());
+            String Role = userScan.nextLine();
+            Role = Role.replace(",","");
+
+            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+        }
+
+        for (User user:userList) {
+            if (user.Name.equalsIgnoreCase(name) && user.Id == id && id > 4999){
+                verify = true;
+
+            }else
+                verify = false;
+
+        }
+
+        return verify;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Librarian lib = new Librarian();
+
+        Book book = new Book(1,"Svenssons resor",1234,8,"Svenne");
+        User user = new User("Victor","Andersson",3666,1315,3,0,"Undergraduate Student");
+
+        lib.lendBook(book,1315);
+
+    }
+
 }

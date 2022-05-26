@@ -229,12 +229,92 @@ public class User {
         printWriterPendingFile.close();
     }
 
-    public void requestTime (Date time){
+    public void returnBook(Book bookTitle, int id)throws IOException{
 
+        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+        ArrayList<User>userList = new ArrayList<User>();
+
+        while (userScan.hasNext()){
+            String Name = userScan.next();
+            String SurName = userScan.next();
+            int PNumber = Integer.parseInt(userScan.next());
+            int Id = Integer.parseInt(userScan.next());
+            int LoanCounter = Integer.parseInt(userScan.next());
+            int ViolationCounter = Integer.parseInt(userScan.next());
+            String Role = userScan.nextLine();
+            Role = Role.replace(",","");
+
+            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+        }
+
+        Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
+
+        ArrayList<Book> bookList = new ArrayList<Book>();
+
+        while (bookScanLend.hasNext()) {
+            int Id = Integer.parseInt(bookScanLend.next());
+            String Name = bookScanLend.next();
+            int ISBNScan = Integer.parseInt(bookScanLend.next());
+            int Quantity = Integer.parseInt(bookScanLend.next());
+            String Author = bookScanLend.nextLine();
+            Author = Author.replace(",", "");
+
+            bookList.add(new Book(Id, Name, ISBNScan, Quantity, Author));
+        }
+
+        Scanner userLoanScan = new Scanner(UserLoanFile).useDelimiter(",");
+
+        ArrayList<String> userLoanList = new ArrayList<String>();
+
+        while (userLoanScan.hasNext()) {
+            String Name = userLoanScan.next();
+            String Surname = userLoanScan.next();
+            String Id = userLoanScan.next();
+
+            String Title = userLoanScan.next();
+            String ISBN = userLoanScan.next();
+            String Author = userLoanScan.nextLine();
+            Author = Author.replace(",", "");
+
+            userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
+        }
+
+
+// INTE KLAR
     }
 
-    public void returnBook(Book bookTitle, int id){
+    public boolean loginUser (String name, int id)throws IOException{
 
+       Scanner userScan = new Scanner(UserFile).useDelimiter(",");
+
+       boolean verify = false;
+
+        ArrayList<User>userList = new ArrayList<User>();
+
+        while (userScan.hasNext()){
+            String Name = userScan.next();
+            String SurName = userScan.next();
+            int PNumber = Integer.parseInt(userScan.next());
+            int Id = Integer.parseInt(userScan.next());
+            int LoanCounter = Integer.parseInt(userScan.next());
+            int ViolationCounter = Integer.parseInt(userScan.next());
+            String Role = userScan.nextLine();
+            Role = Role.replace(",","");
+
+            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+        }
+
+        for (User user:userList) {
+            if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000){
+                verify = true;
+
+            }else
+                verify = false;
+
+        }
+
+       return verify;
     }
 
     public String export (User user){
@@ -258,6 +338,7 @@ public class User {
 
        testBook = testUser.searchTitle("Oskars resor");
        System.out.println(testBook.Title);
+
 
 
        testUser.requestDelete(1234,"Oskar","Andersson");
