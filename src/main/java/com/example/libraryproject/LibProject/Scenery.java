@@ -427,7 +427,7 @@ public class Scenery extends Application {
                 int ISBN;
                 int bokQuant;
                 String bokAuthor;
-
+//J
                 try {
                    int ISBNnr = Integer.parseInt(ISBNtext);
                    bookObc = librarianObj.getBookByISBN(ISBNnr);
