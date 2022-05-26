@@ -11,10 +11,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="byte-buddy-1.9.12" level="project" />
-    <orderEntry type="library" name="byte-buddy-agent-1.9.12" level="project" />
-    <orderEntry type="library" name="mockito-core-2.25.7" level="project" />
-    <orderEntry type="library" name="objenesis-3.0.1" level="project" />
+    <orderEntry type="library" name="MockitoLib" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:18.0.1" level="project" />
