@@ -721,8 +721,8 @@ public class Librarian {
         Librarian lib = new Librarian();
         lib.addUser("Oskar","Andersson",19990906,"");
         lib.addUser("Stefan","Bucei",20001006,"Undergraduate student");
-
-
+        lib.giveTimeout(5801);
+        lib.giveTimeout(1189);
 
     }
 
