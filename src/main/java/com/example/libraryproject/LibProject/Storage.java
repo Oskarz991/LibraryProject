@@ -16,7 +16,9 @@ public class Storage {
     public ArrayList<User> timeoutList = new ArrayList<>();
     public ArrayList<String> logList = new ArrayList<>();
     public ArrayList<String> userLoanList = new ArrayList<>();
+    public ArrayList<User> pendingList = new ArrayList<>();
 
+    public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
     public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
     public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
@@ -179,4 +181,30 @@ public class Storage {
         printWriterUserLoan.close();
     }
 
+    public ArrayList<User> getPendingList() throws IOException{
+        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+        pendingList.clear();
+
+        while (pendingScan.hasNext()) {
+            String Name = pendingScan.next();
+            int PersNr = Integer.parseInt(pendingScan.next());
+            int Id = Integer.parseInt(pendingScan.next());
+            String Request = pendingScan.nextLine();
+            Request = Request.replace(",", "");
+
+            pendingList.add(new User(Name, PersNr, Id, Request));
+        }
+
+        return pendingList;
+    }
+
+    public void updatePendingFile(ArrayList<User> pendingList) throws IOException{
+        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
+
+        for (User user : pendingList) {
+            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
+        }
+
+        printWriterPendingFile.close();
+    }
 }

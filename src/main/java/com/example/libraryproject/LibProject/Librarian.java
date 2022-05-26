@@ -11,11 +11,7 @@ public class Librarian {
     public String SurName;
     public int PNumber;
     public int Id;
-    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-    public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
-    public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
-    public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-    public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+
     public Storage storage = new Storage();
 
     public Librarian() throws ExceptionInInitializerError{
@@ -23,9 +19,6 @@ public class Librarian {
     public Librarian(Storage obj) throws ExceptionInInitializerError{
         this.storage = obj;
     }
-
-
-    // new methods _____________________________
 
     public ArrayList<Book> addBook(int bookId, String titel, int isbn, int quantity, String author) throws IOException {
 
@@ -105,12 +98,9 @@ public class Librarian {
    }
 
    public void deleteUser(int id, boolean request) throws IOException {
-
-
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        ArrayList<Book>bookList = storage.getBooks();
-
 
        boolean hasLoan = false;
 
@@ -153,41 +143,59 @@ public class Librarian {
 
                storage.updateUserFile(userList);
 
-           } else {
-
-               for (User user : userList) {
-                   if (id == user.Id) {
-                       blackList.add(user);
-                   }
-               }
-
-               storage.updateBlackFile(blackList);
-
-               for (User user : userList) {
-                   if (id == user.Id) {
-                       userList.remove(user);
-                       break;
-                   }
-               }
-
-              storage.updateUserFile(userList);
            }
 
        }else {
 
-           ArrayList<String> userLoanList = storage.getUserLoanList();
-
-           for (User user: userList) {
-                if (user.Id==id){
-                    for (String loan: userLoanList) {
-                        if (loan.contains(Integer.toString(user.Id))){
-
-                            userLoanList.remove(loan);
-                        }
-                    }
-                }
+           for (User user : userList) {
+               if (id == user.Id) {
+                   blackList.add(user);
+               }
            }
 
+           for (int i = 0; i < blackList.size(); i++) {
+               for (int j = i+1; j < blackList.size(); j++)
+                   if (blackList.get(i).PNumber == blackList.get(j).PNumber) {
+                       blackList.remove(i);
+                       break;
+                   }
+           }
+           storage.updateBlackFile(blackList);
+
+           for (User user : userList) {
+               if (id == user.Id) {
+                   userList.remove(user);
+                   break;
+               }
+           }
+
+           storage.updateUserFile(userList);
+
+           ArrayList<String> userLoanList = storage.getUserLoanList();
+
+           boolean stopStart = false;
+           String textId = String.valueOf(id);
+           for (String row : userLoanList) {
+               if (row.contains(textId)) {
+                   stopStart = true;
+                   break;
+               }
+           }
+           while(stopStart) {
+               for (String row : userLoanList) {
+                   for (Book book : bookList) {
+                       if (row.contains(String.valueOf(book.ISBN))) {
+                           userLoanList.remove(row);
+                           stopStart = userLoanList.contains(textId);
+                           book.Quantity++;
+                           break;
+                       }
+
+                   }
+                   break;
+               }
+           }
+           storage.updateBookFile(bookList);
            storage.updateUserFile(userList);
            storage.updateUserLoanFile(userLoanList);
        }

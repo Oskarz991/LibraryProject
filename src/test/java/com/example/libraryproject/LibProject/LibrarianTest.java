@@ -83,7 +83,6 @@ class LibrarianTest {
         librarian.addUser("Victor","Alqmvist",2001,"");
 
         assertEquals(userList,librarian.addUser("Victor", "Almqvist",2001,""));
-
     }
 
     @Test
@@ -152,6 +151,33 @@ class LibrarianTest {
         librarian.deleteUser(1002,true);
 
         assertEquals(storage.getUserList(),whiteList);
+    }
+
+    @Test
+    void deleteUserViolation() throws IOException{
+        Storage storage = Mockito.mock(Storage.class);
+        Librarian librarian = new Librarian(storage);
+
+        ArrayList<User> whiteList = new ArrayList<>();
+        ArrayList<User> blackList = new ArrayList<>();
+
+        User user = new User("Victor", "Almqvist",2300,1002,3,0,"Undergraduate student");
+        User user2 = new User("Victor", "Almqvist",2300,1032,3,0,"Undergraduate student");
+
+        whiteList.add(user);
+        whiteList.add(user2);
+
+        when(storage.getUserList()).thenReturn(whiteList);
+        when(storage.getBlackList()).thenReturn(blackList);
+        librarian.deleteUser(1002,false);
+
+        for (User item:blackList
+        ) {
+            System.out.println(item.export(item));
+        }
+
+        assertEquals(storage.getUserList(),whiteList);
+        assertEquals(storage.getBlackList(),blackList);
     }
 
     @Test
