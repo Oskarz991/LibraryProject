@@ -333,15 +333,17 @@ public class Scenery extends Application {
                     ex.printStackTrace();
                 }
             });
-
+                    Text getIdForBookToSendForLoan = new Text();
             //Fixa så att man får fram det böcker som man söker på
             searchBookBtn.setOnAction(e-> {
                 Book bookObc = new Book();
                 String bokName;
-
+                int iddd;
                 try {
                     bookObc = userObj.searchTitle(bookTitleTxt.getText());
                     bokName = bookObc.getTitle();
+                    iddd = bookObc.getId();
+                    getIdForBookToSendForLoan.setText(Integer.toString(iddd));
                     loanBook1.setText(bokName);
                     loanBook1.setVisible(true);
 
@@ -349,7 +351,34 @@ public class Scenery extends Application {
                     } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
+                loanBookBtn.setOnAction(event-> {
+
+                    String bName;
+                    bName = loanBook1.getText();
+                    String pName;
+                    pName = nameMemberLoginTxt.getText();
+                    String surName; // Få tag på
+                    surName = userObj.getSurname();
+                    int pNumber;
+                    pNumber = Integer.parseInt(idMemberLoginTxt.getText());
+                    int idBok;
+                    idBok = Integer.parseInt(getIdForBookToSendForLoan.getText());
+
+                    if (loanBook1.isSelected()) {
+                        try {
+                           userObj.requestLoan(idBok,bName,pName,surName,pNumber);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    } else {
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Select a book");
+                        aler.showAndWait();
+                    }
+
                 });
+                });
+
 
             registerBtn.setOnAction(e-> {
                 rightControl.getChildren().clear();
@@ -461,7 +490,7 @@ public class Scenery extends Application {
             paneRight.add(loginBtn,1,6); paneRight.add(registerBtn,1,6);
             paneRight.add(chooseRole,2,1);
 
-            //Lägg till på vänster sida -  det som bibliotekarien ser
+            //Lägg till på vänster sida - det som bibliotekarien ser
             paneLeft2.add(titleAddNewBook,0,0); paneLeft2.add(titleSearchBook,0,0);
             paneLeft2.add(changeSearchAddBookBtn,0,1); paneLeft2.add(changeSearchAddBookBtn2,0,1);
             paneLeft2.add(bookIDLbl,0,2); paneLeft2.add(bookIdTxt,1,2); paneLeft2.add(searchBookISBNLbl,0,2); paneLeft2.add(searchBookISBNTxt,1,2);
