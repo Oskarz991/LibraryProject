@@ -232,6 +232,7 @@ public class User {
 
     public void returnBook(Book book, int id) throws IOException {
 
+
         Scanner userScan = new Scanner(UserFile).useDelimiter(",");
 
         ArrayList<User> userList = new ArrayList<User>();
@@ -281,23 +282,35 @@ public class User {
             userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
         }
 
-        for (User user:userList) {
-            for (String row:userLoanList) {
-                if (row.contains(String.valueOf(user.Id)) && row.contains(user.Name)){
-                    if (user.Id == id){
-                        for (String bookRow:userLoanList) {
-                            if (bookRow.contains(book.Title)){
-                                user.LoanCounter++;
-                                for (Book books:bookList) {
-                                    if (books.Title.equals(book.Title)){
-                                        books.Quantity++;
-                                        userLoanList.remove(bookRow);
-                                    }
-                                }
-                            }
-                        }
-                    }
+        boolean verify = true;
+            for (String row : userLoanList) {
+                if (row.contains(book.Title) && row.contains(String.valueOf(id))) {
+                    userLoanList.remove(row);
+                    verify = false;
+                    break;
+
                 }
+            }
+
+        if (!verify){
+            for (User user: userList){
+            if (user.Id == id) {
+                if (user.Id > 999 && user.Id < 2000 && user.LoanCounter < 4 || user.Id > 1999 & user.Id < 3000 && user.LoanCounter < 6 || user.Id > 2999 && user.Id < 4000 && user.LoanCounter < 8 || user.Id > 3999 && user.Id < 5000 && user.LoanCounter < 11 || user.Id > 4999) {
+                    user.LoanCounter++;
+                    break;
+                }
+            }
+
+            }
+        }
+
+        if (!verify) {
+            for (Book books : bookList) {
+                if (books.Title.equals(book.Title)) {
+                    books.Quantity++;
+                    break;
+                }
+
             }
         }
 
@@ -423,9 +436,9 @@ public class User {
 
         Book testbook = librarian.getBookByISBN(1234);
 
-//        librarian.lendBook(testbook,1595);
+        //       librarian.lendBook(testbook,1595);
 
-        User testuser = new User("oskar","Andersson",19990906,1595,2,0,"Undergraduate Student");
+        User testuser = new User("oskar","Andersson",19990906,1595,3,0,"Undergraduate Student");
 
         testuser.returnBook(testbook,1595);
 
