@@ -48,9 +48,8 @@ public class User {
         this.Timer = timer;
     }
 
-    public User(String name, String surname,int persNR, int id, String request) {
+    public User(String name,int persNR, int id, String request) {
         this.Name = name;
-        this.Surname = surname;
         this.PNumber = persNR;
         this.Id = id;
         this.Request = request;
@@ -150,24 +149,23 @@ public class User {
         return theBook;
     }
 
-    public void requestDelete(int id, String name, String surName, int persNr) throws IOException {
+    public void requestDelete(int id, String name, int persNr) throws IOException {
         Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 
         ArrayList<User> pendingList = new ArrayList<User>();
 
         while (pendingScan.hasNext()) {
             String Name = pendingScan.next();
-            String Surname = pendingScan.next();
             int PersNr = Integer.parseInt(pendingScan.next());
             int Id = Integer.parseInt(pendingScan.next());
             String Request = pendingScan.nextLine();
             Request = Request.replace(",", "");
 
-            pendingList.add(new User(Name, Surname, PersNr, Id, Request));
+            pendingList.add(new User(Name, PersNr, Id, Request));
         }
 
 
-        User tempUser = new User(name, surName,persNr, id, "Delete");
+        User tempUser = new User(name,persNr, id, "Delete");
         pendingList.add(tempUser);
 
         for (int i = 0; i < pendingList.size(); i++) {
@@ -182,7 +180,7 @@ public class User {
         PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
 
         for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
+            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
         }
 
         printWriterPendingFile.close();
@@ -190,7 +188,7 @@ public class User {
 
     }
 
-    public void requestLoan(int id, String bookTitle, String name, String surName, int persNr) throws IOException {
+    public void requestLoan(int id, String bookTitle, String name, int persNr) throws IOException {
 
         Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 
@@ -198,18 +196,17 @@ public class User {
 
         while (pendingScan.hasNext()) {
             String Name = pendingScan.next();
-            String Surname = pendingScan.next();
             int PersNr = Integer.parseInt(pendingScan.next());
             int Id = Integer.parseInt(pendingScan.next());
             String Request = pendingScan.nextLine();
             Request = Request.replace(",", "");
 
-            pendingList.add(new User(Name,Surname,PersNr,Id,Request));
+            pendingList.add(new User(Name,PersNr,Id,Request));
         }
 
         String request = ("Loan: " + bookTitle);
 
-        User tempUser = new User(name, surName, persNr, id, request);
+        User tempUser = new User(name, persNr, id, request);
         pendingList.add(tempUser);
 
         for (int i = 0; i < pendingList.size(); i++) {
@@ -224,7 +221,7 @@ public class User {
         PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
 
         for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
+            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
         }
 
         printWriterPendingFile.close();
@@ -346,19 +343,18 @@ public class User {
 
         while (pendingScan.hasNext()) {
             String Name = pendingScan.next();
-            String Surname = pendingScan.next();
             int PersNr = Integer.parseInt(pendingScan.next());
             int Id = Integer.parseInt(pendingScan.next());
             String Request = pendingScan.nextLine();
             Request = Request.replace(",", "");
 
-          pendingList.add(new User(Name, Surname, PersNr, Id, Request));
+          pendingList.add(new User(Name, PersNr, Id, Request));
         }
 
 
         String request = ("AddMe: " + role);
 
-            User tempUser = new User(name,surName,persNr,0,request);
+            User tempUser = new User(name,persNr,0,request);
             pendingList.add(tempUser);
 
         for (int i = 0; i < pendingList.size(); i++) {
@@ -373,7 +369,7 @@ public class User {
         PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
 
         for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
+            printWriterPendingFile.println(user.Name + "," + user.PNumber + "," + user.Id + "," + user.Request);
         }
 
         printWriterPendingFile.close();
