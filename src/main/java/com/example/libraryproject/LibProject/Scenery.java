@@ -124,7 +124,6 @@ public class Scenery extends Application {
             Text loanCount = new Text();
             loanCount.setFont(tre);
 
-
             ToggleGroup deleteTgl = new ToggleGroup();
              RadioButton deleteByChoise = new RadioButton("Detele by choies");
              RadioButton deleteByPenalties = new RadioButton("Delete by penalties");
@@ -196,14 +195,14 @@ public class Scenery extends Application {
             nameMemberRegisterLbl.setVisible(false);
             TextField nameMemberRegisterTxt = new TextField();
             nameMemberRegisterTxt.setVisible(false);
-            Label surnameMemberLbl = new Label("Surname:");
-            TextField surnameMemberTxt = new TextField();
-            surnameMemberTxt.setVisible(false);
-            surnameMemberLbl.setVisible(false);
-            Label personalNrMemberLbl = new Label("Personal Number:");
-            TextField personalNrMemberTxt = new TextField();
-            personalNrMemberLbl.setVisible(false);
-            personalNrMemberTxt.setVisible(false);
+            Label surnameMemberRegisterLbl = new Label("Surname:");
+            TextField surnameMemberRegisterTxt = new TextField();
+            surnameMemberRegisterTxt.setVisible(false);
+            surnameMemberRegisterLbl.setVisible(false);
+            Label personalNrMemberRegisterLbl = new Label("Personal Number:");
+            TextField personalNrMemberRegisterTxt = new TextField();
+            personalNrMemberRegisterLbl.setVisible(false);
+            personalNrMemberRegisterTxt.setVisible(false);
 
             //Lägg till en ny bok
             Label titleAddNewBook = new Label("Add a new Book");
@@ -258,9 +257,6 @@ public class Scenery extends Application {
             Button registerBtn = new Button("Create account");
             registerBtn.setVisible(false);
 
-            ComboBox<String> chooseRole = new ComboBox<>();
-            chooseRole.setVisible(false);
-
             registerNewAccount.setOnAction(e-> {
                 nameMemberLoginTxt.clear(); idMemberLoginTxt.clear();
                 titleMember.setVisible(false); titleNewAccount.setVisible(true);
@@ -269,25 +265,28 @@ public class Scenery extends Application {
                 nameMemberLoginTxt.setVisible(false); nameMemberLoginTxt.setVisible(false);
                 nameMemberRegisterLbl.setVisible(true); nameMemberRegisterTxt.setVisible(true);
                 idMemberLoginLbl.setVisible(false); idMemberLoginTxt.setVisible(false);
-                surnameMemberLbl.setVisible(true); surnameMemberTxt.setVisible(true);
-                personalNrMemberLbl.setVisible(true); personalNrMemberTxt.setVisible(true);
-                chooseRole.setVisible(true);
+                surnameMemberRegisterLbl.setVisible(true); surnameMemberRegisterTxt.setVisible(true);
+                personalNrMemberRegisterLbl.setVisible(true); personalNrMemberRegisterTxt.setVisible(true);
             });
 
             loginAsAMember.setOnAction(e-> {
-                nameMemberLoginTxt.clear(); surnameMemberTxt.clear(); personalNrMemberTxt.clear();
+                nameMemberRegisterTxt.clear(); surnameMemberRegisterTxt.clear(); personalNrMemberRegisterTxt.clear();
                 titleMember.setVisible(true); titleNewAccount.setVisible(false);
                 registerNewAccount.setVisible(true); loginAsAMember.setVisible(false);
                 loginBtn.setVisible(true); registerBtn.setVisible(false);
                 nameMemberLoginLbl.setVisible(true); nameMemberLoginTxt.setVisible(true);
                 nameMemberRegisterLbl.setVisible(false); nameMemberRegisterTxt.setVisible(false);
                 idMemberLoginLbl.setVisible(true); idMemberLoginTxt.setVisible(true);
-                surnameMemberLbl.setVisible(false); surnameMemberTxt.setVisible(false);
-                personalNrMemberLbl.setVisible(false); personalNrMemberTxt.setVisible(false);
-                chooseRole.setVisible(false);
+                surnameMemberRegisterLbl.setVisible(false); surnameMemberRegisterTxt.setVisible(false);
+                personalNrMemberRegisterLbl.setVisible(false); personalNrMemberRegisterTxt.setVisible(false);
             });
 
             loginAsLibraryan.setOnAction(e-> {
+                try {
+                    librarianObj.controlTimeouts();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
 
                 try {
                     if(librarianObj.loginLibrarian(nameLibrarianTxt.getText(), Integer.parseInt(idLibrarianTxt.getText()))) {
@@ -376,13 +375,28 @@ public class Scenery extends Application {
                     }
 
                 });
-                });
+            });
 
-//Kolla
-            registerBtn.setOnAction(e-> {
-                rightControl.getChildren().clear();
+              ToggleGroup chooseRoleTgl = new ToggleGroup();
+              RadioButton userIsUndergraduateStudent = new RadioButton("Undergraduate student");
+              RadioButton userIsPostgraduateStudent = new RadioButton("Postgraduate student");
+              RadioButton userIsPhDStudent = new RadioButton("PhD Student");
+              RadioButton userIsTeacher = new RadioButton("Teacher");
 
-                    });
+              userIsUndergraduateStudent.setToggleGroup(chooseRoleTgl); userIsPostgraduateStudent.setToggleGroup(chooseRoleTgl); userIsPhDStudent.setToggleGroup(chooseRoleTgl); userIsTeacher.setToggleGroup(chooseRoleTgl);
+           //   deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
+
+                registerBtn.setOnAction(e-> {
+                String nameUser = nameMemberRegisterTxt.getText();
+                String surnameUser = surnameMemberRegisterTxt.getText();
+                int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+                String pr = "Undergraduate student";
+                String pr2 = "Postgraduate student";
+                String pr3 = "PhD Student";
+                String pr4 = "Teacher";
+
+              //  userObj.requestAddUser(nameUser, surnameUser, personalNrUser, pr);
+            });
 
             changeSearchAddBookBtn.setOnAction(e->  {
              titleAddNewBook.setVisible(false);
@@ -426,7 +440,7 @@ public class Scenery extends Application {
                 int ISBN;
                 int bokQuant;
                 String bokAuthor;
-//J
+
                 try {
                    int ISBNnr = Integer.parseInt(ISBNtext);
                    bookObc = librarianObj.getBookByISBN(ISBNnr);
@@ -458,12 +472,51 @@ public class Scenery extends Application {
             });
 
             formDeteleUserBtn.setOnAction(e->{
-                memberList.setVisible(false); textMembers.setVisible(false);
-                overviewMembersBtn.setVisible(true);
-                deleteByChoise.setVisible(true); deleteByPenalties.setVisible(true); deleteUserBtn.setVisible(true);
-                overviewMembersBtn.setVisible(true);
-                userIdLbl.setVisible(true); userIdTxt.setVisible(true);
+                    memberList.setVisible(false);
+                    textMembers.setVisible(false);
+                    overviewMembersBtn.setVisible(true);
+                    deleteByChoise.setVisible(true);
+                    deleteByPenalties.setVisible(true);
+                    deleteUserBtn.setVisible(true);
+                    overviewMembersBtn.setVisible(true);
+                    userIdLbl.setVisible(true);
+                    userIdTxt.setVisible(true);
                     });
+
+            deleteUserBtn.setOnAction(e->{
+                String id;
+                id = userIdTxt.getText();
+
+                if (deleteByChoise.isSelected() && !id.isEmpty()) {
+                    try {
+                        librarianObj.deleteUser(Integer.parseInt(id),true);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("User delete by choice");
+                    aler.showAndWait();
+                    userIdTxt.clear();
+
+                } else if (deleteByPenalties.isSelected() && !id.isEmpty()){
+                    try {
+                        librarianObj.deleteUser(Integer.parseInt(id),false);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("User delete because of penalties");
+                    aler.showAndWait();
+                    userIdTxt.clear();
+
+                }
+                else {
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("Inser an ID");
+                    aler.showAndWait();
+                }
+
+            });
 
             overviewMembersBtn.setOnAction(e->{
                 formDeteleUserBtn.setVisible(true); overviewMembersBtn.setVisible(false);
@@ -484,10 +537,10 @@ public class Scenery extends Application {
             paneRight.add(loginAsAMember,0,1); paneRight.add(registerNewAccount,0,1);
             paneRight.add(nameMemberLoginLbl,0,2); paneRight.add(nameMemberLoginTxt,1,2); paneRight.add(nameMemberRegisterLbl,0,2); paneRight.add(nameMemberRegisterTxt,1,2);
             paneRight.add(idMemberLoginLbl,0,3); paneRight.add(idMemberLoginTxt,1,3);
-            paneRight.add(personalNrMemberLbl,0,4); paneRight.add(personalNrMemberTxt,1,4);
-            paneRight.add(surnameMemberLbl,0,3); paneRight.add(surnameMemberTxt,1,3);
+            paneRight.add(personalNrMemberRegisterLbl,0,4); paneRight.add(personalNrMemberRegisterTxt,1,4);
+            paneRight.add(surnameMemberRegisterLbl,0,3); paneRight.add(surnameMemberRegisterTxt,1,3);
             paneRight.add(loginBtn,1,6); paneRight.add(registerBtn,1,6);
-            paneRight.add(chooseRole,2,1);
+
 
             //Lägg till på vänster sida - det som bibliotekarien ser
             paneLeft2.add(titleAddNewBook,0,0); paneLeft2.add(titleSearchBook,0,0);

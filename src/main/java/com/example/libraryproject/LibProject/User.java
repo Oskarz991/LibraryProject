@@ -147,7 +147,7 @@ public class User {
 
         for (int i = 0; i < pendingList.size(); i++) {
             for (int j = i + 1; j < pendingList.size(); j++) {
-                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request) && pendingList.get(i).Id == pendingList.get(j).Id) {
                     pendingList.remove(j);
                     System.out.println("You have already requested a delete");
                 }
