@@ -357,8 +357,6 @@ public class Scenery extends Application {
                     bName = loanBook1.getText();
                     String pName;
                     pName = nameMemberLoginTxt.getText();
-                    String surName; // Få tag på
-                    surName = userObj.getSurname();
                     int pNumber;
                     pNumber = Integer.parseInt(idMemberLoginTxt.getText());
                     int idBok;
@@ -366,7 +364,7 @@ public class Scenery extends Application {
 
                     if (loanBook1.isSelected()) {
                         try {
-                           userObj.requestLoan(idBok,bName,pName,surName,pNumber);
+                           userObj.requestLoan(idBok,bName,pName,pNumber);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
