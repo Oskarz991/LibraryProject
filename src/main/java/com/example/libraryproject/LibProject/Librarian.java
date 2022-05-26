@@ -18,55 +18,33 @@ public class Librarian {
     public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
     public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
     public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
-    public Storage storage = new Storage();
 
-    public Librarian(Storage obj){
-        storage = obj;
+
+    public Librarian() throws ExceptionInInitializerError{
     }
 
-    public Librarian(){
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String name) {
-        Name = name;
-    }
-
-    public String getSurName() {
-        return SurName;
-    }
-
-    public void setSurName(String surName) {
-        SurName = surName;
-    }
-
-    public int getPNumber() {
-        return PNumber;
-    }
-
-    public void setPNumber(int PNumber) {
-        this.PNumber = PNumber;
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
-    }
 
     // new methods _____________________________
 
     public void addBook(int bookId,String titel,int isbn,int quantity,String author) throws IOException {
 
-        ArrayList<Book>bookList = storage.getBooks();
+        ArrayList<Book>bookList = new ArrayList<Book>();
+
+        File bookFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
+
+        Scanner bookScan = new Scanner(bookFile).useDelimiter(",");
+
+        while (bookScan.hasNext()){
+            int Id = Integer.parseInt(bookScan.next());
+            String Name = bookScan.next();
+            int ISBN = Integer.parseInt(bookScan.next());
+            int Quantity = Integer.parseInt(bookScan.next());
+            String Author = bookScan.nextLine();
+            Author = Author.replace(",","");
+            bookList.add(new Book(Id,Name,ISBN,Quantity,Author));
+        }
 
         Book newBook = new Book(bookId,titel,isbn,quantity,author);
-
         bookList.add(newBook);
 
         for (int i = 0; i < bookList.size(); i++) {
@@ -86,6 +64,7 @@ public class Librarian {
         printWriter.close();
 
     }
+
 
    public void addUser(String name, String surName, int pNumber, String role) throws IOException{
        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
@@ -203,7 +182,7 @@ public class Librarian {
 
    }
 
-   public void deleteUser(int id, boolean request) throws Exception {
+   public void deleteUser(int id, boolean request) throws IOException {
        Scanner userScan = new Scanner(UserFile).useDelimiter(",");
        Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -667,4 +646,16 @@ public class Librarian {
        printWriterAllBooks.close();
 
    }
+
+    public static void main(String[] args) {
+        Librarian librarian = new Librarian();
+
+        try {
+            librarian.addBook(1,"victor",2222,22,"Oskar Andersson");
+            librarian.addBook(1,"Hej",2222,22,"Oskar Andersson");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

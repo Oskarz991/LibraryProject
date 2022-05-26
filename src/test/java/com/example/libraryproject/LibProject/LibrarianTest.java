@@ -17,19 +17,22 @@ class LibrarianTest {
     @Test
     void addBook_Normal() throws IOException {
 
-        Storage storage = Mockito.mock(Storage.class);
-         Librarian librarian = new Librarian(storage);
-        // Book book = new Book(1,"Test",1111,1,"Victor");
-        librarian.addBook(1,"Test",1111,1,"Victor");
+         Librarian librarian = Mockito.mock(Librarian.class);
 
-         when(storage.getBooks().get(0)).thenReturn(new Book(1,"Test",1111,1,"Victor"));
+            doNothing().when(librarian).addBook(isA(Integer.class),isA(String.class),isA(Integer.class),isA(Integer.class),isA(String.class));
+            librarian.addBook(1,"Test",1111,1,"Victor");
 
-         assertEquals(storage.getBooks().get(0),new Book(1,"Test",1111,1,"Victor"));
-
+            verify(librarian,times(1)).addBook(1, "Test",1111,1,"Victor");
     }
 
     @Test
-    void addBook() {
+    void addBookTimesTwo() throws IOException{
+        Librarian librarian = Mockito.mock(Librarian.class);
+
+        doNothing().when(librarian).addBook(isA(Integer.class),isA(String.class),isA(Integer.class),isA(Integer.class),isA(String.class));
+        librarian.addBook(4,"Oskars resor",2222,1,"Oskar andersson");
+
+        verify(librarian,times(1)).addBook(4,"Oskars resor",2222,1,"Oskar andersson");
     }
 
     @Test

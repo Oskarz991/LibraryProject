@@ -31,13 +31,13 @@ public class Scenery extends Application {
 
 
     */
-        public static void main(String[] args) {
+        public static void main(String[] args)throws IOException {
 
        launch(args);
         }
 
         @Override
-        public void start(Stage primaryStage) {
+        public void start(Stage primaryStage) throws IOException {
 
             VBox root = new VBox();
             root.setSpacing(5);
