@@ -27,7 +27,7 @@ public class User {
     public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
     public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
 
-   public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role){
+    public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role) {
         this.Name = name;
         this.Surname = surname;
         this.Role = role;
@@ -37,7 +37,7 @@ public class User {
         this.ViolationCounter = violationcounter;
     }
 
-    public User(String name,String surname,int pnumber,int id,int loancounter,int violationcounter,String role, LocalDate timer){
+    public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role, LocalDate timer) {
         this.Name = name;
         this.Surname = surname;
         this.Role = role;
@@ -46,16 +46,17 @@ public class User {
         this.LoanCounter = loancounter;
         this.ViolationCounter = violationcounter;
         this.Timer = timer;
-   }
+    }
 
-    public User(String name,String surname,int id,String request){
+    public User(String name, String surname,int persNR, int id, String request) {
         this.Name = name;
         this.Surname = surname;
+        this.PNumber = persNR;
         this.Id = id;
         this.Request = request;
     }
 
-    public User(){
+    public User() {
     }
 
     public LocalDate getTimer() {
@@ -122,7 +123,7 @@ public class User {
         ViolationCounter = violationCounter;
     }
 
-    public Book searchTitle(String title)throws IOException {
+    public Book searchTitle(String title) throws IOException {
 
         Scanner bookScan = new Scanner(AllBooksFile).useDelimiter(",");
 
@@ -149,7 +150,7 @@ public class User {
         return theBook;
     }
 
-    public void requestDelete(int id, String name, String surName)throws IOException{
+    public void requestDelete(int id, String name, String surName, int persNr) throws IOException {
         Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 
         ArrayList<User> pendingList = new ArrayList<User>();
@@ -157,20 +158,21 @@ public class User {
         while (pendingScan.hasNext()) {
             String Name = pendingScan.next();
             String Surname = pendingScan.next();
+            int PersNr = Integer.parseInt(pendingScan.next());
             int Id = Integer.parseInt(pendingScan.next());
             String Request = pendingScan.nextLine();
             Request = Request.replace(",", "");
 
-            pendingList.add(new User(Name,Surname,Id,Request));
+            pendingList.add(new User(Name, Surname, PersNr, Id, Request));
         }
 
 
-        User tempUser = new User(name,surName,id,"Delete");
+        User tempUser = new User(name, surName,persNr, id, "Delete");
         pendingList.add(tempUser);
 
         for (int i = 0; i < pendingList.size(); i++) {
-            for (int j = i+1; j < pendingList.size(); j++){
-                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)){
+            for (int j = i + 1; j < pendingList.size(); j++) {
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
                     pendingList.remove(j);
                     System.out.println("You have already requested a delete");
                 }
@@ -180,16 +182,15 @@ public class User {
         PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
 
         for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.Id + "," + user.Request);
+            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
         }
 
         printWriterPendingFile.close();
 
 
-
     }
 
-    public void requestLoan(String bookTitle, String name, String surName, int id)throws IOException{
+    public void requestLoan(int id, String bookTitle, String name, String surName, int persNr) throws IOException {
 
         Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
 
@@ -198,22 +199,22 @@ public class User {
         while (pendingScan.hasNext()) {
             String Name = pendingScan.next();
             String Surname = pendingScan.next();
+            int PersNr = Integer.parseInt(pendingScan.next());
             int Id = Integer.parseInt(pendingScan.next());
             String Request = pendingScan.nextLine();
             Request = Request.replace(",", "");
 
-            pendingList.add(new User(Name,Surname,Id,Request));
+            pendingList.add(new User(Name,Surname,PersNr,Id,Request));
         }
-
 
         String request = ("Loan: " + bookTitle);
 
-        User tempUser = new User(name,surName,id,request);
+        User tempUser = new User(name, surName, persNr, id, request);
         pendingList.add(tempUser);
 
         for (int i = 0; i < pendingList.size(); i++) {
-            for (int j = i+1; j < pendingList.size(); j++){
-                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)){
+            for (int j = i + 1; j < pendingList.size(); j++) {
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
                     pendingList.remove(j);
                     System.out.println("You have already requested a loan of this book");
                 }
@@ -223,19 +224,19 @@ public class User {
         PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
 
         for (User user : pendingList) {
-            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.Id + "," + user.Request);
+            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
         }
 
         printWriterPendingFile.close();
     }
 
-    public void returnBook(Book bookTitle, int id)throws IOException{
+    public void returnBook(Book book, int id) throws IOException {
 
         Scanner userScan = new Scanner(UserFile).useDelimiter(",");
 
-        ArrayList<User>userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<User>();
 
-        while (userScan.hasNext()){
+        while (userScan.hasNext()) {
             String Name = userScan.next();
             String SurName = userScan.next();
             int PNumber = Integer.parseInt(userScan.next());
@@ -243,9 +244,9 @@ public class User {
             int LoanCounter = Integer.parseInt(userScan.next());
             int ViolationCounter = Integer.parseInt(userScan.next());
             String Role = userScan.nextLine();
-            Role = Role.replace(",","");
+            Role = Role.replace(",", "");
 
-            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+            userList.add(new User(Name, SurName, PNumber, Id, LoanCounter, ViolationCounter, Role));
         }
 
         Scanner bookScanLend = new Scanner(AllBooksFile).useDelimiter(",");
@@ -280,9 +281,91 @@ public class User {
             userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
         }
 
+        for (User user:userList) {
+            for (String row:userLoanList) {
+                if (row.contains(String.valueOf(user.Id)) && row.contains(user.Name)){
+                    if (user.Id == id){
+                        for (String bookRow:userLoanList) {
+                            if (bookRow.contains(book.Title)){
+                                user.LoanCounter++;
+                                for (Book books:bookList) {
+                                    if (books.Title.equals(book.Title)){
+                                        books.Quantity++;
+                                        userLoanList.remove(bookRow);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-// INTE KLAR
+        PrintWriter printWriterUserLoanFile = new PrintWriter(UserLoanFile);
+
+        for (String row:userLoanList) {
+            printWriterUserLoanFile.println(row);
+        }
+
+        printWriterUserLoanFile.close();
+
+        PrintWriter printWriterUserList = new PrintWriter(UserFile);
+
+        for (User user: userList) {
+            printWriterUserList.println(user.export(user));
+        }
+        printWriterUserList.close();
+
+        PrintWriter printWriterAllBooks = new PrintWriter(AllBooksFile);
+
+        for (Book books : bookList) {
+            printWriterAllBooks.println(books.export(books));
+        }
+
+        printWriterAllBooks.close();
     }
+
+    public void requestAddUser(String name, String surName, int persNr, String role) throws IOException {
+
+        Scanner pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+
+        ArrayList<User> pendingList = new ArrayList<User>();
+
+        while (pendingScan.hasNext()) {
+            String Name = pendingScan.next();
+            String Surname = pendingScan.next();
+            int PersNr = Integer.parseInt(pendingScan.next());
+            int Id = Integer.parseInt(pendingScan.next());
+            String Request = pendingScan.nextLine();
+            Request = Request.replace(",", "");
+
+          pendingList.add(new User(Name, Surname, PersNr, Id, Request));
+        }
+
+
+        String request = ("AddMe: " + role);
+
+            User tempUser = new User(name,surName,persNr,0,request);
+            pendingList.add(tempUser);
+
+        for (int i = 0; i < pendingList.size(); i++) {
+            for (int j = i + 1; j < pendingList.size(); j++) {
+                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
+                    pendingList.remove(j);
+                    System.out.println("You have already requested a loan of this book");
+                }
+            }
+        }
+
+        PrintWriter printWriterPendingFile = new PrintWriter(pendingWorkFile);
+
+        for (User user : pendingList) {
+            printWriterPendingFile.println(user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.Request);
+        }
+
+        printWriterPendingFile.close();
+    }
+
 
     public boolean loginUser (String name, int id)throws IOException{
 
@@ -306,13 +389,14 @@ public class User {
         }
 
         for (User user:userList) {
-            if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000){
+            if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
                 verify = true;
             }
         }
-
        return verify;
+
     }
+
 
     public String export (User user){
 
@@ -330,16 +414,27 @@ public class User {
 
 
     public static void main(String[] args)throws IOException {
-       User testUser = new User();
-       Book testBook = new Book();
 
-       testBook = testUser.searchTitle("Oskars resor");
-       System.out.println(testBook.Title);
+      // 3,Svensson,1234,6,Stefan
+
+        Librarian librarian = new Librarian();
+
+        librarian.addUser("oskar","Andersson",19990902,"Undergraduate Student");
+
+        Book testbook = librarian.getBookByISBN(1234);
+
+//        librarian.lendBook(testbook,1595);
+
+        User testuser = new User("oskar","Andersson",19990906,1595,2,0,"Undergraduate Student");
+
+        testuser.returnBook(testbook,1595);
 
 
+        /*
+      testUser.requestDelete(1234,"Oskar","Andersson",3421);
+      testUser.requestLoan(1235, "Oskars resor","Oskar","Andersson",1234);
+      testUser.requestAddUser("Oskar","Andersson",3421,"Under graduate student");
 
-       testUser.requestDelete(1234,"Oskar","Andersson");
-       testUser.requestLoan("Oskars resor","Oskar","Andersson",1234);
-
+      */
     }
 }
