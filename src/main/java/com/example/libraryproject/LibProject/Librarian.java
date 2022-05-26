@@ -301,8 +301,15 @@ public class Librarian {
                userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
            }
 
-           boolean stopStart = true;
+           boolean stopStart = false;
            String textId = String.valueOf(id);
+
+           for (String row : userLoanList) {
+               if (row.contains(textId)) {
+                   stopStart = true;
+                   break;
+               }
+           }
 
            while(stopStart) {
                for (String row : userLoanList) {
@@ -313,6 +320,7 @@ public class Librarian {
                            book.Quantity++;
                            break;
                        }
+
                    }
                    break;
                }
