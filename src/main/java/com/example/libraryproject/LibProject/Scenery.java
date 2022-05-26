@@ -333,6 +333,7 @@ public class Scenery extends Application {
                     ex.printStackTrace();
                 }
             });
+
                     Text getIdForBookToSendForLoan = new Text();
             //Fixa så att man får fram det böcker som man söker på
             searchBookBtn.setOnAction(e-> {
@@ -377,7 +378,7 @@ public class Scenery extends Application {
                 });
                 });
 
-
+//Kolla
             registerBtn.setOnAction(e-> {
                 rightControl.getChildren().clear();
 
