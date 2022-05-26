@@ -1,4 +1,4 @@
-Victor,Andersson,3666,1315,3,0,Undergraduate Student
+Victor,Andersson,3666,1315,2,0,Undergraduate Student
 Stefan,Andersson,3040,1232,3,0,Undergraduate Student
 Oskar,Vilhelmsson,4021,1989,3,0,Undergraduate Student
 Rolf,Örje,2201,1777,3,0,Undergraduate Student
