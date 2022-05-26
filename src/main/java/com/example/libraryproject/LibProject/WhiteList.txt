@@ -1,1 +1,2 @@
-oskar,Andersson,19990906,1595,2,0,Undergraduate Student
+oskar,Andersson,19990906,1595,3,0,Undergraduate Student
+oskar,Andersson,19990902,1039,3,0,Undergraduate Student
