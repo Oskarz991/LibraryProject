@@ -417,7 +417,7 @@ public class Scenery extends Application {
 
                             if (userIsUndergraduateStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
                                 try {
-                                    userObj.requestAddUser(nameUser, surnameUser, personalNrUser, pr);
+                                    userObj.requestAddUser(nameUser, personalNrUser, pr);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
                                     aler.showAndWait();
@@ -431,7 +431,7 @@ public class Scenery extends Application {
                                 }   
                             } else if (userIsPostgraduateStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
                             try {
-                                userObj.requestAddUser(nameUser, surnameUser, personalNrUser, pr2);
+                                userObj.requestAddUser(nameUser, personalNrUser, pr2);
                                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                 aler.setHeaderText("Your request has been sent");
                                 aler.showAndWait();
@@ -445,7 +445,7 @@ public class Scenery extends Application {
                             }
                         }    else if (userIsPhDStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
                                 try {
-                                    userObj.requestAddUser(nameUser,surnameUser,personalNrUser,pr3);
+                                    userObj.requestAddUser(nameUser,personalNrUser,pr3);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
                                     aler.showAndWait();
@@ -459,7 +459,7 @@ public class Scenery extends Application {
                                 }
                             }   else if (userIsTeacher.isSelected() && !nameUser.isEmpty() && personalNrUser > 0){
                                 try {
-                                    userObj.requestAddUser(nameUser,surnameUser,personalNrUser,pr4);
+                                    userObj.requestAddUser(nameUser,personalNrUser,pr4);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
                                     aler.showAndWait();
