@@ -1,0 +1,4 @@
+2022-05-27 11:06:51,106 INFO c.e.l.L.User [JavaFX Application Thread] Starting.
+2022-05-27 11:06:51,116 DEBUG c.e.l.L.User [JavaFX Application Thread]  UnsuccessfulInlogg
+2022-05-27 11:07:01,598 INFO c.e.l.L.User [JavaFX Application Thread] Starting.
+2022-05-27 11:07:01,602 DEBUG c.e.l.L.User [JavaFX Application Thread]  SuccessfulInlogg
