@@ -1,5 +1,8 @@
 package com.example.libraryproject.LibProject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -8,6 +11,7 @@ import org.apache.logging.log4j.*;
 
 public class Librarian {
 
+    public static Logger logger = LogManager.getLogger(User.class.getName());
     public String Name;
     public String SurName;
     public int PNumber;
@@ -23,8 +27,9 @@ public class Librarian {
     }
 
     public ArrayList<Book> addBook(int bookId, String titel, int isbn, int quantity, String author) throws IOException {
-
+        logger.debug("Trying to add " + titel);
         ArrayList<Book>bookList = storage.getBooks();
+        int sizeOfBookList = bookList.size();
 
         Book newBook = new Book(bookId,titel,isbn,quantity,author);
         bookList.add(newBook);
@@ -33,7 +38,11 @@ public class Librarian {
             for (int j = i+1; j < bookList.size(); j++)
             if (bookList.get(i).Title.equals(bookList.get(j).Title)){
                 bookList.remove(i);
+                logger.info("duplicate was found");
             }
+        }
+        if (sizeOfBookList+1 == bookList.size()){
+            logger.info("A new book was successfuly added");
         }
         storage.updateBookFile(bookList);
         return bookList;
@@ -41,9 +50,10 @@ public class Librarian {
 
 
    public ArrayList<User> addUser(String name, String surName, int pNumber, String role) throws IOException{
-
+        logger.info("Trying to add User");
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
+       int sizeOfUserList = userList.size();
 
        int id = (int) (Math.random()*999) +1;
        int loanCounter;
@@ -73,6 +83,7 @@ public class Librarian {
            for (int j = i+1; j < userList.size(); j++){
                if (userList.get(i).PNumber == (userList.get(j).PNumber)){
                    userList.remove(j);
+                   logger.debug(userList.get(j).PNumber +" was a duplicate found");
                }
            }
        }
@@ -81,6 +92,7 @@ public class Librarian {
            for (int j = 0; j < blackList.size(); j++)
                if (userList.get(i).PNumber == blackList.get(j).PNumber){
                    userList.remove(i);
+                   logger.debug(userList.get(i).PNumber + " was found in blacklist and was not added.");
                    break;
                }
        }
@@ -90,16 +102,21 @@ public class Librarian {
            for (int j = 0; j < timeoutList.size(); j++)
                if (userList.get(i).PNumber == timeoutList.get(j).PNumber){
                    userList.remove(i);
+                   logger.debug(userList.get(i).PNumber + " was found in timeoutlist and was not added.");
                    break;
                }
        }
 
        storage.updateUserFile(userList);
+       if (sizeOfUserList+1==userList.size()){
+           logger.info("User was successfuly added");
+       }
 
        return userList;
    }
 
    public void deleteUser(int id, boolean request) throws IOException {
+        logger.debug("Deleting user with id:" + id + " was this requested? " + request);
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        ArrayList<Book>bookList = storage.getBooks();
@@ -112,22 +129,22 @@ public class Librarian {
                if (user.Id == id) {
                    if (user.Id > 999 && user.Id <= 1999) {
                        if (user.LoanCounter < 3) {
-                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           logger.debug(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
                            hasLoan = true;
                        }
                    } else if (user.Id > 1999 && user.Id <= 2999) {
                        if (user.LoanCounter < 5) {
-                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           logger.debug(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
                            hasLoan = true;
                        }
                    } else if (user.Id > 2999 && user.Id <= 3999) {
                        if (user.LoanCounter < 7) {
-                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           logger.debug(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
                            hasLoan = true;
                        }
                    } else {
                        if (user.LoanCounter < 10) {
-                           System.out.println(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
+                           logger.debug(user.Name + " med id:" + user.Id + " har inte lämnat tillbaka alla böcker ännu");
                            hasLoan = true;
                        }
                    }
@@ -139,12 +156,12 @@ public class Librarian {
                for (User user : userList) {
                    if (id == user.Id) {
                        userList.remove(user);
+                       logger.debug(user.Name + " was deleted");
                        break;
                    }
                }
 
                storage.updateUserFile(userList);
-
            }
 
        }else {
@@ -152,6 +169,7 @@ public class Librarian {
            for (User user : userList) {
                if (id == user.Id) {
                    blackList.add(user);
+                   logger.debug(user.Name + " was deleted and added to blacklist");
                }
            }
 
@@ -159,6 +177,7 @@ public class Librarian {
                for (int j = i+1; j < blackList.size(); j++)
                    if (blackList.get(i).PNumber == blackList.get(j).PNumber) {
                        blackList.remove(i);
+                       logger.debug(blackList.get(i).PNumber + "was found in blackList and was removed");
                        break;
                    }
            }
@@ -167,6 +186,7 @@ public class Librarian {
            for (User user : userList) {
                if (id == user.Id) {
                    userList.remove(user);
+                   logger.debug(user.Id + " was deleted");
                    break;
                }
            }
@@ -180,6 +200,7 @@ public class Librarian {
            for (String row : userLoanList) {
                if (row.contains(textId)) {
                    stopStart = true;
+                   logger.debug(textId + "was found in userLoanList");
                    break;
                }
            }
@@ -204,13 +225,13 @@ public class Librarian {
    }
 
    public void giveTimeout(int id)throws IOException{
-
+        logger.info("Giving " + id + " a timeout");
        ArrayList<User>timeoutList = storage.getTimeoutList();
        ArrayList<User>userList = storage.getUserList();
 
        for (User user:timeoutList) {
            if (id == user.Id) {
-               System.out.println("Already on a timeout");
+               logger.info(user.Name +" Has timeout already");
            }
        }
 
@@ -229,7 +250,7 @@ public class Librarian {
    }
 
     public void controlTimeouts()throws IOException{
-
+        logger.info("Controlling if anyone is getting out from timedout");
         ArrayList<User>timeoutList = storage.getTimeoutList();
         ArrayList<User>userList = storage.getUserList();
 
@@ -243,7 +264,7 @@ public class Librarian {
 
             if (today.isAfter(expireDate)){
                 userList.add(user);
-
+                logger.info("A user has been taken out of the timeoutList");
                 control = true;
 
             }else{
@@ -266,7 +287,7 @@ public class Librarian {
 
 
    public Book getBookByISBN(int ISBN)throws IOException{
-
+        logger.info("Trying to get a book by ISBN");
        ArrayList<Book>bookList = storage.getBooks();
 
        Book theBook = null;
@@ -276,11 +297,14 @@ public class Librarian {
                theBook = books;
            }
        }
+       if (theBook==null){
+           logger.info("Could not find the book");
+       }
         return theBook;
    }
 
    public void lendBook(Book theBook, int userId)throws IOException {
-
+        logger.info("Lending:"+ theBook.Title + " to" + userId);
        ArrayList<User>userList = storage.getUserList();
 
        User tempUser = new User();
@@ -290,7 +314,6 @@ public class Librarian {
                tempUser = user;
            }
        }
-
 
        ArrayList<Book> bookList = storage.getBooks();
 
@@ -318,15 +341,15 @@ public class Librarian {
                        }
 
                        storage.updateUserFile(userList);
-
+                        logger.info("Loaned successfuly");
                    }else {
-                       System.out.println("The title is not available right now");
+                       logger.info("Couldnt loan to the user because the book was not available");
                    }
                }
            }
 
        } else {
-           System.out.println("You have too many loaned books");
+           logger.info("Couldnt loan to the user because the user can not loan anymore books");
        }
 
       storage.updateBookFile(bookList);
@@ -334,7 +357,7 @@ public class Librarian {
    }
 
     public boolean loginLibrarian (String name, int id)throws IOException{
-
+        logger.info("Trying to login as a Librarian.");
         boolean verify = false;
 
         ArrayList<User>userList = storage.getUserList();
@@ -342,7 +365,11 @@ public class Librarian {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id > 4999){
                 verify = true;
+                logger.info("Login successful");
             }
+        }
+        if (!verify){
+            logger.info("Login Unsuccessful");
         }
 
         return verify;

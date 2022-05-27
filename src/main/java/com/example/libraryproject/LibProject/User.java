@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import org.apache.logging.log4j.*;
 
-
 public class User {
 
+    public static Logger logger = LogManager.getLogger(User.class.getName());
     public String Name;
     public String Surname;
     public String Role;
@@ -19,8 +19,6 @@ public class User {
     public LocalDate Timer;
     public String Request;
     public Storage storage = new Storage();
-    public static Logger logger = LogManager.getLogger(User.class.getName());
-
 
     public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role) {
         this.Name = name;
@@ -123,21 +121,27 @@ public class User {
 
     public Book searchTitle(String title) throws IOException {
 
-        ArrayList<Book> bookList = storage.getBooks();
+        logger.info( "Searching for a book");
+    ArrayList<Book> bookList = storage.getBooks();
 
-        Book theBook =new Book();
+        Book theBook =null;
 
         for (Book book : bookList) {
             if (title.equals(book.Title)) {
                 theBook = book;
-                return theBook;
+                logger.info("Found the book");
             }
         }
-        return null;
+        if (theBook == null){
+            logger.info("Did not find the book");
+        }
+
+        return theBook;
     }
 
     public void requestDelete(int id, String name, int persNr) throws IOException {
 
+        logger.info("Sending deleteRequest");
         ArrayList<User> pendingList = storage.getPendingList();
 
         User tempUser = new User(name,persNr, id, "Delete");
@@ -147,16 +151,17 @@ public class User {
             for (int j = i + 1; j < pendingList.size(); j++) {
                 if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request) && pendingList.get(i).Id == pendingList.get(j).Id) {
                     pendingList.remove(j);
-                    System.out.println("You have already requested a delete");
+                    logger.info(name+" tried to send another request.");
                 }
             }
         }
-
+        logger.info(name+" has sent request");
         storage.updatePendingFile(pendingList);
     }
 
     public void requestLoan(int id, String bookTitle, String name, int persNr) throws IOException {
 
+        logger.info("Sending loanRequest");
         ArrayList<User> pendingList = storage.getPendingList();
 
         String request = ("Loan: " + bookTitle);
@@ -168,11 +173,11 @@ public class User {
             for (int j = i + 1; j < pendingList.size(); j++) {
                 if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request) && pendingList.get(i).Id == pendingList.get(j).Id) {
                     pendingList.remove(j);
-                    System.out.println("You have already requested a loan of this book");
+                    logger.info(name+ " tried sending another loanRequest");
                 }
             }
         }
-
+        logger.info(name+ " sent loanRequest");
        storage.updatePendingFile(pendingList);
     }
 
@@ -222,7 +227,7 @@ public class User {
     }
 
     public void requestAddUser(String name, int persNr, String role) throws IOException {
-
+        logger.info("Sending addRequest");
         ArrayList<User> pendingList = storage.getPendingList();
 
         String request = ("AddMe: " + role);
@@ -235,16 +240,16 @@ public class User {
                 if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
                     pendingList.remove(j);
                     System.out.println("You have already requested a loan of this book");
+                    logger.info(name+" tried to request twice");
                 }
             }
         }
-
        storage.updatePendingFile(pendingList);
     }
 
 
     public boolean loginUser (String name, int id)throws IOException{
-
+        logger.info("Trying to login.");
        boolean verify = false;
 
         ArrayList<User>userList = storage.getUserList();
@@ -252,7 +257,11 @@ public class User {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
                 verify = true;
+                logger.debug(" SuccessfulInlogg");
             }
+        }
+        if (!verify){
+            logger.debug(" UnsuccessfulInlogg");
         }
        return verify;
     }
@@ -296,5 +305,5 @@ public class User {
 
         return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
    }
-
+   
 }
