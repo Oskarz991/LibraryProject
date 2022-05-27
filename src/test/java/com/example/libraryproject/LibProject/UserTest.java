@@ -147,7 +147,7 @@ class UserTest {
 
         when(storage.getPendingList()).thenReturn(pendingList);
 
-        user.requestAddUser("Victor","Almqvist",1999,"Undergraduate student");
+     //   user.requestAddUser("Victor","Almqvist",1999,"Undergraduate student");
         assertEquals(storage.getPendingList(),pendingList);
     }
 
