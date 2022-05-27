@@ -28,6 +28,7 @@ public class Scenery extends Application {
        public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+       public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
 
         public static void main(String[] args) {
 
@@ -143,6 +144,36 @@ public class Scenery extends Application {
 
             TextFlow textMembers = new TextFlow(namn, surname, role, idid, prNumber, violationCounter, loanCount);
             textMembers.setPrefWidth(250);
+
+            //Bibliotekarie kan se alla pendings
+            Button toSeePendingBtn = new Button("See requests");
+
+            Scanner pendingScan = null;
+            try {
+                pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<Librarian> pendingList = new ArrayList<>();
+
+    /*        while (userScan.hasNext()){
+                 String Name = userScan.next();
+                 String SurName = userScan.next();
+                 int PNumber = Integer.parseInt(userScan.next());
+                 int Id = Integer.parseInt(userScan.next());
+                 int LocalCounter = Integer.parseInt(userScan.next());
+                 int ViolationCounter = Integer.parseInt(userScan.next());
+                 String Role = userScan.nextLine();
+                 Role = Role.replace(",","");
+                 pendingList.add(new User(Name,SurName,PNumber,Id,LocalCounter,ViolationCounter,Role));
+            }
+
+     */
+
+            ListView<String> pendingListView = new ListView<>();
+            pendingListView.setVisible(false);
+            pendingListView.setPrefWidth(150);
 
             //Medlem ansöker om att låna en bok
             Label titleRequestLoan = new Label("Request for a loan");
@@ -386,7 +417,7 @@ public class Scenery extends Application {
             });
 
                     Text getIdForBookToSendForLoan = new Text();
-            //Fixa så att man får fram det böcker som man söker på
+
             searchBookBtn.setOnAction(e-> {
                 Book bookObc = new Book();
                 String bokName;
@@ -569,18 +600,6 @@ public class Scenery extends Application {
                 addBookText.setText("Book added");
             });
 
-            formDeteleUserBtn.setOnAction(e->{
-                    memberList.setVisible(false);
-                    textMembers.setVisible(false);
-                    overviewMembersBtn.setVisible(true);
-                    deleteByChoise.setVisible(true);
-                    deleteByPenalties.setVisible(true);
-                    deleteUserBtn.setVisible(true);
-                    overviewMembersBtn.setVisible(true);
-                    userIdLbl.setVisible(true);
-                    userIdTxt.setVisible(true);
-                    });
-
             deleteUserBtn.setOnAction(e->{
                 String id;
                 id = userIdTxt.getText();
@@ -616,13 +635,34 @@ public class Scenery extends Application {
 
             });
 
+            formDeteleUserBtn.setOnAction(e->{
+                memberList.setVisible(false);
+                textMembers.setVisible(false);
+                overviewMembersBtn.setVisible(true);
+                deleteByChoise.setVisible(true);
+                deleteByPenalties.setVisible(true);
+                deleteUserBtn.setVisible(true);
+                overviewMembersBtn.setVisible(true);
+                userIdLbl.setVisible(true);
+                userIdTxt.setVisible(true);
+                pendingListView.setVisible(false);
+                   });
+
             overviewMembersBtn.setOnAction(e->{
                 formDeteleUserBtn.setVisible(true); overviewMembersBtn.setVisible(false);
                 memberList.setVisible(true); textMembers.setVisible(true);
                 deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false); deleteUserBtn.setVisible(false);
                 formDeteleUserBtn.setVisible(true);
                 userIdLbl.setVisible(false); userIdTxt.setVisible(false);
+                pendingListView.setVisible(false);
                     });
+
+            toSeePendingBtn.setOnAction(e->{
+                pendingListView.setVisible(true);
+                memberList.setVisible(false); textMembers.setVisible(false); deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false);
+                deleteUserBtn.setVisible(false); userIdLbl.setVisible(false); userIdTxt.setVisible(false);
+                
+            });
 
             toRequestDeleteBtn.setOnAction(e->{
                   titleAllLoanedBooks.setVisible(false);
@@ -728,13 +768,13 @@ public class Scenery extends Application {
             paneLeft2.add(bookAuthorLbl,0,4); paneLeft2.add(bookAuthorTxt,1,4);
             paneLeft2.add(bookISBNLbl,0,5); paneLeft2.add(bookISBNTxt,1,5);
             paneLeft2.add(bookQuantityLbl,0,6); paneLeft2.add(bookQuantityTxt,1,6);
-            paneLeft2.add(formDeteleUserBtn,0,8); paneLeft2.add(overviewMembersBtn,0,8);
+            paneLeft2.add(formDeteleUserBtn,0,8); paneLeft2.add(overviewMembersBtn,0,8); paneLeft2.add(toSeePendingBtn,1,8);
             paneLeft2.add(addANewBookBtn,1,7); paneLeft2.add(addBookText,2,7); paneLeft2.add(searchBookByISBNBtn,1,7);
 
             paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
 
             paneLeft2.add(userIdLbl,0,9); paneLeft2.add(userIdTxt,1,9);
-            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9);
+            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9); paneLeft2.add(pendingListView,0,9);
             paneLeft2.add(deleteByChoise, 0,10); paneLeft2.add(deleteByPenalties,1,10); paneLeft2.add(deleteUserBtn,2,10);
             paneLeft2.setVisible(false);
 
