@@ -1,4 +1,4 @@
-2022-05-27 11:06:51,106 INFO c.e.l.L.User [JavaFX Application Thread] Starting.
-2022-05-27 11:06:51,116 DEBUG c.e.l.L.User [JavaFX Application Thread]  UnsuccessfulInlogg
-2022-05-27 11:07:01,598 INFO c.e.l.L.User [JavaFX Application Thread] Starting.
-2022-05-27 11:07:01,602 DEBUG c.e.l.L.User [JavaFX Application Thread]  SuccessfulInlogg
+2022-05-27 12:20:24,466 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-27 12:20:24,471 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1111 UnsuccessfulInlogg
+2022-05-27 12:20:28,825 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-27 12:20:28,829 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1189 SuccessfulInlogg

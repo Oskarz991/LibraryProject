@@ -257,11 +257,11 @@ public class User {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
                 verify = true;
-                logger.debug(" SuccessfulInlogg");
+                logger.debug(name + id + " SuccessfulInlogg");
             }
         }
         if (!verify){
-            logger.debug(" UnsuccessfulInlogg");
+            logger.debug(name + id + " UnsuccessfulInlogg");
         }
        return verify;
     }

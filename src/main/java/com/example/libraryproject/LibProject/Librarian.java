@@ -16,7 +16,6 @@ public class Librarian {
     public String SurName;
     public int PNumber;
     public int Id;
-    public static Logger logger = LogManager.getLogger(User.class.getName());
 
     public Storage storage = new Storage();
 
@@ -365,11 +364,11 @@ public class Librarian {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id > 4999){
                 verify = true;
-                logger.info("Login successful");
+                logger.debug(name + id + " Login successful");
             }
         }
         if (!verify){
-            logger.info("Login Unsuccessful");
+            logger.debug(name + id + "Login Unsuccessful");
         }
 
         return verify;

@@ -14,6 +14,7 @@
     <orderEntry type="library" name="MockitoLib" level="project" />
     <orderEntry type="library" name="log4j-core-2.11.2" level="project" />
     <orderEntry type="library" name="log4j-api-2.11.2" level="project" />
+    <orderEntry type="library" name="Log4j2Lib" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:win:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:18.0.1" level="project" />
@@ -29,6 +30,5 @@
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:win:18.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mockito:mockito-all:1.10.19" level="project" />
-    <orderEntry type="library" name="Log4j2Lib" level="project" />
   </component>
 </module>
