@@ -192,7 +192,6 @@ public class User {
                     userLoanList.remove(row);
                     verify = false;
                     break;
-
                 }
             }
 
