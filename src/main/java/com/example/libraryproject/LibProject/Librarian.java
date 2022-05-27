@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import org.apache.logging.log4j.*;
 
 public class Librarian {
 
@@ -11,6 +12,7 @@ public class Librarian {
     public String SurName;
     public int PNumber;
     public int Id;
+    public static Logger logger = LogManager.getLogger(User.class.getName());
 
     public Storage storage = new Storage();
 

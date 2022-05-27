@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import org.apache.logging.log4j.*;
+
 
 public class User {
 
@@ -16,13 +18,9 @@ public class User {
     public int ViolationCounter;
     public LocalDate Timer;
     public String Request;
-    public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-    public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
-    public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
-    public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-    public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
-    public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
     public Storage storage = new Storage();
+    public static Logger logger = LogManager.getLogger(User.class.getName());
+
 
     public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role) {
         this.Name = name;
@@ -298,5 +296,5 @@ public class User {
 
         return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
    }
-   
+
 }
