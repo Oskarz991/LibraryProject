@@ -138,7 +138,7 @@ public class Scenery extends Application {
                 prNumber.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber())+"\n" + "Violation counter: ");
                 violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter())+"\n" + "Loan counter: ");
                 loanCount.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter())+"\n");
-
+                    //
             });
 
             TextFlow textMembers = new TextFlow(namn, surname, role, idid, prNumber, violationCounter, loanCount);
