@@ -40,4 +40,32 @@ class UserTest {
 
         assertTrue(user.loginUser("Oskar",9393));
     }
+
+    @Test
+    void myBooks() throws IOException{
+        Storage storage = Mockito.mock(Storage.class);
+        User user = new User(storage);
+        Librarian librarian = new Librarian(storage);
+
+        ArrayList<User> userList = new ArrayList<>();
+        ArrayList<Book> bookList = new ArrayList<>();
+        ArrayList<String> userLoanList = new ArrayList<>();
+
+
+        Book book = new Book(1,"Leauge of Legends",1044,10,"Malamoz");
+        User user1 = new User("Victor","Almqvist",1230,1122,3,0,"Undergraduate student");
+
+        userList.add(user1);
+        bookList.add(book);
+
+        { when(storage.getUserList()).thenReturn(userList);
+            { when(storage.getBooks()).thenReturn(bookList);
+                {
+                    when(storage.getUserLoanList()).thenReturn(userLoanList);
+                    librarian.lendBook(book, 1122);
+
+                    assertEquals(userLoanList, user1.myBooks(1122, "Victor"));
+                }}}
+    }
+
 }
