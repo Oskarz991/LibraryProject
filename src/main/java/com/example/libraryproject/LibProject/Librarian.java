@@ -267,7 +267,7 @@ public class Librarian {
 
        ArrayList<Book>bookList = storage.getBooks();
 
-       Book theBook = new Book();
+       Book theBook = null;
 
        for (Book books: bookList) {
            if (books.ISBN == ISBN){
