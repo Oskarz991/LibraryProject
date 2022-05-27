@@ -260,6 +260,31 @@ public class User {
     }
 
 
+    public ArrayList<Book> myBooks (int id, String name)throws IOException{
+
+        ArrayList<String> loanedBooks = storage.getUserLoanList();
+        ArrayList<Book> returnList = new ArrayList<>();
+        ArrayList<Book> allBooks = storage.getBooks();
+        ArrayList<String> myLoanedBooks = new ArrayList<>();
+
+        for (String row:loanedBooks) {
+            if (row.contains(String.valueOf(id)) && row.contains(name)){
+                myLoanedBooks.add(row);
+            }
+        }
+
+        for (Book book:allBooks) {
+            for (String row:myLoanedBooks) {
+                if (row.contains(book.Title) && row.contains(String.valueOf(book.ISBN))){
+                    returnList.add(book);
+                }
+            }
+        }
+
+        return returnList;
+    }
+
+
     public String export (User user){
 
         return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
@@ -273,30 +298,5 @@ public class User {
 
         return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
    }
-
-
-    public static void main(String[] args)throws IOException {
-
-      // 3,Svensson,1234,6,Stefan
-
-        Librarian librarian = new Librarian();
-
-        librarian.addUser("oskar","Andersson",19990902,"Undergraduate Student");
-
-        Book testbook = librarian.getBookByISBN(1234);
-
-        //       librarian.lendBook(testbook,1595);
-
-        User testuser = new User("oskar","Andersson",19990906,1595,3,0,"Undergraduate Student");
-
-        testuser.returnBook(testbook,1595);
-
-
-        /*
-      testUser.requestDelete(1234,"Oskar","Andersson",3421);
-      testUser.requestLoan(1235, "Oskars resor","Oskar","Andersson",1234);
-      testUser.requestAddUser("Oskar","Andersson",3421,"Under graduate student");
-
-      */
-    }
+   
 }
