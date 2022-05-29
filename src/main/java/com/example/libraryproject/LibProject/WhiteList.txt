@@ -1,2 +1,1 @@
 Oskar,Andersson,19990906,5801,9999,0,
-Stefan,Bucei,20001006,1189,4,0,Undergraduate student

@@ -4,5 +4,5 @@
 1,Svenssons resor,1234,10,Svenne
 3,Fina väder,7623,5,Karl
 5,Antonsson,1244,6,Rof
-6,Sture P,7654,13,Rolfe
+6,Sture P,7654,11,Rolfe
 5,HarryPotter,4545,10,Davidsson

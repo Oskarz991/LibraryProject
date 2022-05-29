@@ -104,7 +104,7 @@ public class Scenery extends Application {
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
             for ( int i = 0; i <userList.size(); i++){
-              memberList.getItems().addAll(userList.get(i).Name);  
+              memberList.getItems().addAll(userList.get(i).Name);
             }
 
             Font fira = new Font(15);
@@ -132,6 +132,7 @@ public class Scenery extends Application {
              deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                memberList.refresh();
                 namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ " ");
                 surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname()+ "\n" );
                 role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n" + "Id: ");
@@ -155,25 +156,62 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<Librarian> pendingList = new ArrayList<>();
+            ArrayList<User> pendingList = new ArrayList<>();
 
-    /*        while (userScan.hasNext()){
-                 String Name = userScan.next();
-                 String SurName = userScan.next();
-                 int PNumber = Integer.parseInt(userScan.next());
-                 int Id = Integer.parseInt(userScan.next());
-                 int LocalCounter = Integer.parseInt(userScan.next());
-                 int ViolationCounter = Integer.parseInt(userScan.next());
-                 String Role = userScan.nextLine();
-                 Role = Role.replace(",","");
-                 pendingList.add(new User(Name,SurName,PNumber,Id,LocalCounter,ViolationCounter,Role));
+           while (pendingScan.hasNext()){
+                 String Name = pendingScan.next();
+                 int PNumber = Integer.parseInt(pendingScan.next());
+                 int Id = Integer.parseInt(pendingScan.next());
+                 String Request = pendingScan.nextLine();
+                 Request = Request.replace(",","");
+
+                 pendingList.add(new User(Name,PNumber,Id,Request));
+
+                 if (Request.contains("Loan:")){
+
+               } else if (Request.contains("AddMe:")){
+
+                 } else if (Request.contains("Delete")){
+
+                 }
             }
-
-     */
 
             ListView<String> pendingListView = new ListView<>();
             pendingListView.setVisible(false);
             pendingListView.setPrefWidth(150);
+
+            for ( int i = 0; i <pendingList.size(); i++){
+                pendingListView.getItems().addAll(pendingList.get(i).Request);
+            }
+
+            Text namnPending = new Text();
+            namnPending.setStyle("-fx-font-weight: bold");
+            namnPending.setFont(fira);
+            Text prNumberPending = new Text();
+            prNumberPending.setFont(tre);
+            Text idPending = new Text();
+            idPending.setFont(tre);
+
+            String nnn = "Delete";
+
+
+            pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                    namnPending.setText(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                    prNumberPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                idPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+             /*   else if (pendingListView.getItems().contains("Delete")){
+                    prNumberPending.setVisible(true);
+
+                }
+
+              */
+            });
+
+            TextFlow textPending = new TextFlow(namnPending,prNumberPending,idPending);
+            textPending.setPrefWidth(250);
+            textPending.setVisible(false);
+
 
             //Medlem ansöker om att låna en bok
             Label titleRequestLoan = new Label("Request for a loan");
@@ -296,6 +334,26 @@ public class Scenery extends Application {
              TextField userIdTxt = new TextField();
              userIdTxt.setVisible(false);
              deleteUserBtn.setVisible(false);
+
+             //Bibliotekarien kan bekräfta ett lån till användarna
+             TextField lendBookBookNameLibrarianTxt = new TextField();
+             lendBookBookNameLibrarianTxt.setPromptText("Book name");
+             TextField lendBookUserIdLibrarianTxt = new TextField();
+             lendBookUserIdLibrarianTxt.setPromptText("User Id");
+             lendBookUserIdLibrarianTxt.setVisible(false);
+             lendBookBookNameLibrarianTxt.setVisible(false);
+             Button lendBookLibrarianBtn = new Button("Accept Lend book");
+             lendBookLibrarianBtn.setVisible(false);
+
+             //Skapa en ny medlem
+             TextField createANewUserNameTxt = new TextField(); createANewUserNameTxt.setPromptText("Name"); createANewUserNameTxt.setVisible(false);
+             TextField createANewUserPersonalNumberTxt = new TextField(); createANewUserPersonalNumberTxt.setPromptText("Personal number"); createANewUserPersonalNumberTxt.setVisible(false);
+             TextField createANewUserRoleTxt = new TextField(); createANewUserRoleTxt.setPromptText("Role"); createANewUserRoleTxt.setVisible(false);
+             Button createANewUserBtn = new Button("Create user"); createANewUserBtn.setVisible(false);
+
+             //Bibliotekarien kan ge timeouts
+             TextField librarianGiveTimeoutIdTxt = new TextField(); librarianGiveTimeoutIdTxt.setPromptText("User Id");
+             Button librarianGiveTimeoutBtn = new Button("Give Timeout");
 
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
@@ -460,6 +518,30 @@ public class Scenery extends Application {
                 });
             });
 
+            lendBookLibrarianBtn.setOnAction(e->{
+                Book bookOkj = new Book();
+                int idUser;
+
+                if (lendBookBookNameLibrarianTxt.getText().isEmpty()) {
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("Something went wrong");
+                    aler.showAndWait();
+                }else {
+                    try {
+                        bookOkj = userObj.searchTitle(lendBookBookNameLibrarianTxt.getText());
+                        idUser = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+                        librarianObj.lendBook(bookOkj, idUser);
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Lend book accepted");
+                        aler.showAndWait();
+                        lendBookUserIdLibrarianTxt.clear();
+                        lendBookBookNameLibrarianTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
                 registerBtn.setOnAction(e-> {
                             String nameUser = nameMemberRegisterTxt.getText();
                             int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
@@ -526,6 +608,42 @@ public class Scenery extends Application {
                                 aler.showAndWait();
                     }
             });
+
+                createANewUserBtn.setOnAction(e->{
+                    String nameUser = createANewUserNameTxt.getText();
+                    int personalNrUser = Integer.parseInt(createANewUserPersonalNumberTxt.getText());
+                    String roleUser = createANewUserRoleTxt.getText();
+                    String temporaryTaBort = "S";
+
+                    try {
+                        librarianObj.addUser(nameUser,temporaryTaBort,personalNrUser,roleUser);
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("User created");
+                        aler.showAndWait();
+                        createANewUserNameTxt.clear();
+                        createANewUserPersonalNumberTxt.clear();
+                        createANewUserRoleTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                librarianGiveTimeoutBtn.setOnAction(e->{
+                    int idForGiveTimeout = Integer.parseInt(librarianGiveTimeoutIdTxt.getText());
+
+
+                    try {
+                        librarianObj.giveTimeout(idForGiveTimeout);
+                        lendBookUserIdLibrarianTxt.clear();
+
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Timeout given");
+                        aler.showAndWait();
+                        lendBookBookNameLibrarianTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
 
             changeSearchAddBookBtn.setOnAction(e->  {
              titleAddNewBook.setVisible(false);
@@ -645,23 +763,37 @@ public class Scenery extends Application {
                 overviewMembersBtn.setVisible(true);
                 userIdLbl.setVisible(true);
                 userIdTxt.setVisible(true);
-                pendingListView.setVisible(false);
+                formDeteleUserBtn.setVisible(false);
+                pendingListView.setVisible(false); textPending.setVisible(false);
+                lendBookUserIdLibrarianTxt.setVisible(false);
+                lendBookBookNameLibrarianTxt.setVisible(false);
+                lendBookLibrarianBtn.setVisible(false);
+                createANewUserNameTxt.setVisible(false); createANewUserPersonalNumberTxt.setVisible(false); createANewUserRoleTxt.setVisible(false); createANewUserBtn.setVisible(false);
+                librarianGiveTimeoutIdTxt.setVisible(false); librarianGiveTimeoutBtn.setVisible(false);
                    });
 
             overviewMembersBtn.setOnAction(e->{
+                memberList.refresh();
                 formDeteleUserBtn.setVisible(true); overviewMembersBtn.setVisible(false);
                 memberList.setVisible(true); textMembers.setVisible(true);
                 deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false); deleteUserBtn.setVisible(false);
                 formDeteleUserBtn.setVisible(true);
                 userIdLbl.setVisible(false); userIdTxt.setVisible(false);
-                pendingListView.setVisible(false);
+                pendingListView.setVisible(false); textPending.setVisible(false);
+                lendBookUserIdLibrarianTxt.setVisible(false);
+                lendBookBookNameLibrarianTxt.setVisible(false);
+                lendBookLibrarianBtn.setVisible(false);
+                createANewUserNameTxt.setVisible(false); createANewUserPersonalNumberTxt.setVisible(false); createANewUserRoleTxt.setVisible(false); createANewUserBtn.setVisible(false);
+                librarianGiveTimeoutIdTxt.setVisible(true); librarianGiveTimeoutBtn.setVisible(true);
                     });
 
             toSeePendingBtn.setOnAction(e->{
                 pendingListView.setVisible(true);
                 memberList.setVisible(false); textMembers.setVisible(false); deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false);
-                deleteUserBtn.setVisible(false); userIdLbl.setVisible(false); userIdTxt.setVisible(false);
-                
+                deleteUserBtn.setVisible(false); userIdLbl.setVisible(false); userIdTxt.setVisible(false); textPending.setVisible(true);
+                lendBookUserIdLibrarianTxt.setVisible(true); lendBookBookNameLibrarianTxt.setVisible(true); lendBookLibrarianBtn.setVisible(true);
+                createANewUserNameTxt.setVisible(true); createANewUserPersonalNumberTxt.setVisible(true); createANewUserRoleTxt.setVisible(true); createANewUserBtn.setVisible(true);
+                librarianGiveTimeoutIdTxt.setVisible(false); librarianGiveTimeoutBtn.setVisible(false);
             });
 
             toRequestDeleteBtn.setOnAction(e->{
@@ -774,8 +906,12 @@ public class Scenery extends Application {
             paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
 
             paneLeft2.add(userIdLbl,0,9); paneLeft2.add(userIdTxt,1,9);
-            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9); paneLeft2.add(pendingListView,0,9);
+            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9); paneLeft2.add(pendingListView,0,9); paneLeft2.add(textPending,1,9);
+            paneLeft2.add(librarianGiveTimeoutIdTxt,2,10); paneLeft2.add(librarianGiveTimeoutBtn,1,10);
             paneLeft2.add(deleteByChoise, 0,10); paneLeft2.add(deleteByPenalties,1,10); paneLeft2.add(deleteUserBtn,2,10);
+
+            paneLeft2.add(lendBookBookNameLibrarianTxt,3,9); paneLeft2.add(lendBookUserIdLibrarianTxt,2,9); paneLeft2.add(lendBookLibrarianBtn,1,9);
+            paneLeft2.add(createANewUserBtn,1,10); paneLeft2.add(createANewUserNameTxt,2,10); paneLeft2.add(createANewUserPersonalNumberTxt,3,10); paneLeft2.add(createANewUserRoleTxt,4,10);
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
