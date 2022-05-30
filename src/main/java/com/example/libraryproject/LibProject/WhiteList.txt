@@ -1,3 +1,3 @@
-Stefan,20001006,1684,0,0,Undergraduate student
+Stefan,20001006,1684,3,0,Undergraduate student
 Oskar,19990906,5801,9999,0,
 Victor,20001008,1316,3,0,Undergraduate student

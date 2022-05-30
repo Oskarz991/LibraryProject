@@ -574,12 +574,20 @@ public class Scenery extends Application {
                             bookOkj = userObj.searchTitle(lendBookBookNameLibrarianTxt.getText());
                             idUser = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
 
+                            if (bookOkj.Quantity == 0){
+
+                                Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                                aler.setHeaderText("Book is not available right now");
+                                aler.showAndWait();
+                            }else{
+
                             librarianObj.lendBook(bookOkj, idUser);
 
                             Alert aler = new Alert(Alert.AlertType.INFORMATION);
                             aler.setHeaderText("Lend book accepted");
                             aler.showAndWait();
                         }
+                }
 
                     } catch (IOException ex) {
                         ex.printStackTrace();

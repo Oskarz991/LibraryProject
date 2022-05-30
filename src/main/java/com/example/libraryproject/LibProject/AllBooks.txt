@@ -1,10 +1,10 @@
-1,Harry Potter,5857,9,JK Rowling
-2,Lord of the Rings,6289,15,JRR Tolkien
-3,Emil i Lönneberga,4562,10,Astrid Lindgren
-4,The Witcher,4136,9,Andrzej Sapkowski
-5,Hunger Games,7594,15,Suzanne Collins
-6,Game of Thrones,2394,15,George r.r. Martin
-7,Hamlet,5287,9,William Shakespeare
-8,War and Peace,9137,10,Leo Tolstoy
-9,Don Quixote,5559,10,Miguel de Cervantes
-10,In Search of Lost Time,6994,10,Marcel Proust
+1,Harry Potter,585721,10,JK Rowling
+2,Lord of the Rings,436289,15,JRR Tolkien
+3,Emil i Lönneberga,455662,10,Astrid Lindgren
+4,The Witcher,413673,10,Andrzej Sapkowski
+5,Hunger Games,759894,15,Suzanne Collins
+6,Game of Thrones,235094,15,George r.r. Martin
+7,Hamlet,528702,10,William Shakespeare
+8,War and Peace,739137,10,Leo Tolstoy
+9,Don Quixote,555918,10,Miguel de Cervantes
+10,In Search of Lost Time,683994,10,Marcel Proust

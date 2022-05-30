@@ -1,3 +1,0 @@
-Stefan,1684,Hamlet,5287,William Shakespeare
-Stefan,1684,Harry Potter,5857,JK Rowling
-Stefan,1684,The Witcher,4136,Andrzej Sapkowski
