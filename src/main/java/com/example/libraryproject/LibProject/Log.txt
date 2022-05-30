@@ -130,3 +130,14 @@
 2022-05-30 22:26:42,515 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
 2022-05-30 22:26:42,516 DEBUG c.e.l.L.User [JavaFX Application Thread] oskar5801 Login successful
 2022-05-30 22:45:17,899 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 22:56:19,006 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 22:56:19,020 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 22:56:19,022 DEBUG c.e.l.L.User [JavaFX Application Thread] oskar5801 Login successful
+2022-05-30 22:56:26,764 INFO c.e.l.L.User [JavaFX Application Thread] Giving 1316 a timeout
+2022-05-30 22:57:14,757 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 22:57:14,783 INFO c.e.l.L.User [JavaFX Application Thread] A user has been taken out of the timeoutList
+2022-05-30 22:57:14,788 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 22:57:14,790 DEBUG c.e.l.L.User [JavaFX Application Thread] oskar5801 Login successful
+2022-05-30 22:58:15,333 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 22:58:15,341 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 22:58:15,342 DEBUG c.e.l.L.User [JavaFX Application Thread] oskar5801 Login successful
