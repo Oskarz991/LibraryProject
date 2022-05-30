@@ -1,4 +1,4 @@
-1,Harry Potter,5857,10,JK Rowling
+1,Harry Potter,5857,9,JK Rowling
 2,Lord of the Rings,6289,15,JRR Tolkien
 3,Emil i Lönneberga,4562,10,Astrid Lindgren
 4,The Witcher,4136,10,Andrzej Sapkowski

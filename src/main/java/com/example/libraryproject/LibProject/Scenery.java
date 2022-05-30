@@ -370,6 +370,24 @@ public class Scenery extends Application {
                     aler.setHeaderText("This isn't an active librarian account ");
                     aler.showAndWait();
                 }
+
+                    userList.clear();
+                    memberList.getItems().clear();
+                    ArrayList<User> userList1;
+
+                    userList1 = storage.getUserList();
+
+                    for (int i = 0; i <userList1.size(); i++) {
+                        memberList.getItems().addAll(userList1.get(i).Name);
+                        memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namn.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getName() + "\n");
+                            role.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getRole() + "\n" + "\n" + "Id: ");
+                            idid.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
+                            prNumber.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
+                            violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
+                            loanCount.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
+                        });
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -392,18 +410,31 @@ public class Scenery extends Application {
                         idForUser.setText("User: " + nameMemberLoginTxt.getText() + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
                         idForUser.setVisible(true);
 
-                        ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                        int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                        String nameForSeeAllBooks = nameMemberLoginTxt.getText();
-                        String bookNameg = "";
-                        String bookNameg2 = "";
-
                         try {
-                            bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
+                            ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                            int prNameForSeeAllBooks = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+                            String nameForSeeAllBooks = null;
+
+
+                            ArrayList<User> findUser = new ArrayList<User>();
+
+                            findUser = storage.getUserList();
+
+                            for (User user : findUser) {
+                                if (user.Id == prNameForSeeAllBooks) {
+                                    nameForSeeAllBooks = user.Name;
+                                } else
+                                    nameForSeeAllBooks = "";
+                            }
+
+                            String bookNameg = "";
+                            String bookNameg2 = "";
+
+                            bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+
                             for (Book book:bookOjcc ){
                                 bookNameg = book.getTitle() + ": " + book.getISBN();
                                 bookNameg2 = bookNameg2 + "\n" + bookNameg;
-
                             }
                             bookNameGet.setText(bookNameg2);
 
@@ -429,11 +460,25 @@ public class Scenery extends Application {
                 int iddd;
                 Book nullBook = new Book();
                 nullBook = null;
+                boolean timedout = false;
+                try {
+                    ArrayList<User>timeouters = storage.getTimeoutList();
+
+                    for (User user:timeouters) {
+                        if (nameMemberLoginTxt.getText().equalsIgnoreCase(user.Name) && Integer.parseInt(idMemberLoginTxt.getText()) == (user.Id)){
+                            timedout = true;
+                        }
+                    }
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+
 
                 try {
-                if (userObj.searchTitle(bookTitleTxt.getText()) == nullBook){
+                if (userObj.searchTitle(bookTitleTxt.getText()) == nullBook || timedout){
                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                    aler.setHeaderText("The book does not exist");
+                    aler.setHeaderText("The book does not exist or you are on timeout");
                     aler.showAndWait();
 
                     loanBook1.setVisible(false);
@@ -594,16 +639,19 @@ public class Scenery extends Application {
             });
 
                 registerBtn.setOnAction(e-> {
-                            String nameUser = nameMemberRegisterTxt.getText();
-                            int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+
+
                             String pr = "Undergraduate student";
                             String pr2 = "Postgraduate student";
                             String pr3 = "PhD Student";
                             String pr4 = "Teacher";
 
 
-                            if (userIsUndergraduateStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
+                            if (userIsUndergraduateStudent.isSelected() && nameMemberRegisterTxt.getText().length() > 0 && personalNrMemberRegisterTxt.getText().length() > 0) {
                                 try {
+                                    String nameUser = nameMemberRegisterTxt.getText();
+                                    int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+
                                     userObj.requestAddUser(nameUser, personalNrUser, pr);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
@@ -615,8 +663,11 @@ public class Scenery extends Application {
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }   
-                            } else if (userIsPostgraduateStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
+                            } else if (userIsPostgraduateStudent.isSelected() && nameMemberRegisterTxt.getText().length() > 0 && personalNrMemberRegisterTxt.getText().length() > 0) {
                             try {
+                                String nameUser = nameMemberRegisterTxt.getText();
+                                int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+
                                 userObj.requestAddUser(nameUser, personalNrUser, pr2);
                                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                 aler.setHeaderText("Your request has been sent");
@@ -628,8 +679,11 @@ public class Scenery extends Application {
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                             }
-                        }    else if (userIsPhDStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
+                        }    else if (userIsPhDStudent.isSelected() && nameMemberRegisterTxt.getText().length() > 0 && personalNrMemberRegisterTxt.getText().length() > 0) {
                                 try {
+                                    String nameUser = nameMemberRegisterTxt.getText();
+                                    int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+
                                     userObj.requestAddUser(nameUser,personalNrUser,pr3);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
@@ -641,8 +695,11 @@ public class Scenery extends Application {
                                 } catch (IOException ex) {
                                     ex.printStackTrace();
                                 }
-                            }   else if (userIsTeacher.isSelected() && !nameUser.isEmpty() && personalNrUser > 0){
+                            }   else if (userIsTeacher.isSelected() && nameMemberRegisterTxt.getText().length() > 0 && personalNrMemberRegisterTxt.getText().length() > 0){
                                 try {
+                                    String nameUser = nameMemberRegisterTxt.getText();
+                                    int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
+
                                     userObj.requestAddUser(nameUser,personalNrUser,pr4);
                                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                                     aler.setHeaderText("Your request has been sent");
@@ -682,6 +739,13 @@ public class Scenery extends Application {
             });
 
                 createANewUserBtn.setOnAction(e->{
+
+                    if (createANewUserNameTxt.getText().length() == 0 || createANewUserPersonalNumberTxt.getText().length() == 0 || createANewUserRoleTxt.getText().length() == 0){
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write in every field");
+                        aler.showAndWait();
+                    } else{
+
                     String nameUser = createANewUserNameTxt.getText();
                     int personalNrUser = Integer.parseInt(createANewUserPersonalNumberTxt.getText());
                     String roleUser = createANewUserRoleTxt.getText();
@@ -697,6 +761,7 @@ public class Scenery extends Application {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+                    }
                     pendingList.clear();
                     pendingListView.getItems().clear();
                     ArrayList<User> pendingList1;
@@ -709,11 +774,11 @@ public class Scenery extends Application {
 
                             pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
                                 namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
-                                prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
-                                idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
-
+                                prNumberPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                                idPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
                             });
                         }
+
 
                     userList.clear();
                     memberList.getItems().clear();
@@ -727,10 +792,10 @@ public class Scenery extends Application {
                         memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
                             namn.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getName() + "\n");
                             role.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getRole() + "\n" + "\n" + "Id: ");
-                            idid.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
-                            prNumber.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
-                            violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
-                            loanCount.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
+                            idid.setText((userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
+                            prNumber.setText((userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
+                            violationCounter.setText((userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
+                            loanCount.setText((userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
 
                         });
                     }
@@ -740,19 +805,27 @@ public class Scenery extends Application {
                 });
 
                 librarianGiveTimeoutBtn.setOnAction(e->{
-                    int idForGiveTimeout = Integer.parseInt(librarianGiveTimeoutIdTxt.getText());
 
-
-                    try {
-                        librarianObj.giveTimeout(idForGiveTimeout);
-                        lendBookUserIdLibrarianTxt.clear();
-
+                    if (librarianGiveTimeoutIdTxt.getText().length() == 0){
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                        aler.setHeaderText("Timeout given");
+                        aler.setHeaderText("Which ID should get a timeout?");
                         aler.showAndWait();
-                        librarianGiveTimeoutIdTxt.clear();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
+                    } else {
+
+                        int idForGiveTimeout = Integer.parseInt(librarianGiveTimeoutIdTxt.getText());
+
+
+                        try {
+                            librarianObj.giveTimeout(idForGiveTimeout);
+                            lendBookUserIdLibrarianTxt.clear();
+
+                            Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                            aler.setHeaderText("Timeout given");
+                            aler.showAndWait();
+                            librarianGiveTimeoutIdTxt.clear();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                     userList.clear();
                     memberList.getItems().clear();
@@ -814,49 +887,84 @@ public class Scenery extends Application {
                 });
 
             searchBookByISBNBtn.setOnAction(e-> {
-                Book bookObc = new Book();
-                String ISBNtext = searchBookISBNTxt.getText();
-                int id;
-                String bokName;
-                int ISBN;
-                int bokQuant;
-                String bokAuthor;
+
+                Librarian lib = new Librarian();
+                Book tempBook = new Book();
+                Book nullbook = null;
+
 
                 try {
-                   int ISBNnr = Integer.parseInt(ISBNtext);
-                   bookObc = librarianObj.getBookByISBN(ISBNnr);
-                   id = bookObc.getId();
-                   bokName = bookObc.getTitle();
-                   ISBN = bookObc.getISBN();
-                   bokQuant = bookObc.getQuantity();
-                   bokAuthor = bookObc.getAuthor();
+                    if (searchBookISBNTxt.getText().length() == 0 || nullbook == lib.getBookByISBN(Integer.parseInt(searchBookISBNTxt.getText()))){
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Book could not be found");
+                        aler.showAndWait();
+                        searchBookISBNTxt.clear();
 
-                   bokId.setText("ID: " + Integer.toString(id));
-                   bokN.setText("Title: " + bokName);
-                   bokISBNN.setText("ISBN: " + Integer.toString(ISBN));
-                   bokQ.setText("Quantity: " + Integer.toString(bokQuant));
-                   bokA.setText("Author: " + bokAuthor);
+                    }else {
 
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            });
+                    Book bookObc = new Book();
+                    String ISBNtext = searchBookISBNTxt.getText();
+                    int id;
+                    String bokName;
+                    int ISBN;
+                    int bokQuant;
+                    String bokAuthor;
 
-            addANewBookBtn.setOnAction(e-> {
-                try {
-                    librarianObj.addBook(Integer.parseInt(bookIdTxt.getText()),bookNameTxt.getText(),Integer.parseInt(bookISBNTxt.getText()),Integer.parseInt(bookQuantityTxt.getText()),bookAuthorTxt.getText());
+                    try {
+                       int ISBNnr = Integer.parseInt(ISBNtext);
+                       bookObc = librarianObj.getBookByISBN(ISBNnr);
+                       id = bookObc.getId();
+                       bokName = bookObc.getTitle();
+                       ISBN = bookObc.getISBN();
+                       bokQuant = bookObc.getQuantity();
+                       bokAuthor = bookObc.getAuthor();
+
+                       bokId.setText("ID: " + Integer.toString(id));
+                       bokN.setText("Title: " + bokName);
+                       bokISBNN.setText("ISBN: " + Integer.toString(ISBN));
+                       bokQ.setText("Quantity: " + Integer.toString(bokQuant));
+                       bokA.setText("Author: " + bokAuthor);
+                       searchBookISBNTxt.clear();
+
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                bookIdTxt.clear(); bookNameTxt.clear(); bookISBNTxt.clear(); bookQuantityTxt.clear(); bookAuthorTxt.clear();
-                addBookText.setText("Book added");
+            });
+
+
+            addANewBookBtn.setOnAction(e-> {
+
+                if (bookIdTxt.getText().length() == 0 || bookNameTxt.getText().length() == 0 || bookISBNTxt.getText().length() == 0){
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("Fill every field");
+                    aler.showAndWait();
+                }else {
+
+                    try {
+                        librarianObj.addBook(Integer.parseInt(bookIdTxt.getText()), bookNameTxt.getText(), Integer.parseInt(bookISBNTxt.getText()), Integer.parseInt(bookQuantityTxt.getText()), bookAuthorTxt.getText());
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    bookIdTxt.clear();
+                    bookNameTxt.clear();
+                    bookISBNTxt.clear();
+                    bookQuantityTxt.clear();
+                    bookAuthorTxt.clear();
+                    addBookText.setText("Book added");
+                }
             });
 
             deleteUserBtn.setOnAction(e->{
-                String id;
-                id = userIdTxt.getText();
 
-                if (deleteByChoise.isSelected() && !id.isEmpty()) {
+             ;
+
+                if (deleteByChoise.isSelected() && userIdTxt.getText().length() != 0) {
+                    String id;
+                    id = userIdTxt.getText();
                     try {
                         librarianObj.deleteUser(Integer.parseInt(id),true);
                     } catch (Exception ex) {
@@ -867,7 +975,9 @@ public class Scenery extends Application {
                     aler.showAndWait();
                     userIdTxt.clear();
 
-                } else if (deleteByPenalties.isSelected() && !id.isEmpty()){
+                } else if (deleteByPenalties.isSelected() &&  userIdTxt.getText().length() != 0){
+                    String id;
+                    id = userIdTxt.getText();
                     try {
                         librarianObj.deleteUser(Integer.parseInt(id),false);
                     } catch (Exception ex) {
@@ -998,44 +1108,53 @@ public class Scenery extends Application {
             Librarian newLibraryan = new Librarian();
 
             returnBookBtn.setOnAction(e->{
-                int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
-                int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
 
-                      Book bookObc = new Book();
-                try {
+                if (sentISBNtoReturnBookTxt.getText().length() == 0){
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("You have to write an ISBN");
+                    aler.showAndWait();
+                }else {
+
+                    int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
+                    int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
+
+                    Book bookObc = new Book();
+                    try {
 
                         bookObc = newLibraryan.getBookByISBN(ISBN);
-                        userObj.returnBook(bookObc,IdUser);
-                    bookNameTxt.clear();
+                        userObj.returnBook(bookObc, IdUser);
+                        bookNameTxt.clear();
 
-                             ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                                int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                                String nameForSeeAllBooks = nameMemberLoginTxt.getText();
-                                String bookNameg = "";
-                                String bookNameg2 = "";
-                                 bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
-                                 for (Book book:bookOjcc ){
-                                     bookNameg = book.getTitle() + ": " + book.getISBN();
-                                     bookNameg2 = bookNameg2 + "\n" + bookNameg;
-                                 }
-                                 bookNameGet.setText(bookNameg2);
-                                 sentISBNtoReturnBookTxt.clear();
+                        ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                        int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                        String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                        String bookNameg = "";
+                        String bookNameg2 = "";
+                        bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+                        for (Book book : bookOjcc) {
+                            bookNameg = book.getTitle() + ": " + book.getISBN();
+                            bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                        }
+                        bookNameGet.setText(bookNameg2);
+                        sentISBNtoReturnBookTxt.clear();
 
-                                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                                 aler.setHeaderText("Book returned");
-                                 aler.showAndWait();
-                    
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Book returned");
+                        aler.showAndWait();
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
 
             userRequestDeleteBtn.setOnAction(e->{
-                String nameUserDeleteGet = nameUserRequestDeleteTxt.getText();
-                int idUserDeleteGet = Integer.parseInt(idUserRequestDeleteTxt.getText());
-                int prNumberDeleteGet = Integer.parseInt(personalNrUserRequestDeleteTxt.getText());
 
-                if ( !nameUserDeleteGet.isEmpty() && idUserDeleteGet > 0 && prNumberDeleteGet > 0) {
+                if ( nameUserRequestDeleteTxt.getText().length() > 0 && idUserRequestDeleteTxt.getText().length() >0 && personalNrUserRequestDeleteTxt.getText().length() > 0) {
+                    String nameUserDeleteGet = nameUserRequestDeleteTxt.getText();
+                    int idUserDeleteGet = Integer.parseInt(idUserRequestDeleteTxt.getText());
+                    int prNumberDeleteGet = Integer.parseInt(personalNrUserRequestDeleteTxt.getText());
+
                     try {
                         userObj.requestDelete(idUserDeleteGet, nameUserDeleteGet, prNumberDeleteGet);
                     } catch (IOException ex) {
@@ -1045,7 +1164,8 @@ public class Scenery extends Application {
                      aler.setHeaderText("Delete request sent");
                      aler.showAndWait();
                     nameUserRequestDeleteTxt.clear(); idUserRequestDeleteTxt.clear(); personalNrUserRequestDeleteTxt.clear();
-                } else if (nameUserDeleteGet.isEmpty() && idUserDeleteGet < 0 && prNumberDeleteGet < 0){
+                } else if (nameUserRequestDeleteTxt.getText().length() == 0 && idUserRequestDeleteTxt.getText().length()  == 0 && personalNrUserRequestDeleteTxt.getText().length() == 0){
+
                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
                 aler.setHeaderText("Empty spaces");
                 aler.showAndWait();

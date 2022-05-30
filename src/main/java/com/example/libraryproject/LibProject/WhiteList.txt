@@ -1,5 +1,6 @@
-Stefan,20001006,1684,3,0,Undergraduate student
+Stefan,20001006,1684,2,0,Undergraduate student
 Oskar,19990906,5801,9999,0,
 Victor,20001008,1316,3,0,Undergraduate student
 Gustav,19990208,3520,7,0,PhD Student
 Alex,19970806,3756,7,0,PhD Student
+Martin,19980212,3479,7,0,PhD Student

@@ -269,6 +269,7 @@ public class Librarian {
         logger.info("Controlling if anyone is getting out from timedout");
         ArrayList<User>timeoutList = storage.getTimeoutList();
         ArrayList<User>userList = storage.getUserList();
+        ArrayList<String>userLoanList = storage.getUserLoanList();
 
         boolean control = false;
         ArrayList<User> tempUserList = new ArrayList<User>();
@@ -279,9 +280,13 @@ public class Librarian {
             LocalDate today = LocalDate.now();
 
             if (today.isAfter(expireDate)){
-                userList.add(user);
-                logger.info("A user has been taken out of the timeoutList");
-                control = true;
+                for (String item:userLoanList) {
+                    if (!item.contains(user.Name)&&!item.contains((String.valueOf(user.Id)))) {
+                        userList.add(user);
+                        logger.info("A user has been taken out of the timeoutList");
+                        control = true;
+                    }
+                }
 
             }else{
                 tempUserList.add(user);
@@ -289,22 +294,19 @@ public class Librarian {
 
         } if (control){
 
-          timeoutList.clear();
+            timeoutList.clear();
 
             for (User addUser:tempUserList) {
                 timeoutList.add(addUser);
             }
 
-           storage.updatetimeoutFile(timeoutList);
+            storage.updatetimeoutFile(timeoutList);
             storage.updateUserFile(userList);
         }
-
-
-
     }
 
 
-   public Book getBookByISBN(int ISBN)throws IOException{
+    public Book getBookByISBN(int ISBN)throws IOException{
         logger.info("Trying to get a book by ISBN");
        ArrayList<Book>bookList = storage.getBooks();
 

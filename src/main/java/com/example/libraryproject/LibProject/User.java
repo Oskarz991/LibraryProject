@@ -2,6 +2,7 @@ package com.example.libraryproject.LibProject;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import org.apache.logging.log4j.*;
@@ -239,10 +240,11 @@ public class User {
 
 
     public boolean loginUser (String name, int id)throws IOException{
-        logger.info("Trying to login.");
+       logger.info("Trying to login.");
        boolean verify = false;
 
         ArrayList<User>userList = storage.getUserList();
+        ArrayList<User>timeoutList = storage.getTimeoutList();
 
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
@@ -250,6 +252,15 @@ public class User {
                 logger.debug(name + id + " SuccessfulInlogg");
             }
         }
+        if (timeoutList.size()>0) {
+            for (User item : timeoutList) {
+                if (item.Name.equalsIgnoreCase(name) && item.Id == id) {
+                    verify = true;
+                    logger.debug(" SuccessfulInlogg");
+                }
+            }
+        }
+
         if (!verify){
             logger.debug(name + id + " UnsuccessfulInlogg");
         }
