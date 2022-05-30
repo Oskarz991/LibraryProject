@@ -20,9 +20,8 @@ public class User {
     public String Request;
     public Storage storage = new Storage();
 
-    public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role) {
+    public User(String name, int pnumber, int id, int loancounter, int violationcounter, String role) {
         this.Name = name;
-        this.Surname = surname;
         this.Role = role;
         this.PNumber = pnumber;
         this.Id = id;
@@ -30,9 +29,8 @@ public class User {
         this.ViolationCounter = violationcounter;
     }
 
-    public User(String name, String surname, int pnumber, int id, int loancounter, int violationcounter, String role, LocalDate timer) {
+    public User(String name, int pnumber, int id, int loancounter, int violationcounter, String role, LocalDate timer) {
         this.Name = name;
-        this.Surname = surname;
         this.Role = role;
         this.PNumber = pnumber;
         this.Id = id;

@@ -69,7 +69,7 @@ public class Storage {
             String Role = userScan.nextLine();
             Role = Role.replace(",","");
 
-            userList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+            userList.add(new User(Name,PNumber,Id,LoanCounter,ViolationCounter,Role));
         }
         return userList;
     }
@@ -99,7 +99,7 @@ public class Storage {
             String Role = blacklisted.nextLine();
             Role = Role.replace(",","");
 
-            blackList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role));
+            blackList.add(new User(Name,PNumber,Id,LoanCounter,ViolationCounter,Role));
         }
 
         return blackList;
@@ -134,7 +134,7 @@ public class Storage {
             String Role = timeoutListScan.nextLine();
             Role = Role.replace(",","");
 
-            timeoutList.add(new User(Name,SurName,PNumber,Id,LoanCounter,ViolationCounter,Role,timer));
+            timeoutList.add(new User(Name,PNumber,Id,LoanCounter,ViolationCounter,Role,timer));
         }
 
         return timeoutList;

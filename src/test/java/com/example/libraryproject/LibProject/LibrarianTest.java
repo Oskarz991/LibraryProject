@@ -54,8 +54,8 @@ class LibrarianTest {
         Librarian librarian = new Librarian(storage);
 
         ArrayList<User> whitelisted = new ArrayList<>();
-        User user = new User("Victor", "Almqvist",2001,5234,3,0,"");
-        User user2 = new User("Victor", "Almqvist",1123,5434,3,0,"");
+        User user = new User("Victor", 2001,5234,3,0,"");
+        User user2 = new User("Victor", 1123,5434,3,0,"");
 
         whitelisted.add(user);
         whitelisted.add(user2);
@@ -71,8 +71,8 @@ class LibrarianTest {
         Librarian librarian = new Librarian(storage);
 
         ArrayList<User> whitelisted = new ArrayList<>();
-        User user = new User("Victor", "Almqvist",2001,5234,3,0,"");
-        User user2 = new User("Victor", "Almqvist",1123,5434,3,0,"");
+        User user = new User("Victor",2001,5234,3,0,"");
+        User user2 = new User("Victor",1123,5434,3,0,"");
 
         whitelisted.add(user);
         whitelisted.add(user2);
