@@ -80,8 +80,8 @@ public class Librarian {
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
                if (userList.get(i).PNumber == (userList.get(j).PNumber)){
-                   userList.remove(j);
                    logger.debug(userList.get(j).PNumber +" was a duplicate found");
+                   userList.remove(j);
                }
            }
        }
@@ -110,7 +110,7 @@ public class Librarian {
            logger.info("User was successfuly added");
        }
        for (User item: pendingWork){
-           if (item.Name.equalsIgnoreCase(name) && item.Role.equalsIgnoreCase(role) && item.PNumber==pNumber && item.Request.contains("AddMe: ")){
+           if (item.Name.equalsIgnoreCase(name) && item.PNumber==pNumber && item.Request.contains("AddMe: ")){
                pendingWork.remove(item);
                break;
 
@@ -226,19 +226,18 @@ public class Librarian {
                }
            }
 
-           for (User item: pendingWork){
-               if (item.Id == id && item.Request.contains("Delete")){
-                   pendingWork.remove(item);
-                   break;
-
-               }
-           }
-           storage.updatePendingFile(pendingWork);
-
            storage.updateBookFile(bookList);
            storage.updateUserFile(userList);
            storage.updateUserLoanFile(userLoanList);
        }
+       for (User item: pendingWork){
+           if (item.Id == id && item.Request.contains("Delete")){
+               pendingWork.remove(item);
+               break;
+
+           }
+       }
+       storage.updatePendingFile(pendingWork);
    }
 
    public void giveTimeout(int id)throws IOException{
@@ -323,7 +322,7 @@ public class Librarian {
    }
 
    public void lendBook(Book theBook, int userId)throws IOException {
-        logger.info("Lending:"+ theBook.Title + " to" + userId);
+       logger.info("Lending:"+ theBook.Title + " to" + userId);
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User> pendingWork = storage.getPendingList();
 
@@ -373,7 +372,7 @@ public class Librarian {
        }
 
        for (User item: pendingWork){
-           if (item.Id == userId && item.Request.contains("Loan: " + theBook.Title)){
+           if (item.Id == userId && item.Request.contains("Loan:")){
                pendingWork.remove(item);
                break;
            }
@@ -399,5 +398,15 @@ public class Librarian {
         }
 
         return verify;
+    }
+
+
+    public static void main(String[] args) throws IOException{
+        Librarian lib = new Librarian();
+
+        Book thebook = new Book(4,"The Witcher",4136,10,"Andrzej Sapkowski");
+        
+        lib.lendBook(thebook,1684);
+
     }
 }
