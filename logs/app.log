@@ -1361,6 +1361,23 @@
 2022-05-30 21:06:50,940 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
 2022-05-30 21:06:50,944 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
 2022-05-30 21:06:54,581 INFO c.e.l.L.User [JavaFX Application Thread] Trying to get a book by ISBN
+2022-05-30 21:12:06,937 INFO c.e.l.L.User [main] Trying to get a book by ISBN
+2022-05-30 21:12:06,941 INFO c.e.l.L.User [main] Could not find the book
+2022-05-30 21:12:06,952 INFO c.e.l.L.User [main] Trying to login as a Librarian.
+2022-05-30 21:12:06,955 DEBUG c.e.l.L.User [main] Oskar9999Login Unsuccessful
+2022-05-30 21:12:06,958 INFO c.e.l.L.User [main] Trying to get a book by ISBN
+2022-05-30 21:12:06,963 INFO c.e.l.L.User [main] Trying to login as a Librarian.
+2022-05-30 21:12:06,963 DEBUG c.e.l.L.User [main] Victor5234 Login successful
+2022-05-30 21:12:21,050 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 21:12:21,058 DEBUG c.e.l.L.User [main] Victor1122 SuccessfulInlogg
+2022-05-30 21:12:21,068 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 21:12:21,069 DEBUG c.e.l.L.User [main] Oskar9393 UnsuccessfulInlogg
+2022-05-30 21:12:21,075 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 21:12:21,075 INFO c.e.l.L.User [main] Did not find the book
+2022-05-30 21:12:21,082 INFO c.e.l.L.User [main] Lending:Leauge of Legends to 1122
+2022-05-30 21:12:21,083 INFO c.e.l.L.User [main] Couldnt loan to the user because the user can not loan anymore books
+2022-05-30 21:12:21,088 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 21:12:21,088 INFO c.e.l.L.User [main] Found the book
 2022-05-30 21:11:33,918 INFO c.e.l.L.User [main] Trying to get a book by ISBN
 2022-05-30 21:11:33,922 INFO c.e.l.L.User [main] Could not find the book
 2022-05-30 21:11:33,938 INFO c.e.l.L.User [main] Trying to login as a Librarian.
