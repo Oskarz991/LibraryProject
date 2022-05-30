@@ -48,7 +48,7 @@ public class Librarian {
 
    public ArrayList<User> addUser(String name, int pNumber, String role) throws IOException{
         logger.info("Trying to add User");
-        ArrayList<String> pendingWork = storage.getUserLoanList();
+        ArrayList<User> pendingWork = storage.getPendingList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        int sizeOfUserList = userList.size();
@@ -109,17 +109,20 @@ public class Librarian {
        if (sizeOfUserList+1==userList.size()){
            logger.info("User was successfuly added");
        }
-       for (String item: pendingWork){
-           if (item.equals(name + "," + pNumber + "," +"0" + "," + "AddMe: " + role));{
+       for (User item: pendingWork){
+           if (item.equals(item.Name + "," + item.PNumber + "," +"0" + "," + "AddMe: " + item.Role));{
+               pendingWork.remove(item);
+               break;
 
            }
        }
+       storage.updatePendingFile(pendingWork);
 
        return userList;
    }
 
    public void deleteUser(int id, boolean request) throws IOException {
-        logger.debug("Deleting user with id:" + id + " was this requested? " + request);
+       logger.debug("Deleting user with id:" + id + " was this requested? " + request);
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        ArrayList<Book>bookList = storage.getBooks();

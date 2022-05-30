@@ -21,6 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.jar.Attributes;
 
 
+
 public class Scenery extends Application {
 
        public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
@@ -110,8 +111,6 @@ public class Scenery extends Application {
             Text namn = new Text();
             namn.setStyle("-fx-font-weight: bold");
             namn.setFont(fira);
-            Text surname = new Text();
-            surname.setFont(fira);
             Font tre = new Font(14);
             Text role = new Text();
             role.setFont(tre);
@@ -140,7 +139,7 @@ public class Scenery extends Application {
                 loanCount.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter())+"\n");
             });
 
-            TextFlow textMembers = new TextFlow(namn, surname, role, idid, prNumber, violationCounter, loanCount);
+            TextFlow textMembers = new TextFlow(namn, role, idid, prNumber, violationCounter, loanCount);
             textMembers.setPrefWidth(250);
 
             //Bibliotekarie kan se alla pendings

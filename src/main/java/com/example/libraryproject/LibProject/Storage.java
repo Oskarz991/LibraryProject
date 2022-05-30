@@ -12,9 +12,7 @@ public class Storage {
     public ArrayList<Book> bookList = new ArrayList<>();
     public ArrayList<User> userList = new ArrayList<>();
     public ArrayList<User> blackList = new ArrayList<>();
-    public ArrayList<String> loanedBooksList = new ArrayList<>();
     public ArrayList<User> timeoutList = new ArrayList<>();
-    public ArrayList<String> logList = new ArrayList<>();
     public ArrayList<String> userLoanList = new ArrayList<>();
     public ArrayList<User> pendingList = new ArrayList<>();
 
