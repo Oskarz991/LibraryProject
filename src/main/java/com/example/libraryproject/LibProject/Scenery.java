@@ -56,7 +56,7 @@ public class Scenery extends Application {
             VBox leftControl  = new VBox(new Label("Left Control"));
             VBox rightControl = new VBox(new Label("Right Control"));
 
-
+//Klar
             GridPane paneLeft = new GridPane();
             paneLeft.setAlignment(Pos.BASELINE_LEFT);
             paneLeft.setHgap(5);
