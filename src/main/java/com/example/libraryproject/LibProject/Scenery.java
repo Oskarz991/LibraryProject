@@ -507,7 +507,6 @@ public class Scenery extends Application {
                             prNumberPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
                             idPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
 
-
                             });
                         }
                     } catch (IOException ex) {
@@ -521,35 +520,53 @@ public class Scenery extends Application {
             lendBookLibrarianBtn.setOnAction(e->{
                 Book bookOkj = new Book();
                 int idUser;
-
-                if (lendBookBookNameLibrarianTxt.getText().isEmpty()) {
+                try {
+                if (lendBookBookNameLibrarianTxt.getText().length() == 0 || lendBookUserIdLibrarianTxt.getText().length() == 0) {
                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
                     aler.setHeaderText("Something went wrong");
                     aler.showAndWait();
+                }else if (userObj.searchTitle(lendBookBookNameLibrarianTxt.getText()) == null || lendBookUserIdLibrarianTxt.getText().length() == 0){
+
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("Wrong text inserted or no ID");
+                    aler.showAndWait();
                 }else {
-                    try {
-                        bookOkj = userObj.searchTitle(lendBookBookNameLibrarianTxt.getText());
-                        idUser = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
-                        librarianObj.lendBook(bookOkj, idUser);
-                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                        aler.setHeaderText("Lend book accepted");
-                        aler.showAndWait();
-                        lendBookUserIdLibrarianTxt.clear();
-                        lendBookBookNameLibrarianTxt.clear();
+
+                            bookOkj = userObj.searchTitle(lendBookBookNameLibrarianTxt.getText());
+                            idUser = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+
+                            librarianObj.lendBook(bookOkj, idUser);
+
+                            Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                            aler.setHeaderText("Lend book accepted");
+                            aler.showAndWait();
+                        }
+
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
-                }
-                ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                String nameForSeeAllBooks = nameMemberLoginTxt.getText();
-                String bookNameg = "";
-                String bookNameg2 = "";
                 try {
-                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                int prNameForSeeAllBooks = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+                String nameForSeeAllBooks = null;
+
+
+                ArrayList<User> findUser = new ArrayList<User>();
+
+                    findUser = storage.getUserList();
+
+                    for (User user : findUser) {
+                        if (user.Id == prNameForSeeAllBooks) {
+                            nameForSeeAllBooks = user.Name;
+                        } else
+                            nameForSeeAllBooks = "";
+                    }
+
+                    String bookNameg = "";
+                    String bookNameg2 = "";
+
+                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+
                 for (Book book:bookOjcc ){
                     bookNameg = book.getTitle() + ": " + book.getISBN();
                     bookNameg2 = bookNameg2 + "\n" + bookNameg;
@@ -559,7 +576,6 @@ public class Scenery extends Application {
                 pendingList.clear();
                 pendingListView.getItems().clear();
                 ArrayList<User> pendingList1;
-                try {
                     pendingList1 = storage.getPendingList();
 
                     for ( int i = 0; i <pendingList1.size(); i++){

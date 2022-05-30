@@ -372,7 +372,7 @@ public class Librarian {
        }
 
        for (User item: pendingWork){
-           if (item.Id == userId && item.Request.contains("Loan:")){
+           if (item.Id == userId && item.Request.contains(theBook.Title)){
                pendingWork.remove(item);
                break;
            }
