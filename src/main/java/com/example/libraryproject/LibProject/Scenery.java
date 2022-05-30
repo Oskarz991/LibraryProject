@@ -28,6 +28,7 @@ public class Scenery extends Application {
        public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
+       public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
 
         public static void main(String[] args) {
 
@@ -103,7 +104,7 @@ public class Scenery extends Application {
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
             for ( int i = 0; i <userList.size(); i++){
-              memberList.getItems().addAll(userList.get(i).Name);  
+              memberList.getItems().addAll(userList.get(i).Name);
             }
 
             Font fira = new Font(15);
@@ -131,6 +132,7 @@ public class Scenery extends Application {
              deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                memberList.refresh();
                 namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ " ");
                 surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname()+ "\n" );
                 role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n" + "Id: ");
@@ -143,6 +145,66 @@ public class Scenery extends Application {
 
             TextFlow textMembers = new TextFlow(namn, surname, role, idid, prNumber, violationCounter, loanCount);
             textMembers.setPrefWidth(250);
+
+            //Bibliotekarie kan se alla pendings
+            Button toSeePendingBtn = new Button("See requests");
+
+            Scanner pendingScan = null;
+            try {
+                pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            ArrayList<User> pendingList = new ArrayList<>();
+
+           while (pendingScan.hasNext()){
+                 String Name = pendingScan.next();
+                 int PNumber = Integer.parseInt(pendingScan.next());
+                 int Id = Integer.parseInt(pendingScan.next());
+                 String Request = pendingScan.nextLine();
+                 Request = Request.replace(",","");
+
+                 pendingList.add(new User(Name,PNumber,Id,Request));
+
+                 if (Request.contains("Loan:")){
+
+               } else if (Request.contains("AddMe:")){
+
+                 } else if (Request.contains("Delete")){
+
+                 }
+            }
+
+            ListView<String> pendingListView = new ListView<>();
+            pendingListView.setVisible(false);
+            pendingListView.setPrefWidth(150);
+
+            for ( int i = 0; i <pendingList.size(); i++){
+                pendingListView.getItems().addAll(pendingList.get(i).Request);
+            }
+
+            Text namnPending = new Text();
+            namnPending.setStyle("-fx-font-weight: bold");
+            namnPending.setFont(fira);
+            Text prNumberPending = new Text();
+            prNumberPending.setFont(tre);
+            Text idPending = new Text();
+            idPending.setFont(tre);
+
+
+
+            pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                    namnPending.setText(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                    prNumberPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                idPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+            });
+
+            TextFlow textPending = new TextFlow(namnPending,prNumberPending,idPending);
+            textPending.setPrefWidth(250);
+            textPending.setVisible(false);
+
 
             //Medlem ansöker om att låna en bok
             Label titleRequestLoan = new Label("Request for a loan");
@@ -173,8 +235,12 @@ public class Scenery extends Application {
             returnBook2.setToggleGroup(tglReturnBook);
             returnBook3.setToggleGroup(tglReturnBook);
             returnBook4.setToggleGroup(tglReturnBook);
-        
-            Button returnBookBtn = new Button("Return Book");
+
+            Label sentISBNtoReturnBookLbl = new Label("Return book by isbn:");
+            TextField sentISBNtoReturnBookTxt = new TextField();
+
+            //Ansöka om att lämna tillbaka bok
+             Button returnBookBtn = new Button("Return Book");
 
             //Logga in som medlem
             Label nameMemberLoginLbl = new Label("Name:");
@@ -191,6 +257,8 @@ public class Scenery extends Application {
             Button toRequestDeleteBtn = new Button("To delete");
             Button toAllLoanedBooksBtn = new Button("To loaned books");
             toAllLoanedBooksBtn.setVisible(false);
+            Button userRequestDeleteBtn = new Button("Send request");
+            userRequestDeleteBtn.setVisible(false);
 
             Label nameUserRequestDeleteLbl = new Label("Name:");
             TextField nameUserRequestDeleteTxt = new TextField();
@@ -213,10 +281,6 @@ public class Scenery extends Application {
             nameMemberRegisterLbl.setVisible(false);
             TextField nameMemberRegisterTxt = new TextField();
             nameMemberRegisterTxt.setVisible(false);
-            Label surnameMemberRegisterLbl = new Label("Surname:");
-            TextField surnameMemberRegisterTxt = new TextField();
-            surnameMemberRegisterTxt.setVisible(false);
-            surnameMemberRegisterLbl.setVisible(false);
             Label personalNrMemberRegisterLbl = new Label("Personal Number:");
             TextField personalNrMemberRegisterTxt = new TextField();
             personalNrMemberRegisterLbl.setVisible(false);
@@ -264,6 +328,26 @@ public class Scenery extends Application {
              userIdTxt.setVisible(false);
              deleteUserBtn.setVisible(false);
 
+             //Bibliotekarien kan bekräfta ett lån till användarna
+             TextField lendBookBookNameLibrarianTxt = new TextField();
+             lendBookBookNameLibrarianTxt.setPromptText("Book name");
+             TextField lendBookUserIdLibrarianTxt = new TextField();
+             lendBookUserIdLibrarianTxt.setPromptText("User Id");
+             lendBookUserIdLibrarianTxt.setVisible(false);
+             lendBookBookNameLibrarianTxt.setVisible(false);
+             Button lendBookLibrarianBtn = new Button("Accept Lend book");
+             lendBookLibrarianBtn.setVisible(false);
+
+             //Skapa en ny medlem
+             TextField createANewUserNameTxt = new TextField(); createANewUserNameTxt.setPromptText("Name"); createANewUserNameTxt.setVisible(false);
+             TextField createANewUserPersonalNumberTxt = new TextField(); createANewUserPersonalNumberTxt.setPromptText("Personal number"); createANewUserPersonalNumberTxt.setVisible(false);
+             TextField createANewUserRoleTxt = new TextField(); createANewUserRoleTxt.setPromptText("Role"); createANewUserRoleTxt.setVisible(false);
+             Button createANewUserBtn = new Button("Create user"); createANewUserBtn.setVisible(false);
+
+             //Bibliotekarien kan ge timeouts
+             TextField librarianGiveTimeoutIdTxt = new TextField(); librarianGiveTimeoutIdTxt.setPromptText("User Id");
+             Button librarianGiveTimeoutBtn = new Button("Give Timeout");
+
             //--------------------------------------------------------//
             Button registerNewAccount = new Button("Register new account ");
             Button loginAsAMember = new Button("Login as a member");
@@ -292,20 +376,18 @@ public class Scenery extends Application {
                 nameMemberLoginTxt.setVisible(false); nameMemberLoginTxt.setVisible(false);
                 nameMemberRegisterLbl.setVisible(true); nameMemberRegisterTxt.setVisible(true);
                 idMemberLoginLbl.setVisible(false); idMemberLoginTxt.setVisible(false);
-                surnameMemberRegisterLbl.setVisible(true); surnameMemberRegisterTxt.setVisible(true);
                 personalNrMemberRegisterLbl.setVisible(true); personalNrMemberRegisterTxt.setVisible(true);
                 userIsUndergraduateStudent.setVisible(true); userIsPostgraduateStudent.setVisible(true); userIsPhDStudent.setVisible(true); userIsTeacher.setVisible(true);
             });
 
             loginAsAMember.setOnAction(e-> {
-                nameMemberRegisterTxt.clear(); surnameMemberRegisterTxt.clear(); personalNrMemberRegisterTxt.clear();
+                nameMemberRegisterTxt.clear(); personalNrMemberRegisterTxt.clear();
                 titleMember.setVisible(true); titleNewAccount.setVisible(false);
                 registerNewAccount.setVisible(true); loginAsAMember.setVisible(false);
                 loginBtn.setVisible(true); registerBtn.setVisible(false);
                 nameMemberLoginLbl.setVisible(true); nameMemberLoginTxt.setVisible(true);
                 nameMemberRegisterLbl.setVisible(false); nameMemberRegisterTxt.setVisible(false);
                 idMemberLoginLbl.setVisible(true); idMemberLoginTxt.setVisible(true);
-                surnameMemberRegisterLbl.setVisible(false); surnameMemberRegisterTxt.setVisible(false);
                 personalNrMemberRegisterLbl.setVisible(false); personalNrMemberRegisterTxt.setVisible(false);
                 userIsUndergraduateStudent.setVisible(false); userIsPostgraduateStudent.setVisible(false); userIsPhDStudent.setVisible(false); userIsTeacher.setVisible(false);
             });
@@ -338,6 +420,8 @@ public class Scenery extends Application {
                 }
             });
 
+            Text bookNameGet = new Text();
+
             loginBtn.setOnAction(e-> {
                 String name = nameMemberLoginTxt.getText();
                 String id = idMemberLoginTxt.getText();
@@ -360,10 +444,31 @@ public class Scenery extends Application {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+
+                ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                   int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                   String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                   String bookNameg = "";
+                   String bookNameg2 = "";
+
+
+                try {
+                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
+                    for (Book book:bookOjcc ){
+                        bookNameg = book.getTitle() + ": " + book.getISBN();
+                        bookNameg2 = bookNameg2 + "\n" + bookNameg;
+
+                    }
+                    bookNameGet.setText(bookNameg2);
+
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
                     Text getIdForBookToSendForLoan = new Text();
-            //Fixa så att man får fram det böcker som man söker på
+
             searchBookBtn.setOnAction(e-> {
                 Book bookObc = new Book();
                 String bokName;
@@ -406,9 +511,32 @@ public class Scenery extends Application {
                 });
             });
 
+            lendBookLibrarianBtn.setOnAction(e->{
+                Book bookOkj = new Book();
+                int idUser;
+
+                if (lendBookBookNameLibrarianTxt.getText().isEmpty()) {
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("Something went wrong");
+                    aler.showAndWait();
+                }else {
+                    try {
+                        bookOkj = userObj.searchTitle(lendBookBookNameLibrarianTxt.getText());
+                        idUser = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+                        librarianObj.lendBook(bookOkj, idUser);
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Lend book accepted");
+                        aler.showAndWait();
+                        lendBookUserIdLibrarianTxt.clear();
+                        lendBookBookNameLibrarianTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+//
                 registerBtn.setOnAction(e-> {
                             String nameUser = nameMemberRegisterTxt.getText();
-                            String surnameUser = surnameMemberRegisterTxt.getText();
                             int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
                             String pr = "Undergraduate student";
                             String pr2 = "Postgraduate student";
@@ -423,7 +551,6 @@ public class Scenery extends Application {
                                     aler.showAndWait();
 
                                     nameMemberRegisterTxt.clear();
-                                    surnameMemberRegisterTxt.clear();
                                     personalNrMemberRegisterTxt.clear();
 
                                 } catch (IOException ex) {
@@ -437,7 +564,6 @@ public class Scenery extends Application {
                                 aler.showAndWait();
 
                                 nameMemberRegisterTxt.clear();
-                                surnameMemberRegisterTxt.clear();
                                 personalNrMemberRegisterTxt.clear();
 
                             } catch (IOException ex) {
@@ -451,7 +577,6 @@ public class Scenery extends Application {
                                     aler.showAndWait();
 
                                     nameMemberRegisterTxt.clear();
-                                    surnameMemberRegisterTxt.clear();
                                     personalNrMemberRegisterTxt.clear();
 
                                 } catch (IOException ex) {
@@ -465,7 +590,6 @@ public class Scenery extends Application {
                                     aler.showAndWait();
 
                                     nameMemberRegisterTxt.clear();
-                                    surnameMemberRegisterTxt.clear();
                                     personalNrMemberRegisterTxt.clear();
 
                                 } catch (IOException ex) {
@@ -477,6 +601,42 @@ public class Scenery extends Application {
                                 aler.showAndWait();
                     }
             });
+
+                createANewUserBtn.setOnAction(e->{
+                    String nameUser = createANewUserNameTxt.getText();
+                    int personalNrUser = Integer.parseInt(createANewUserPersonalNumberTxt.getText());
+                    String roleUser = createANewUserRoleTxt.getText();
+                    String temporaryTaBort = "S";
+
+                    try {
+                        librarianObj.addUser(nameUser,temporaryTaBort,personalNrUser,roleUser);
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("User created");
+                        aler.showAndWait();
+                        createANewUserNameTxt.clear();
+                        createANewUserPersonalNumberTxt.clear();
+                        createANewUserRoleTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+
+                librarianGiveTimeoutBtn.setOnAction(e->{
+                    int idForGiveTimeout = Integer.parseInt(librarianGiveTimeoutIdTxt.getText());
+
+
+                    try {
+                        librarianObj.giveTimeout(idForGiveTimeout);
+                        lendBookUserIdLibrarianTxt.clear();
+
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Timeout given");
+                        aler.showAndWait();
+                        lendBookBookNameLibrarianTxt.clear();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
 
             changeSearchAddBookBtn.setOnAction(e->  {
              titleAddNewBook.setVisible(false);
@@ -551,18 +711,6 @@ public class Scenery extends Application {
                 addBookText.setText("Book added");
             });
 
-            formDeteleUserBtn.setOnAction(e->{
-                    memberList.setVisible(false);
-                    textMembers.setVisible(false);
-                    overviewMembersBtn.setVisible(true);
-                    deleteByChoise.setVisible(true);
-                    deleteByPenalties.setVisible(true);
-                    deleteUserBtn.setVisible(true);
-                    overviewMembersBtn.setVisible(true);
-                    userIdLbl.setVisible(true);
-                    userIdTxt.setVisible(true);
-                    });
-
             deleteUserBtn.setOnAction(e->{
                 String id;
                 id = userIdTxt.getText();
@@ -598,13 +746,48 @@ public class Scenery extends Application {
 
             });
 
+            formDeteleUserBtn.setOnAction(e->{
+                memberList.setVisible(false);
+                textMembers.setVisible(false);
+                overviewMembersBtn.setVisible(true);
+                deleteByChoise.setVisible(true);
+                deleteByPenalties.setVisible(true);
+                deleteUserBtn.setVisible(true);
+                overviewMembersBtn.setVisible(true);
+                userIdLbl.setVisible(true);
+                userIdTxt.setVisible(true);
+                formDeteleUserBtn.setVisible(false);
+                pendingListView.setVisible(false); textPending.setVisible(false);
+                lendBookUserIdLibrarianTxt.setVisible(false);
+                lendBookBookNameLibrarianTxt.setVisible(false);
+                lendBookLibrarianBtn.setVisible(false);
+                createANewUserNameTxt.setVisible(false); createANewUserPersonalNumberTxt.setVisible(false); createANewUserRoleTxt.setVisible(false); createANewUserBtn.setVisible(false);
+                librarianGiveTimeoutIdTxt.setVisible(false); librarianGiveTimeoutBtn.setVisible(false);
+                   });
+
             overviewMembersBtn.setOnAction(e->{
+                memberList.refresh();
                 formDeteleUserBtn.setVisible(true); overviewMembersBtn.setVisible(false);
                 memberList.setVisible(true); textMembers.setVisible(true);
                 deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false); deleteUserBtn.setVisible(false);
                 formDeteleUserBtn.setVisible(true);
                 userIdLbl.setVisible(false); userIdTxt.setVisible(false);
+                pendingListView.setVisible(false); textPending.setVisible(false);
+                lendBookUserIdLibrarianTxt.setVisible(false);
+                lendBookBookNameLibrarianTxt.setVisible(false);
+                lendBookLibrarianBtn.setVisible(false);
+                createANewUserNameTxt.setVisible(false); createANewUserPersonalNumberTxt.setVisible(false); createANewUserRoleTxt.setVisible(false); createANewUserBtn.setVisible(false);
+                librarianGiveTimeoutIdTxt.setVisible(true); librarianGiveTimeoutBtn.setVisible(true);
                     });
+
+            toSeePendingBtn.setOnAction(e->{
+                pendingListView.setVisible(true);
+                memberList.setVisible(false); textMembers.setVisible(false); deleteByChoise.setVisible(false); deleteByPenalties.setVisible(false);
+                deleteUserBtn.setVisible(false); userIdLbl.setVisible(false); userIdTxt.setVisible(false); textPending.setVisible(true);
+                lendBookUserIdLibrarianTxt.setVisible(true); lendBookBookNameLibrarianTxt.setVisible(true); lendBookLibrarianBtn.setVisible(true);
+                createANewUserNameTxt.setVisible(true); createANewUserPersonalNumberTxt.setVisible(true); createANewUserRoleTxt.setVisible(true); createANewUserBtn.setVisible(true);
+                librarianGiveTimeoutIdTxt.setVisible(false); librarianGiveTimeoutBtn.setVisible(false);
+            });
 
             toRequestDeleteBtn.setOnAction(e->{
                   titleAllLoanedBooks.setVisible(false);
@@ -614,6 +797,9 @@ public class Scenery extends Application {
                   nameUserRequestDeleteLbl.setVisible(true); nameUserRequestDeleteTxt.setVisible(true);
                   idUserRequestDeleteLbl.setVisible(true); idUserRequestDeleteTxt.setVisible(true);
                   personalNrUserRequestDeleteLbl.setVisible(true); personalNrUserRequestDeleteTxt.setVisible(true);
+                  returnBookBtn.setVisible(false); userRequestDeleteBtn.setVisible(true);
+                  bookNameGet.setVisible(false);
+                  sentISBNtoReturnBookLbl.setVisible(false); sentISBNtoReturnBookTxt.setVisible(false);
             });
 
             toAllLoanedBooksBtn.setOnAction(e->{
@@ -625,6 +811,62 @@ public class Scenery extends Application {
                 nameUserRequestDeleteLbl.setVisible(false); nameUserRequestDeleteTxt.setVisible(false);
                 idUserRequestDeleteLbl.setVisible(false); idUserRequestDeleteTxt.setVisible(false);
                 personalNrUserRequestDeleteLbl.setVisible(false); personalNrUserRequestDeleteTxt.setVisible(false);
+                returnBookBtn.setVisible(true); userRequestDeleteBtn.setVisible(false);
+                bookNameGet.setVisible(true);
+                sentISBNtoReturnBookLbl.setVisible(true); sentISBNtoReturnBookTxt.setVisible(true);
+
+            });
+
+            Librarian newLibraryan = new Librarian();
+
+            returnBookBtn.setOnAction(e->{
+                int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
+                int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
+
+                      Book bookObc = new Book();
+                try {
+
+                        bookObc = newLibraryan.getBookByISBN(ISBN);
+                        userObj.returnBook(bookObc,IdUser);
+                    bookNameTxt.clear();
+
+                             ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                                int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                                String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                                String bookNameg = "";
+                                String bookNameg2 = "";
+                                 bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
+                                 for (Book book:bookOjcc ){
+                                     bookNameg = book.getTitle() + ": " + book.getISBN();
+                                     bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                                 }
+                                 bookNameGet.setText(bookNameg2);
+                    
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
+
+            userRequestDeleteBtn.setOnAction(e->{
+                String nameUserDeleteGet = nameUserRequestDeleteTxt.getText();
+                int idUserDeleteGet = Integer.parseInt(idUserRequestDeleteTxt.getText());
+                int prNumberDeleteGet = Integer.parseInt(personalNrUserRequestDeleteTxt.getText());
+
+                if ( !nameUserDeleteGet.isEmpty() && idUserDeleteGet > 0 && prNumberDeleteGet > 0) {
+                    try {
+                        userObj.requestDelete(idUserDeleteGet, nameUserDeleteGet, prNumberDeleteGet);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                     Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                     aler.setHeaderText("Delete request sent");
+                     aler.showAndWait();
+                    nameUserRequestDeleteTxt.clear(); idUserRequestDeleteTxt.clear(); personalNrUserRequestDeleteTxt.clear();
+                } else if (nameUserDeleteGet.isEmpty() && idUserDeleteGet < 0 && prNumberDeleteGet < 0){
+                Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                aler.setHeaderText("Empty spaces");
+                aler.showAndWait();
+                }
             });
 
             //Lägg till på vänster sida login funktionen
@@ -641,8 +883,7 @@ public class Scenery extends Application {
             paneRight.add(userIsUndergraduateStudent,0,4); paneRight.add(userIsPostgraduateStudent,1,4);
             paneRight.add(userIsPhDStudent,0,5); paneRight.add(userIsTeacher,1,5);
             paneRight.add(personalNrMemberRegisterLbl,0,6); paneRight.add(personalNrMemberRegisterTxt,1,6);
-            paneRight.add(surnameMemberRegisterLbl,0,7); paneRight.add(surnameMemberRegisterTxt,1,7);
-            paneRight.add(loginBtn,1,8); paneRight.add(registerBtn,1,8);
+            paneRight.add(loginBtn,1,7); paneRight.add(registerBtn,1,7);
 
             //Lägg till på vänster sida - det som bibliotekarien ser
             paneLeft2.add(titleAddNewBook,0,0); paneLeft2.add(titleSearchBook,0,0);
@@ -652,14 +893,18 @@ public class Scenery extends Application {
             paneLeft2.add(bookAuthorLbl,0,4); paneLeft2.add(bookAuthorTxt,1,4);
             paneLeft2.add(bookISBNLbl,0,5); paneLeft2.add(bookISBNTxt,1,5);
             paneLeft2.add(bookQuantityLbl,0,6); paneLeft2.add(bookQuantityTxt,1,6);
-            paneLeft2.add(formDeteleUserBtn,0,8); paneLeft2.add(overviewMembersBtn,0,8);
+            paneLeft2.add(formDeteleUserBtn,0,8); paneLeft2.add(overviewMembersBtn,0,8); paneLeft2.add(toSeePendingBtn,1,8);
             paneLeft2.add(addANewBookBtn,1,7); paneLeft2.add(addBookText,2,7); paneLeft2.add(searchBookByISBNBtn,1,7);
 
             paneLeft2.add(bokA,0,3); paneLeft2.add(bokId,0,4); paneLeft2.add(bokN,0,5); paneLeft2.add(bokQ,0,6); paneLeft2.add(bokISBNN,0,7);
 
             paneLeft2.add(userIdLbl,0,9); paneLeft2.add(userIdTxt,1,9);
-            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9);
+            paneLeft2.add(memberList,0,9); paneLeft2.add(textMembers,1,9); paneLeft2.add(pendingListView,0,9); paneLeft2.add(textPending,1,9);
+            paneLeft2.add(librarianGiveTimeoutIdTxt,2,10); paneLeft2.add(librarianGiveTimeoutBtn,1,10);
             paneLeft2.add(deleteByChoise, 0,10); paneLeft2.add(deleteByPenalties,1,10); paneLeft2.add(deleteUserBtn,2,10);
+
+            paneLeft2.add(lendBookBookNameLibrarianTxt,3,9); paneLeft2.add(lendBookUserIdLibrarianTxt,2,9); paneLeft2.add(lendBookLibrarianBtn,1,9);
+            paneLeft2.add(createANewUserBtn,1,10); paneLeft2.add(createANewUserNameTxt,2,10); paneLeft2.add(createANewUserPersonalNumberTxt,3,10); paneLeft2.add(createANewUserRoleTxt,4,10);
             paneLeft2.setVisible(false);
 
             //Lägg till på höger sida - det som användaren ser
@@ -669,12 +914,13 @@ public class Scenery extends Application {
             paneRight2.add(bookUserSearchTxt,0,2);
             paneRight2.add(loanBookBtn,1,6);
             paneRight2.add(titleAllLoanedBooks,0,7); paneRight2.add(titleRequestDelete,0,7);
-            paneRight2.add(toRequestDeleteBtn,0,8); paneRight2.add(toAllLoanedBooksBtn,0,8);
-            paneRight2.add(nameUserRequestDeleteLbl,0,9); paneRight2.add(nameUserRequestDeleteTxt,1,9);
+            paneRight2.add(toRequestDeleteBtn,0,8); paneRight2.add(toAllLoanedBooksBtn,0,8); 
+            paneRight2.add(bookNameGet,0,9) ;paneRight2.add(nameUserRequestDeleteLbl,0,9); paneRight2.add(nameUserRequestDeleteTxt,1,9);
+            paneRight2.add(sentISBNtoReturnBookLbl,0,10) ;paneRight2.add(sentISBNtoReturnBookTxt,1,10);
             paneRight2.add(idUserRequestDeleteLbl,0,10); paneRight2.add(idUserRequestDeleteTxt,1,10);
             paneRight2.add(personalNrUserRequestDeleteLbl,0,11); paneRight2.add(personalNrUserRequestDeleteTxt,1,11);
           //  paneRight2.add(returnBook1,0,9); paneRight2.add(returnBook2,0,10); paneRight2.add(returnBook3,0,11); paneRight2.add(returnBook4,0,12);
-            paneRight2.add(returnBookBtn,1,12);
+            paneRight2.add(returnBookBtn,1,12); paneRight2.add(userRequestDeleteBtn,1,12);
             paneRight2.setVisible(false);
 
             leftControl.getChildren().addAll(paneLeft);

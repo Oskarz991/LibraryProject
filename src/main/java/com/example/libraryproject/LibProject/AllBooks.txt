@@ -1,5 +1,8 @@
-3,Svensson,1264,4,Rolf
+3,Svensson,1264,13,Rolf
 1,Oskars resor,2334,5,Sven
 2,Victors resor,3434,5,Janne
-1,Svenssons resor,1234,4,Svenne
+1,Svenssons resor,1234,10,Svenne
 3,Fina väder,7623,5,Karl
+5,Antonsson,1244,6,Rof
+6,Sture P,7654,11,Rolfe
+5,HarryPotter,4545,10,Davidsson

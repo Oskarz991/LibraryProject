@@ -1,4 +1,2 @@
-Stefan,1189,2,Loan: Victors resor
-Stefan,1189,1,Loan: Svenssons resor
-Stefan,1189,1,Loan: Oskars resor
-Hakan,19801010,0,AddMe: Teacher
+Stefan,1189,6,Loan: Sture P
+Stefan,20001006,1189,Delete

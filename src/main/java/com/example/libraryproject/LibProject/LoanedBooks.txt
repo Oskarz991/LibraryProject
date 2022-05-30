@@ -1,2 +1,0 @@
-Stefan,Bucei,1189,Svenssons resor,1234,Svenne
-Stefan,Bucei,1189,Svensson,1264,Rolf
