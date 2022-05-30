@@ -12,7 +12,6 @@ public class Librarian {
 
     public static Logger logger = LogManager.getLogger(User.class.getName());
     public String Name;
-    public String SurName;
     public int PNumber;
     public int Id;
 
@@ -47,8 +46,9 @@ public class Librarian {
     }
 
 
-   public ArrayList<User> addUser(String name, String surName, int pNumber, String role) throws IOException{
+   public ArrayList<User> addUser(String name, int pNumber, String role) throws IOException{
         logger.info("Trying to add User");
+        ArrayList<String> pendingWork = storage.getUserLoanList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        int sizeOfUserList = userList.size();
@@ -74,7 +74,7 @@ public class Librarian {
            loanCounter = 9999;
        }
 
-       User newUser = new User(name,surName,pNumber,id,loanCounter,violationCounter,role);
+       User newUser = new User(name,pNumber,id,loanCounter,violationCounter,role);
        userList.add(newUser);
 
        for (int i = 0; i < userList.size(); i++) {
@@ -108,6 +108,9 @@ public class Librarian {
        storage.updateUserFile(userList);
        if (sizeOfUserList+1==userList.size()){
            logger.info("User was successfuly added");
+       }
+       for (String item: pendingWork){
+           if (item.equals(name));
        }
 
        return userList;
@@ -237,7 +240,7 @@ public class Librarian {
 
        for (User users:userList) {
            if (id == users.Id){
-               timeoutList.add(new User(users.Name,users.Surname,users.PNumber,users.Id,users.LoanCounter,users.ViolationCounter,users.Role,timer));
+               timeoutList.add(new User(users.Name,users.PNumber,users.Id,users.LoanCounter,users.ViolationCounter,users.Role,timer));
                userList.remove(users);
                break;
            }
@@ -280,6 +283,8 @@ public class Librarian {
            storage.updatetimeoutFile(timeoutList);
             storage.updateUserFile(userList);
         }
+
+
 
     }
 

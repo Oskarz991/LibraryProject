@@ -2,3 +2,6 @@
 2022-05-27 11:06:51,116 DEBUG c.e.l.L.User [JavaFX Application Thread]  UnsuccessfulInlogg
 2022-05-27 11:07:01,598 INFO c.e.l.L.User [JavaFX Application Thread] Starting.
 2022-05-27 11:07:01,602 DEBUG c.e.l.L.User [JavaFX Application Thread]  SuccessfulInlogg
+2022-05-30 09:30:27,174 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 09:30:27,183 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 09:30:27,186 INFO c.e.l.L.User [JavaFX Application Thread] Login successful
