@@ -4,9 +4,9 @@
 	<Appenders>
 		<Console name="abc123" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%d{HH:mm:ss} [%threadId] %-5level %logger - %m%n" />
+				pattern="%d{HH:mm:ss.SSS} [%threadId] %-5level %logger - %m%n" />
 		</Console>
-     <File name="MyFile" fileName="src/main/java/com/example/libraryproject/LibProject/Log.txt">
+     <File name="MyFile" fileName="logs/app.log">
       <PatternLayout>
         <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
       </PatternLayout>

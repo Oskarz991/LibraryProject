@@ -1,2 +1,4 @@
 Stefan,1189,6,Loan: Sture P
 Stefan,20001006,1189,Delete
+Stefan,20001006,0,AddMe: Undergraduate student
+Stefan,1684,4,Loan: The Witcher
