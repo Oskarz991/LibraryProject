@@ -322,7 +322,7 @@ public class Librarian {
    }
 
    public void lendBook(Book theBook, int userId)throws IOException {
-       logger.info("Lending:"+ theBook.Title + " to" + userId);
+       logger.info("Lending:"+ theBook.Title + " to " + userId);
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User> pendingWork = storage.getPendingList();
 
@@ -400,17 +400,4 @@ public class Librarian {
         return verify;
     }
 
-
-    public static void main(String[] args) throws IOException{
-        Librarian lib = new Librarian();
-
-        User testuser = new User();
-
-        testuser.requestLoan(1684,"The Witcher", "Stefan", 20001006);
-
-        Book thebook = new Book(4,"The Witcher",4136,10,"Andrzej Sapkowski");
-
-    //    lib.lendBook(thebook,1684);
-
-    }
 }
