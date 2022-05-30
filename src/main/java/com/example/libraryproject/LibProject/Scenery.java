@@ -24,15 +24,11 @@ import java.util.jar.Attributes;
 
 public class Scenery extends Application {
 
-       public File AllBooksFile = new File("src/main/java/com/example/libraryproject/LibProject/AllBooks.txt");
-       public File UserLoanFile = new File("src/main/java/com/example/libraryproject/LibProject/LoanedBooks.txt");
        public File UserFile = new File("src/main/java/com/example/libraryproject/LibProject/WhiteList.txt");
-       public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
-       public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
        public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
        public Storage storage = new Storage();
 
-        public static void main(String[] args) {
+       public static void main(String[] args) {
 
        launch(args);
         }

@@ -116,7 +116,7 @@ public class User {
         Book theBook =null;
 
         for (Book book : bookList) {
-            if (title.equals(book.Title)) {
+            if (title.equalsIgnoreCase(book.Title)) {
                 theBook = book;
                 logger.info("Found the book");
             }
@@ -201,7 +201,7 @@ public class User {
 
         if (!verify) {
             for (Book books : bookList) {
-                if (books.Title.equals(book.Title)) {
+                if (books.Title.equalsIgnoreCase(book.Title)) {
                     books.Quantity++;
                     break;
                 }

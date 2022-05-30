@@ -33,7 +33,7 @@ public class Librarian {
 
         for (int i = 0; i < bookList.size(); i++) {
             for (int j = i+1; j < bookList.size(); j++)
-            if (bookList.get(i).Title.equals(bookList.get(j).Title)){
+            if (bookList.get(i).Title.equalsIgnoreCase(bookList.get(j).Title)){
                 bookList.remove(i);
                 logger.info("duplicate was found");
             }
@@ -338,7 +338,7 @@ public class Librarian {
 
        if (tempUser.LoanCounter > 0){
            for (Book book:bookList) {
-               if (book.Title.equals(theBook.Title)){
+               if (book.Title.equalsIgnoreCase(theBook.Title)){
                    if (book.Quantity > 0){
 
                        ArrayList<String> userLoanList = storage.getUserLoanList();
