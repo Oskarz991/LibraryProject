@@ -1,9 +1,9 @@
 package com.example.libraryproject.LibProject;
 
+import org.apache.logging.log4j.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -370,11 +370,11 @@ public class Librarian {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id > 4999){
                 verify = true;
-                logger.info("Login successful");
+                logger.debug(name + id + " Login successful");
             }
         }
         if (!verify){
-            logger.info("Login Unsuccessful");
+            logger.debug(name + id + "Login Unsuccessful");
         }
 
         return verify;

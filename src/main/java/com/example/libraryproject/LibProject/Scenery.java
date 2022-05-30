@@ -29,7 +29,6 @@ public class Scenery extends Application {
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
        public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
-       public Storage storage;
 
         public static void main(String[] args) {
 
@@ -37,7 +36,7 @@ public class Scenery extends Application {
         }
 
         @Override
-        public void start(Stage primaryStage) throws IOException {
+        public void start(Stage primaryStage) {
 
             VBox root = new VBox();
             root.setSpacing(5);
@@ -88,8 +87,18 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<User> userList = storage.getUserList();
+            ArrayList<User> userList = new ArrayList<>();
 
+            while (userScan.hasNext()){
+                 String Name = userScan.next();
+                 int PNumber = Integer.parseInt(userScan.next());
+                 int Id = Integer.parseInt(userScan.next());
+                 int LocalCounter = Integer.parseInt(userScan.next());
+                 int ViolationCounter = Integer.parseInt(userScan.next());
+                 String Role = userScan.nextLine();
+                 Role = Role.replace(",","");
+                 userList.add(new User(Name,PNumber,Id,LocalCounter,ViolationCounter,Role));
+            }
 
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
