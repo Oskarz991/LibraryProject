@@ -61,7 +61,6 @@ public class Storage {
 
         while (userScan.hasNext()){
             String Name = userScan.next();
-            String SurName = userScan.next();
             int PNumber = Integer.parseInt(userScan.next());
             int Id = Integer.parseInt(userScan.next());
             int LoanCounter = Integer.parseInt(userScan.next());
@@ -91,7 +90,6 @@ public class Storage {
 
         while (blacklisted.hasNext()){
             String Name = blacklisted.next();
-            String SurName = blacklisted.next();
             int PNumber = Integer.parseInt(blacklisted.next());
             int Id = Integer.parseInt(blacklisted.next());
             int LoanCounter = Integer.parseInt(blacklisted.next());
@@ -123,7 +121,6 @@ public class Storage {
 
         while (timeoutListScan.hasNext()){
             String Name = timeoutListScan.next();
-            String SurName = timeoutListScan.next();
             int PNumber = Integer.parseInt(timeoutListScan.next());
             int Id = Integer.parseInt(timeoutListScan.next());
             int LoanCounter = Integer.parseInt(timeoutListScan.next());
@@ -158,7 +155,6 @@ public class Storage {
 
         while (userLoanScan.hasNext()) {
             String Name = userLoanScan.next();
-            String Surname = userLoanScan.next();
             String Id = userLoanScan.next();
 
             String Title = userLoanScan.next();
@@ -166,7 +162,7 @@ public class Storage {
             String Author = userLoanScan.nextLine();
             Author = Author.replace(",", "");
 
-            userLoanList.add(Name + "," + Surname + "," + Id + "," + Title + "," + ISBN + "," + Author);
+            userLoanList.add(Name + "," + Id + "," + Title + "," + ISBN + "," + Author);
         }
         return userLoanList;
     }

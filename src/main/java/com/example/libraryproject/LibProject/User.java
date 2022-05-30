@@ -254,11 +254,11 @@ public class User {
         for (User user:userList) {
             if (user.Name.equalsIgnoreCase(name) && user.Id == id && id < 5000) {
                 verify = true;
-                logger.debug(" SuccessfulInlogg");
+                logger.debug(name + id + " SuccessfulInlogg");
             }
         }
         if (!verify){
-            logger.debug(" UnsuccessfulInlogg");
+            logger.debug(name + id + " UnsuccessfulInlogg");
         }
        return verify;
     }
@@ -291,16 +291,16 @@ public class User {
 
     public String export (User user){
 
-        return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
+        return user.Name + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
     }
 
     public String loanExport (User user){
 
-        return user.Name + "," + user.Surname + "," + user.Id + ",";}
+        return user.Name + "," + user.Id + ",";}
 
     public String timeoutExport (User user){
 
-        return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
+        return  user.Name + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
    }
    
 }

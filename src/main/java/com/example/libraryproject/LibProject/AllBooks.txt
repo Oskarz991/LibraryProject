@@ -1,8 +1,10 @@
-3,Svensson,1264,13,Rolf
-1,Oskars resor,2334,5,Sven
-2,Victors resor,3434,5,Janne
-1,Svenssons resor,1234,10,Svenne
-3,Fina väder,7623,5,Karl
-5,Antonsson,1244,6,Rof
-6,Sture P,7654,11,Rolfe
-5,HarryPotter,4545,10,Davidsson
+1,Harry Potter,5857,10,JK Rowling
+2,Lord of the Rings,6289,15,JRR Tolkien
+3,Emil i Lönneberga,4562,10,Astrid Lindgren
+4,The Witcher,4136,10,Andrzej Sapkowski
+5,Hunger Games,7594,15,Suzanne Collins
+6,Game of Thrones,2394,15,George r.r. Martin
+7,Hamlet,5287,10,William Shakespeare
+8,War and Peace,9137,10,Leo Tolstoy
+9,Don Quixote,5559,10,Miguel de Cervantes
+10,In Search of Lost Time,6994,10,Marcel Proust
