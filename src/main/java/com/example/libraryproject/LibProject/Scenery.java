@@ -410,31 +410,31 @@ public class Scenery extends Application {
                         idForUser.setText("User: " + nameMemberLoginTxt.getText() + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
                         idForUser.setVisible(true);
 
-                        ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                        int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                        String nameForSeeAllBooks = null;
+                            ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                            int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                            String nameForSeeAllBooks = null;
 
-                        ArrayList<User> findUser = new ArrayList<User>();
+                            ArrayList<User> findUser = new ArrayList<User>();
 
-                        findUser = storage.getUserList();
+                            findUser = storage.getUserList();
 
-                        for (User user : findUser) {
-                            if (user.Id == prNameForSeeAllBooks) {
-                                nameForSeeAllBooks = user.Name;
-                            } else
-                                nameForSeeAllBooks = "";
-                        }
+                            for (User user : findUser) {
+                                if (user.Id == prNameForSeeAllBooks) {
+                                    nameForSeeAllBooks = user.Name;
+                                } else
+                                    nameForSeeAllBooks = "";
+                            }
 
-                        String bookNameg;
-                        String bookNameg2 = "";
+                            String bookNameg;
+                            String bookNameg2 = "";
 
-                        bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+                            bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
 
-                        for (Book book:bookOjcc ){
-                            bookNameg = book.getTitle() + ": " + book.getISBN();
-                            bookNameg2 = bookNameg2 + "\n" + bookNameg;
-                        }
-                        bookNameGet.setText(bookNameg2);
+                            for (Book book:bookOjcc ){
+                                bookNameg = book.getTitle() + ": " + book.getISBN();
+                                bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                            }
+                            bookNameGet.setText(bookNameg2);
 
                     } else {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
@@ -446,8 +446,7 @@ public class Scenery extends Application {
                 }
 
             });
-
-            Text getIdForBookToSendForLoan = new Text();
+                    Text getIdForBookToSendForLoan = new Text();
 
             searchBookBtn.setOnAction(e-> {
                 Book bookObc = new Book();
@@ -585,6 +584,7 @@ public class Scenery extends Application {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+
                 try {
                 ArrayList<Book> bookOjcc = new ArrayList<Book>();
                 int prNameForSeeAllBooks = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
@@ -955,6 +955,8 @@ public class Scenery extends Application {
 
             deleteUserBtn.setOnAction(e->{
 
+             ;
+
                 if (deleteByChoise.isSelected() && userIdTxt.getText().length() != 0) {
                     String id;
                     id = userIdTxt.getText();
@@ -1100,44 +1102,47 @@ public class Scenery extends Application {
 
             Librarian newLibraryan = new Librarian();
 
-            returnBookBtn.setOnAction(e->{
+            returnBookBtn.setOnAction(e-> {
+
                 try {
-                if (sentISBNtoReturnBookTxt.getText().length() == 0){
-                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                    aler.setHeaderText("You have to write an ISBN");
-                    aler.showAndWait();
-                }else {
+                    if (sentISBNtoReturnBookTxt.getText().length() == 0) {
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write an ISBN");
+                        aler.showAndWait();
+                    } else {
 
-                    int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
-                    int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
-                    Book bookObc = new Book();
+                        int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
+                        int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
 
+                        Book bookObc = new Book();
 
-                    bookObc = newLibraryan.getBookByISBN(ISBN);
-                    userObj.returnBook(bookObc, IdUser);
-                    bookNameTxt.clear();
+                        bookObc = newLibraryan.getBookByISBN(ISBN);
+                        userObj.returnBook(bookObc, IdUser);
+                        bookNameTxt.clear();
 
-                    ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                    int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                    String nameForSeeAllBooks = nameMemberLoginTxt.getText();
-                    String bookNameg = "";
-                    String bookNameg2 = "";
-                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
-                    for (Book book : bookOjcc) {
-                        bookNameg = book.getTitle() + ": " + book.getISBN();
-                        bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                        ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                        int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                        String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                        String bookNameg = "";
+                        String bookNameg2 = "";
+                        bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+
+                        for (Book book : bookOjcc) {
+                            bookNameg = book.getTitle() + ": " + book.getISBN();
+                            bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                        }
+                        bookNameGet.setText(bookNameg2);
+                        sentISBNtoReturnBookTxt.clear();
+
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("Book returned");
+                        aler.showAndWait();
+
                     }
-                    bookNameGet.setText(bookNameg2);
-                    sentISBNtoReturnBookTxt.clear();
-
-                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                    aler.setHeaderText("Book returned");
-                    aler.showAndWait();
-                    }
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                });
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            });
 
             userRequestDeleteBtn.setOnAction(e->{
 
