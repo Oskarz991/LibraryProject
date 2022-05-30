@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="byte-buddy-1.9.121">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../Downloads/MockitoLib/byte-buddy-1.9.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Downloads/MockitoLib/byte-buddy-agent-1.9.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Downloads/MockitoLib/mockito-core-2.25.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../Downloads/MockitoLib/objenesis-3.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

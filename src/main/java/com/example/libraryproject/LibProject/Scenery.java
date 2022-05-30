@@ -410,11 +410,9 @@ public class Scenery extends Application {
                         idForUser.setText("User: " + nameMemberLoginTxt.getText() + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
                         idForUser.setVisible(true);
 
-                        try {
                             ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                            int prNameForSeeAllBooks = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
+                            int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
                             String nameForSeeAllBooks = null;
-
 
                             ArrayList<User> findUser = new ArrayList<User>();
 
@@ -427,7 +425,7 @@ public class Scenery extends Application {
                                     nameForSeeAllBooks = "";
                             }
 
-                            String bookNameg = "";
+                            String bookNameg;
                             String bookNameg2 = "";
 
                             bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
@@ -437,10 +435,6 @@ public class Scenery extends Application {
                                 bookNameg2 = bookNameg2 + "\n" + bookNameg;
                             }
                             bookNameGet.setText(bookNameg2);
-
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
-                        }
 
                     } else {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
@@ -590,6 +584,7 @@ public class Scenery extends Application {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+
                 try {
                 ArrayList<Book> bookOjcc = new ArrayList<Book>();
                 int prNameForSeeAllBooks = Integer.parseInt(lendBookUserIdLibrarianTxt.getText());
@@ -1107,19 +1102,19 @@ public class Scenery extends Application {
 
             Librarian newLibraryan = new Librarian();
 
-            returnBookBtn.setOnAction(e->{
+            returnBookBtn.setOnAction(e-> {
 
-                if (sentISBNtoReturnBookTxt.getText().length() == 0){
-                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                    aler.setHeaderText("You have to write an ISBN");
-                    aler.showAndWait();
-                }else {
+                try {
+                    if (sentISBNtoReturnBookTxt.getText().length() == 0) {
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write an ISBN");
+                        aler.showAndWait();
+                    } else {
 
-                    int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
-                    int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
+                        int ISBN = Integer.parseInt(sentISBNtoReturnBookTxt.getText());
+                        int IdUser = Integer.parseInt(idMemberLoginTxt.getText());
 
-                    Book bookObc = new Book();
-                    try {
+                        Book bookObc = new Book();
 
                         bookObc = newLibraryan.getBookByISBN(ISBN);
                         userObj.returnBook(bookObc, IdUser);
@@ -1131,6 +1126,7 @@ public class Scenery extends Application {
                         String bookNameg = "";
                         String bookNameg2 = "";
                         bookOjcc = userObj.myBooks(prNameForSeeAllBooks, nameForSeeAllBooks);
+
                         for (Book book : bookOjcc) {
                             bookNameg = book.getTitle() + ": " + book.getISBN();
                             bookNameg2 = bookNameg2 + "\n" + bookNameg;
@@ -1142,9 +1138,9 @@ public class Scenery extends Application {
                         aler.setHeaderText("Book returned");
                         aler.showAndWait();
 
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
                     }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             });
 

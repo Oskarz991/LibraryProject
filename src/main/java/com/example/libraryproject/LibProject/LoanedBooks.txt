@@ -1,1 +1,2 @@
-Stefan,1684,Harry Potter,5857,JK Rowling
+Stefan,1684,Lord of the Rings,6289,JRR Tolkien
+Stefan,1684,Hunger Games,7594,Suzanne Collins

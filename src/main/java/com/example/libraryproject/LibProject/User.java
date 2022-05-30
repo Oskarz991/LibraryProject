@@ -235,7 +235,8 @@ public class User {
 
             userTemp= user;
         }
-       storage.updatePendingFile(pendingList);
+
+        storage.updatePendingFile(pendingList);
     }
 
 

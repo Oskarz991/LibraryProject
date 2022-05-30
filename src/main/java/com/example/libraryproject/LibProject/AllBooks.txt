@@ -1,8 +1,8 @@
-1,Harry Potter,5857,9,JK Rowling
-2,Lord of the Rings,6289,15,JRR Tolkien
+1,Harry Potter,5857,8,JK Rowling
+2,Lord of the Rings,6289,18,JRR Tolkien
 3,Emil i Lönneberga,4562,10,Astrid Lindgren
 4,The Witcher,4136,10,Andrzej Sapkowski
-5,Hunger Games,7594,15,Suzanne Collins
+5,Hunger Games,7594,14,Suzanne Collins
 6,Game of Thrones,2394,15,George r.r. Martin
 7,Hamlet,5287,10,William Shakespeare
 8,War and Peace,9137,10,Leo Tolstoy

@@ -1,1 +1,1 @@
-Stefan,20001006,1684,Loan: Lord of the Rings
+Stefan,20001006,1684,Delete
