@@ -17,7 +17,7 @@ class UserTest {
         User user = new User(storage);
 
         ArrayList<User> userList = new ArrayList<>();
-        User user1 = new User("Victor","Almqvist",1230,1122,3,0,"Undergraduate student");
+        User user1 = new User("Victor",1230,1122,3,0,"Undergraduate student");
 
         userList.add(user1);
 
@@ -32,7 +32,7 @@ class UserTest {
         User user = new User(storage);
 
         ArrayList<User> userList = new ArrayList<>();
-        User user1 = new User("Victor","Almqvist",1230,1122,3,0,"Undergraduate student");
+        User user1 = new User("Victor",1230,1122,3,0,"Undergraduate student");
 
         userList.add(user1);
 
@@ -53,7 +53,7 @@ class UserTest {
 
 
         Book book = new Book(1,"Leauge of Legends",1044,10,"Malamoz");
-        User user1 = new User("Victor","Almqvist",1230,1122,3,0,"Undergraduate student");
+        User user1 = new User("Victor",1230,1122,3,0,"Undergraduate student");
 
         userList.add(user1);
         bookList.add(book);
@@ -80,7 +80,7 @@ class UserTest {
 
 
         Book book = new Book(1,"Leauge of Legends",1044,10,"Malamoz");
-        User user1 = new User("Victor","Almqvist",1230,1122,3,0,"Undergraduate student");
+        User user1 = new User("Victor",1230,1122,3,0,"Undergraduate student");
 
         userList.add(user1);
         bookList.add(book);
