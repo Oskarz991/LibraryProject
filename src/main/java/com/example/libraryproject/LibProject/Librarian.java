@@ -285,6 +285,9 @@ public class Librarian {
                         userList.add(user);
                         logger.info("A user has been taken out of the timeoutList");
                         control = true;
+                    }else{
+                        user.ViolationCounter++;
+                        user.Timer = LocalDate.now();
                     }
                 }
 
