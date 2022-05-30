@@ -47,8 +47,8 @@ public class Librarian {
 
 
    public ArrayList<User> addUser(String name, int pNumber, String role) throws IOException{
-        logger.info("Trying to add User");
-        ArrayList<User> pendingWork = storage.getPendingList();
+       logger.info("Trying to add User");
+       ArrayList<User> pendingWork = storage.getPendingList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        int sizeOfUserList = userList.size();
@@ -110,7 +110,7 @@ public class Librarian {
            logger.info("User was successfuly added");
        }
        for (User item: pendingWork){
-           if (item.equals(item.Name + "," + item.PNumber + "," +"0" + "," + "AddMe: " + item.Role));{
+           if (item.Name.equalsIgnoreCase(name) && item.Role.equalsIgnoreCase(role) && item.PNumber==pNumber && item.Request.contains("AddMe: ")){
                pendingWork.remove(item);
                break;
 
@@ -123,6 +123,7 @@ public class Librarian {
 
    public void deleteUser(int id, boolean request) throws IOException {
        logger.debug("Deleting user with id:" + id + " was this requested? " + request);
+       ArrayList<User> pendingWork = storage.getPendingList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        ArrayList<Book>bookList = storage.getBooks();
@@ -224,6 +225,16 @@ public class Librarian {
                    break;
                }
            }
+
+           for (User item: pendingWork){
+               if (item.Id == id && item.Request.contains("Delete")){
+                   pendingWork.remove(item);
+                   break;
+
+               }
+           }
+           storage.updatePendingFile(pendingWork);
+
            storage.updateBookFile(bookList);
            storage.updateUserFile(userList);
            storage.updateUserLoanFile(userLoanList);
@@ -314,6 +325,7 @@ public class Librarian {
    public void lendBook(Book theBook, int userId)throws IOException {
         logger.info("Lending:"+ theBook.Title + " to" + userId);
        ArrayList<User>userList = storage.getUserList();
+       ArrayList<User> pendingWork = storage.getPendingList();
 
        User tempUser = new User();
 
@@ -360,8 +372,14 @@ public class Librarian {
            logger.info("Couldnt loan to the user because the user can not loan anymore books");
        }
 
+       for (User item: pendingWork){
+           if (item.Id == userId && item.Request.contains("Loan: " + theBook.Title)){
+               pendingWork.remove(item);
+               break;
+           }
+       }
+      storage.updatePendingFile(pendingWork);
       storage.updateBookFile(bookList);
-
    }
 
     public boolean loginLibrarian (String name, int id)throws IOException{
