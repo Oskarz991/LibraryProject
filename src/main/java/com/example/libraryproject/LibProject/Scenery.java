@@ -460,14 +460,26 @@ public class Scenery extends Application {
                     bName = loanBook1.getText();
                     String pName;
                     pName = nameMemberLoginTxt.getText();
-                    int pNumber;
-                    pNumber = Integer.parseInt(idMemberLoginTxt.getText());
-                    int idBok;
-                    idBok = Integer.parseInt(getIdForBookToSendForLoan.getText());
+                    int userID;
+                    userID = Integer.parseInt(idMemberLoginTxt.getText());
+                    int pNumber = 0;
+
+                    try {
+                        ArrayList<User> tempArray = storage.getUserList();
+
+                        for (User user:tempArray) {
+                        if (pName.equalsIgnoreCase(user.Name) && userID == user.Id){
+                            pNumber = user.PNumber;
+                        }
+                        }
+
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
 
                     if (loanBook1.isSelected()) {
                         try {
-                           userObj.requestLoan(idBok,bName,pName,pNumber);
+                           userObj.requestLoan(userID,bName,pName,pNumber);
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
