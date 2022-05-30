@@ -30,6 +30,7 @@ public class Scenery extends Application {
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
        public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
+       public Storage storage = new Storage();
 
         public static void main(String[] args) {
 
@@ -37,7 +38,7 @@ public class Scenery extends Application {
         }
 
         @Override
-        public void start(Stage primaryStage) {
+        public void start(Stage primaryStage) throws IOException {
 
             VBox root = new VBox();
             root.setSpacing(5);
@@ -88,18 +89,9 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<User> userList = new ArrayList<>();
+            ArrayList<User> userList = storage.getUserList() ;
 
-            while (userScan.hasNext()){
-                 String Name = userScan.next();
-                 int PNumber = Integer.parseInt(userScan.next());
-                 int Id = Integer.parseInt(userScan.next());
-                 int LocalCounter = Integer.parseInt(userScan.next());
-                 int ViolationCounter = Integer.parseInt(userScan.next());
-                 String Role = userScan.nextLine();
-                 Role = Role.replace(",","");
-                 userList.add(new User(Name,PNumber,Id,LocalCounter,ViolationCounter,Role));
-            }
+
 
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
@@ -152,25 +144,7 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<User> pendingList = new ArrayList<>();
-
-           while (pendingScan.hasNext()){
-                 String Name = pendingScan.next();
-                 int PNumber = Integer.parseInt(pendingScan.next());
-                 int Id = Integer.parseInt(pendingScan.next());
-                 String Request = pendingScan.nextLine();
-                 Request = Request.replace(",","");
-
-                 pendingList.add(new User(Name,PNumber,Id,Request));
-
-                 if (Request.contains("Loan:")){
-
-               } else if (Request.contains("AddMe:")){
-
-                 } else if (Request.contains("Delete")){
-
-                 }
-            }
+            ArrayList<User> pendingList = storage.getPendingList();
 
             ListView<String> pendingListView = new ListView<>();
             pendingListView.setVisible(false);
@@ -187,7 +161,6 @@ public class Scenery extends Application {
             prNumberPending.setFont(tre);
             Text idPending = new Text();
             idPending.setFont(tre);
-
 
 
             pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
