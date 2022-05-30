@@ -54,3 +54,21 @@
 2022-05-30 09:59:31,330 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
 2022-05-30 09:59:31,332 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
 2022-05-30 09:59:53,051 INFO c.e.l.L.User [JavaFX Application Thread] Trying to get a book by ISBN
+2022-05-30 10:12:10,119 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 10:12:10,127 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan 1684 UnsuccessfulInlogg
+2022-05-30 10:12:21,904 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 10:12:21,906 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 10:39:48,628 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 10:39:56,927 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 10:39:56,930 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 10:39:56,932 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 10:40:21,912 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 10:40:21,938 INFO c.e.l.L.User [JavaFX Application Thread] Hej tried to request twice
+2022-05-30 10:40:39,922 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 11:21:16,669 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 11:21:18,414 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 11:21:25,486 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 11:21:25,489 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 11:21:25,491 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 11:30:01,338 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 11:30:01,344 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg

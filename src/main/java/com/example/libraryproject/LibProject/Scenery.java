@@ -243,7 +243,7 @@ public class Scenery extends Application {
             Label nameMemberLoginLbl = new Label("Name:");
             TextField nameMemberLoginTxt = new TextField();
             Label idMemberLoginLbl = new Label("ID-number:");
-            TextField idMemberLoginTxt = new TextField();
+            PasswordField idMemberLoginTxt = new PasswordField();
             Text idForUser = new Text();
             idForUser.setVisible(false);
 
@@ -271,7 +271,7 @@ public class Scenery extends Application {
             Label nameLibrarianLbl = new Label("Name:");
             TextField nameLibrarianTxt = new TextField();
             Label idLibrarianLbl = new Label("ID-number:");
-            TextField idLibrarianTxt = new TextField();
+            PasswordField idLibrarianTxt = new PasswordField();
 
             //Skapa nytt konto
             Label nameMemberRegisterLbl = new Label("Nam");
@@ -597,6 +597,7 @@ public class Scenery extends Application {
                                 aler.setHeaderText("Verify that you have entered everything");
                                 aler.showAndWait();
                     }
+
             });
 
                 createANewUserBtn.setOnAction(e->{
