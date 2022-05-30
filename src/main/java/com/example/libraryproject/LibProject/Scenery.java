@@ -122,8 +122,8 @@ public class Scenery extends Application {
              deleteByPenalties.setVisible(false); deleteByChoise.setVisible(false);
 
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
-                memberList.refresh();
-                namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ " ");
+
+                namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ "\n");
                 role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n" + "Id: ");
                 idid.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getId())+"\n" + "Personal Nr: ");
                 prNumber.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber())+"\n" + "Violation counter: ");
@@ -144,7 +144,9 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<User> pendingList = storage.getPendingList();
+            ArrayList<User> pendingList;
+            pendingList = storage.getPendingList();
+
 
             ListView<String> pendingListView = new ListView<>();
             pendingListView.setVisible(false);
@@ -403,12 +405,19 @@ public class Scenery extends Application {
                         rightControl.getChildren().addAll(paneRight2);
                         paneRight2.setVisible(true);
                         loanBook1.setVisible(false);
-                        idForUser.setText("User: " + name + "/ID: "+Integer.toString(idNr));
+                        idForUser.setText("User: " + name + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
                         idForUser.setVisible(true);
+                 /*   } else if (){
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write something");
+                        aler.showAndWait();
+
+                  */
                     } else {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
                         aler.setHeaderText("User doesnt exist");
                         aler.showAndWait();
+
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -488,6 +497,27 @@ public class Scenery extends Application {
                         aler.setHeaderText("Select a book");
                         aler.showAndWait();
                     }
+                    pendingList.clear();
+                    pendingListView.getItems().clear();
+                    ArrayList<User> pendingList1;
+                    try {
+                        pendingList1 = storage.getPendingList();
+
+                        for ( int i = 0; i <pendingList1.size(); i++){
+                            pendingListView.getItems().addAll(pendingList1.get(i).Request);
+
+
+                            pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                                namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                                prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                                idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+                            });
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+
 
                 });
             });
@@ -514,8 +544,43 @@ public class Scenery extends Application {
                         ex.printStackTrace();
                     }
                 }
+                ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                String bookNameg = "";
+                String bookNameg2 = "";
+                try {
+                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+                for (Book book:bookOjcc ){
+                    bookNameg = book.getTitle() + ": " + book.getISBN();
+                    bookNameg2 = bookNameg2 + "\n" + bookNameg;
+                }
+                bookNameGet.setText(bookNameg2);
+
+                pendingList.clear();
+                pendingListView.getItems().clear();
+                ArrayList<User> pendingList1;
+                try {
+                    pendingList1 = storage.getPendingList();
+
+                    for ( int i = 0; i <pendingList1.size(); i++){
+                        pendingListView.getItems().addAll(pendingList1.get(i).Request);
+
+
+                        pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                            prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                            idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+                        });
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
-//
+
                 registerBtn.setOnAction(e-> {
                             String nameUser = nameMemberRegisterTxt.getText();
                             int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
@@ -523,6 +588,7 @@ public class Scenery extends Application {
                             String pr2 = "Postgraduate student";
                             String pr3 = "PhD Student";
                             String pr4 = "Teacher";
+
 
                             if (userIsUndergraduateStudent.isSelected() && !nameUser.isEmpty() && personalNrUser > 0) {
                                 try {
@@ -581,7 +647,26 @@ public class Scenery extends Application {
                                 aler.setHeaderText("Verify that you have entered everything");
                                 aler.showAndWait();
                     }
+                            pendingList.clear();
+                            pendingListView.getItems().clear();
+                    ArrayList<User> pendingList1;
+                    try {
+                        pendingList1 = storage.getPendingList();
 
+                    for ( int i = 0; i <pendingList1.size(); i++){
+                        pendingListView.getItems().addAll(pendingList1.get(i).Request);
+
+
+                    pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                        namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                        prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                        idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+                    });
+                    }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
             });
 
                 createANewUserBtn.setOnAction(e->{
@@ -600,6 +685,46 @@ public class Scenery extends Application {
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
+                    pendingList.clear();
+                    pendingListView.getItems().clear();
+                    ArrayList<User> pendingList1;
+                    try {
+                        pendingList1 = storage.getPendingList();
+
+                        for ( int i = 0; i <pendingList1.size(); i++){
+                            pendingListView.getItems().addAll(pendingList1.get(i).Request);
+
+
+                            pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                                namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                                prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                                idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+                            });
+                        }
+
+                    userList.clear();
+                    memberList.getItems().clear();
+                    ArrayList<User> userList1;
+
+                    userList1 = storage.getUserList();
+
+                    for (int i = 0; i <userList1.size(); i++) {
+                        memberList.getItems().addAll(userList1.get(i).Name);
+
+                        memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namn.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getName() + "\n");
+                            role.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getRole() + "\n" + "\n" + "Id: ");
+                            idid.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
+                            prNumber.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
+                            violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
+                            loanCount.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
+
+                        });
+                    }
+                } catch (IOException ex) {
+                ex.printStackTrace();
+            }
                 });
 
                 librarianGiveTimeoutBtn.setOnAction(e->{
@@ -613,8 +738,31 @@ public class Scenery extends Application {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
                         aler.setHeaderText("Timeout given");
                         aler.showAndWait();
-                        lendBookBookNameLibrarianTxt.clear();
+                        librarianGiveTimeoutIdTxt.clear();
                     } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                    userList.clear();
+                    memberList.getItems().clear();
+                    ArrayList<User> userList1;
+
+                    try {
+                        userList1 = storage.getUserList();
+
+                    for (int i = 0; i <userList1.size(); i++) {
+                        memberList.getItems().addAll(userList1.get(i).Name);
+
+                        memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namn.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getName() + "\n");
+                            role.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getRole() + "\n" + "\n" + "Id: ");
+                            idid.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
+                            prNumber.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
+                            violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
+                            loanCount.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
+
+                        });
+                    }
+                } catch (IOException ex) {
                         ex.printStackTrace();
                     }
                 });
@@ -724,7 +872,44 @@ public class Scenery extends Application {
                     aler.setHeaderText("Inser an ID");
                     aler.showAndWait();
                 }
+                pendingList.clear();
+                pendingListView.getItems().clear();
+                ArrayList<User> pendingList1;
+                try {
+                    pendingList1 = storage.getPendingList();
 
+                    for ( int i = 0; i <pendingList1.size(); i++){
+                        pendingListView.getItems().addAll(pendingList1.get(i).Request);
+                        pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                            prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                            idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+                        });
+                    }
+
+                userList.clear();
+                memberList.getItems().clear();
+                ArrayList<User> userList1;
+
+                    userList1 = storage.getUserList();
+
+                for (int i = 0; i <userList1.size(); i++) {
+                    memberList.getItems().addAll(userList1.get(i).Name);
+
+                    memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                        namn.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getName() + "\n");
+                        role.setText(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getRole() + "\n" + "\n" + "Id: ");
+                        idid.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getId()) + "\n" + "Personal Nr: ");
+                        prNumber.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Violation counter: ");
+                        violationCounter.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getViolationCounter()) + "\n" + "Loan counter: ");
+                        loanCount.setText(String.valueOf(userList1.get(memberList.getSelectionModel().getSelectedIndex()).getLoanCounter()) + "\n");
+
+                    });
+                }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             });
 
             formDeteleUserBtn.setOnAction(e->{
@@ -822,6 +1007,11 @@ public class Scenery extends Application {
                                      bookNameg2 = bookNameg2 + "\n" + bookNameg;
                                  }
                                  bookNameGet.setText(bookNameg2);
+                                 sentISBNtoReturnBookTxt.clear();
+
+                                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                                 aler.setHeaderText("Book returned");
+                                 aler.showAndWait();
                     
                 } catch (IOException ex) {
                     ex.printStackTrace();
@@ -847,6 +1037,25 @@ public class Scenery extends Application {
                 Alert aler = new Alert(Alert.AlertType.INFORMATION);
                 aler.setHeaderText("Empty spaces");
                 aler.showAndWait();
+                }
+                pendingList.clear();
+                pendingListView.getItems().clear();
+                ArrayList<User> pendingList1;
+                try {
+                    pendingList1 = storage.getPendingList();
+
+                    for ( int i = 0; i <pendingList1.size(); i++){
+                        pendingListView.getItems().addAll(pendingList1.get(i).Request);
+
+                        pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
+                            namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                            prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                            idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
+                        });
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
             });
 
