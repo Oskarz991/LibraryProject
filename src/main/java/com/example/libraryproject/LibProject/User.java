@@ -291,16 +291,16 @@ public class User {
 
     public String export (User user){
 
-        return user.Name + "," + user.Surname + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
+        return user.Name + "," + user.PNumber+"," + user.Id + ","+ user.LoanCounter + "," + user.ViolationCounter+ "," + user.Role;
     }
 
     public String loanExport (User user){
 
-        return user.Name + "," + user.Surname + "," + user.Id + ",";}
+        return user.Name + "," + user.Id + ",";}
 
     public String timeoutExport (User user){
 
-        return  user.Name + "," + user.Surname + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
+        return  user.Name + "," + user.PNumber + "," + user.Id + "," + user.LoanCounter + "," + user.ViolationCounter + "," + user.Timer + "," + user.Role;
    }
    
 }

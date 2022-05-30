@@ -1,3 +1,2 @@
-Oskar,Andersson,19990906,5801,9999,0,
-Stefan,S,20001006,1684,3,0,Undergraduate student
-Stefan,S,20001006,1684,3,0,Undergraduate student
+Oskar,19990906,5801,9999,0,
+Stefan,20001006,1684,3,0,Undergraduate student

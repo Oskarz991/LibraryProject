@@ -50,3 +50,7 @@
 2022-05-30 09:49:31,034 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
 2022-05-30 09:49:31,038 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
 2022-05-30 09:49:31,042 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 09:59:31,326 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 09:59:31,330 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 09:59:31,332 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 09:59:53,051 INFO c.e.l.L.User [JavaFX Application Thread] Trying to get a book by ISBN
