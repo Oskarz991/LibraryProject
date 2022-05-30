@@ -192,7 +192,6 @@ public class Scenery extends Application {
             Text idPending = new Text();
             idPending.setFont(tre);
 
-            String nnn = "Delete";
 
 
             pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
@@ -200,12 +199,6 @@ public class Scenery extends Application {
                     prNumberPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
                 idPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
 
-             /*   else if (pendingListView.getItems().contains("Delete")){
-                    prNumberPending.setVisible(true);
-
-                }
-
-              */
             });
 
             TextFlow textPending = new TextFlow(namnPending,prNumberPending,idPending);

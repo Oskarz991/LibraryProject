@@ -1,3 +1,2 @@
 Stefan,1189,6,Loan: Sture P
 Stefan,20001006,1189,Delete
-Hakan,19800823,0,AddMe: Teacher
