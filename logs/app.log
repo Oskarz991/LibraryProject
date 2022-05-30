@@ -1,0 +1,10 @@
+2022-05-30 09:35:51,993 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 09:37:42,080 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 09:38:14,918 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 09:38:14,921 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 09:38:14,922 INFO c.e.l.L.User [JavaFX Application Thread] Login successful
+2022-05-30 09:38:38,032 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 09:38:38,035 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 09:38:38,035 INFO c.e.l.L.User [JavaFX Application Thread] Login successful
+2022-05-30 09:40:55,492 INFO c.e.l.L.User [JavaFX Application Thread] Trying to add User
+2022-05-30 09:40:55,502 INFO c.e.l.L.User [JavaFX Application Thread] User was successfuly added
