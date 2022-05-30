@@ -503,3 +503,210 @@
 2022-05-30 14:51:41,536 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
 2022-05-30 14:51:41,536 INFO c.e.l.L.User [JavaFX Application Thread] Lending:Harry Potter to 1684
 2022-05-30 14:51:41,542 INFO c.e.l.L.User [JavaFX Application Thread] Loaned successfuly
+2022-05-30 14:59:48,276 INFO c.e.l.L.User [main] Trying to get a book by ISBN
+2022-05-30 14:59:48,284 INFO c.e.l.L.User [main] Could not find the book
+2022-05-30 14:59:48,308 INFO c.e.l.L.User [main] Trying to login as a Librarian.
+2022-05-30 14:59:48,308 DEBUG c.e.l.L.User [main] Oskar9999Login Unsuccessful
+2022-05-30 14:59:48,316 INFO c.e.l.L.User [main] Trying to get a book by ISBN
+2022-05-30 14:59:48,324 INFO c.e.l.L.User [main] Trying to login as a Librarian.
+2022-05-30 14:59:48,324 DEBUG c.e.l.L.User [main] Victor5234 Login successful
+2022-05-30 14:59:59,632 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 14:59:59,640 DEBUG c.e.l.L.User [main] Victor1122 SuccessfulInlogg
+2022-05-30 14:59:59,672 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 14:59:59,672 DEBUG c.e.l.L.User [main] Oskar9393 UnsuccessfulInlogg
+2022-05-30 14:59:59,680 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 14:59:59,680 INFO c.e.l.L.User [main] Did not find the book
+2022-05-30 14:59:59,689 INFO c.e.l.L.User [main] Lending:Leauge of Legends to 1122
+2022-05-30 14:59:59,697 INFO c.e.l.L.User [main] Couldnt loan to the user because the user can not loan anymore books
+2022-05-30 14:59:59,697 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 14:59:59,697 INFO c.e.l.L.User [main] Found the book
+2022-05-30 15:02:19,137 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 15:02:19,145 DEBUG c.e.l.L.User [main] Victor1122 SuccessfulInlogg
+2022-05-30 15:02:19,170 INFO c.e.l.L.User [main] Trying to login.
+2022-05-30 15:02:19,170 DEBUG c.e.l.L.User [main] Oskar9393 UnsuccessfulInlogg
+2022-05-30 15:02:19,194 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 15:02:19,194 INFO c.e.l.L.User [main] Did not find the book
+2022-05-30 15:02:19,194 INFO c.e.l.L.User [main] Lending:Leauge of Legends to 1122
+2022-05-30 15:02:19,194 INFO c.e.l.L.User [main] Couldnt loan to the user because the user can not loan anymore books
+2022-05-30 15:02:19,202 INFO c.e.l.L.User [main] Searching for a book
+2022-05-30 15:02:19,202 INFO c.e.l.L.User [main] Found the book
+2022-05-30 15:02:56,970 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:02:56,975 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan5684 UnsuccessfulInlogg
+2022-05-30 15:33:08,648 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:10,476 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:10,663 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:10,830 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:10,976 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:15,224 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:15,230 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 15:33:15,236 DEBUG c.e.l.L.User [JavaFX Application Thread] ds23Login Unsuccessful
+2022-05-30 15:33:21,705 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:33:22,531 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:34:32,802 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:37:39,500 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:37:40,698 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:37:41,101 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:37:44,609 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:39:11,113 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:39:19,022 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:39:19,028 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 15:39:19,033 DEBUG c.e.l.L.User [JavaFX Application Thread] hejsan1234Login Unsuccessful
+2022-05-30 15:39:25,613 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:39:25,616 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 15:39:25,619 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 15:48:21,714 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:48:21,718 DEBUG c.e.l.L.User [JavaFX Application Thread] tjo123 UnsuccessfulInlogg
+2022-05-30 15:48:34,720 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:48:34,725 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 15:48:49,122 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:48:49,124 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 15:48:50,816 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:48:50,817 INFO c.e.l.L.User [JavaFX Application Thread] Stefan sent loanRequest
+2022-05-30 15:48:53,268 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:48:59,264 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:48:59,269 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 15:48:59,271 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 15:49:09,868 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:49:09,872 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 15:49:09,874 INFO c.e.l.L.User [JavaFX Application Thread] Lending:The Witcher to 1684
+2022-05-30 15:49:09,892 INFO c.e.l.L.User [JavaFX Application Thread] Loaned successfuly
+2022-05-30 15:51:05,210 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:51:05,215 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 15:51:11,589 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:51:11,592 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 15:56:21,103 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:56:21,108 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 15:56:25,517 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:56:25,521 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 15:56:25,521 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:56:25,523 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 15:56:30,095 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:56:30,097 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 15:57:12,848 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:57:12,853 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 15:57:16,850 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:57:16,854 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 15:57:31,991 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:57:31,993 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 15:57:33,428 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:57:33,430 INFO c.e.l.L.User [JavaFX Application Thread] stefan tried sending another loanRequest
+2022-05-30 15:57:33,431 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 15:57:33,656 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:57:33,659 INFO c.e.l.L.User [JavaFX Application Thread] stefan tried sending another loanRequest
+2022-05-30 15:57:33,659 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 15:57:33,865 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:57:33,867 INFO c.e.l.L.User [JavaFX Application Thread] stefan tried sending another loanRequest
+2022-05-30 15:57:33,867 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 15:57:34,393 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 15:57:34,395 INFO c.e.l.L.User [JavaFX Application Thread] stefan tried sending another loanRequest
+2022-05-30 15:57:34,396 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 15:57:49,796 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 15:57:49,800 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 15:57:49,801 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 15:58:58,453 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:58:58,457 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1648 UnsuccessfulInlogg
+2022-05-30 15:59:03,677 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 15:59:03,681 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 15:59:08,208 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 15:59:08,212 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:00:03,697 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:00:03,704 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 16:00:07,584 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:00:07,587 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:01:09,792 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:01:09,803 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 16:01:14,867 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:01:14,869 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:01:23,059 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:01:23,063 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:01:23,063 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:01:23,065 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:05:02,244 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:05:02,249 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 16:05:09,209 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:05:09,213 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:05:09,214 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 16:05:18,250 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:05:18,254 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:05:26,810 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:05:26,814 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:05:26,814 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:05:26,815 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:05:34,546 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 16:05:34,548 INFO c.e.l.L.User [JavaFX Application Thread] Stefan sent loanRequest
+2022-05-30 16:07:11,201 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:07:11,212 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 16:07:17,318 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:07:17,322 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:07:17,324 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 16:07:23,982 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:07:23,983 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:07:34,762 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 16:07:34,764 INFO c.e.l.L.User [JavaFX Application Thread] Stefan tried sending another loanRequest
+2022-05-30 16:07:34,764 INFO c.e.l.L.User [JavaFX Application Thread] Stefan sent loanRequest
+2022-05-30 16:07:47,048 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:07:47,052 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:07:47,052 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:07:47,053 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:07:47,053 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:07:47,054 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:07:48,564 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 16:07:48,565 INFO c.e.l.L.User [JavaFX Application Thread] Stefan sent loanRequest
+2022-05-30 16:09:50,224 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:09:50,229 DEBUG c.e.l.L.User [JavaFX Application Thread] Stefan1684 SuccessfulInlogg
+2022-05-30 16:09:55,451 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:09:55,455 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:11:07,982 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:11:07,987 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 16:11:09,345 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:11:09,349 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:14:15,868 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:14:15,878 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 16:14:19,653 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:14:19,655 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:14:25,345 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:14:25,349 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:14:25,350 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:14:25,353 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:14:36,972 INFO c.e.l.L.User [JavaFX Application Thread] Sending loanRequest
+2022-05-30 16:14:36,975 INFO c.e.l.L.User [JavaFX Application Thread] stefan sent loanRequest
+2022-05-30 16:14:42,806 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:14:42,810 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:15:18,899 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login.
+2022-05-30 16:15:18,905 DEBUG c.e.l.L.User [JavaFX Application Thread] stefan1684 SuccessfulInlogg
+2022-05-30 16:15:20,230 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:15:20,235 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:15:25,394 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:15:25,398 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:15:25,399 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:15:25,403 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:15:28,947 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:15:28,951 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:16:47,383 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:16:47,390 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:16:47,392 DEBUG c.e.l.L.User [JavaFX Application Thread] oskar5801 Login successful
+2022-05-30 16:23:11,258 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:23:11,267 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:23:11,270 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 16:24:16,341 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:24:16,346 INFO c.e.l.L.User [JavaFX Application Thread] Did not find the book
+2022-05-30 16:24:28,706 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:24:28,710 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:24:28,712 INFO c.e.l.L.User [JavaFX Application Thread] Lending:Harry Potter to 1684
+2022-05-30 16:24:28,747 INFO c.e.l.L.User [JavaFX Application Thread] Loaned successfuly
+2022-05-30 16:25:59,970 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:25:59,980 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:25:59,982 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 16:26:14,698 INFO c.e.l.L.User [JavaFX Application Thread] Searching for a book
+2022-05-30 16:26:14,704 INFO c.e.l.L.User [JavaFX Application Thread] Found the book
+2022-05-30 16:26:14,705 INFO c.e.l.L.User [JavaFX Application Thread] Lending:Harry Potter to 1684
+2022-05-30 16:26:14,732 INFO c.e.l.L.User [JavaFX Application Thread] Loaned successfuly
+2022-05-30 16:34:21,816 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 16:34:32,426 INFO c.e.l.L.User [JavaFX Application Thread] Sending addRequest
+2022-05-30 16:34:38,684 INFO c.e.l.L.User [JavaFX Application Thread] Controlling if anyone is getting out from timedout
+2022-05-30 16:34:38,691 INFO c.e.l.L.User [JavaFX Application Thread] Trying to login as a Librarian.
+2022-05-30 16:34:38,697 DEBUG c.e.l.L.User [JavaFX Application Thread] Oskar5801 Login successful
+2022-05-30 16:35:14,768 INFO c.e.l.L.User [JavaFX Application Thread] Trying to add User
+2022-05-30 16:35:14,795 INFO c.e.l.L.User [JavaFX Application Thread] User was successfuly added
+2022-05-30 16:35:44,252 INFO c.e.l.L.User [JavaFX Application Thread] Trying to add User
+2022-05-30 16:35:44,266 INFO c.e.l.L.User [JavaFX Application Thread] User was successfuly added

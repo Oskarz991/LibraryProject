@@ -17,10 +17,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.jar.Attributes;
-
-
 
 public class Scenery extends Application {
 
@@ -74,23 +70,15 @@ public class Scenery extends Application {
             paneRight2.setVgap(5);
 
             //Objekt av olika klasser
-               Librarian librarianObj = new Librarian();            
-               Book bookObj;
+               Librarian librarianObj = new Librarian();
                User userObj = new User();
-
-            Scanner userScan = null;
-            try {
-                userScan = new Scanner(UserFile).useDelimiter(",");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
             ArrayList<User> userList = storage.getUserList() ;
 
-
-
             ListView<String> memberList = new ListView<>();
+
             memberList.setPrefWidth(150);
+
             for ( int i = 0; i <userList.size(); i++){
               memberList.getItems().addAll(userList.get(i).Name);
             }
@@ -111,7 +99,7 @@ public class Scenery extends Application {
             Text loanCount = new Text();
             loanCount.setFont(tre);
 
-            ToggleGroup deleteTgl = new ToggleGroup();
+             ToggleGroup deleteTgl = new ToggleGroup();
              RadioButton deleteByChoise = new RadioButton("Detele by choies");
              RadioButton deleteByPenalties = new RadioButton("Delete by penalties");
              deleteByChoise.setToggleGroup(deleteTgl); deleteByPenalties.setToggleGroup(deleteTgl);
@@ -130,15 +118,9 @@ public class Scenery extends Application {
             TextFlow textMembers = new TextFlow(namn, role, idid, prNumber, violationCounter, loanCount);
             textMembers.setPrefWidth(250);
 
-            //Bibliotekarie kan se alla pendings
+            //Bibliotekarie kan se alla pending
             Button toSeePendingBtn = new Button("See requests");
 
-            Scanner pendingScan = null;
-            try {
-                pendingScan = new Scanner(pendingWorkFile).useDelimiter(",");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
             ArrayList<User> pendingList;
             pendingList = storage.getPendingList();
@@ -163,8 +145,8 @@ public class Scenery extends Application {
 
             pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
                     namnPending.setText(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
-                    prNumberPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
-                idPending.setText(String.valueOf(pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+                    prNumberPending.setText((pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                    idPending.setText((pendingList.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
 
             });
 
@@ -182,11 +164,13 @@ public class Scenery extends Application {
 
             ToggleGroup tgl = new ToggleGroup();
             RadioButton loanBook1 = new RadioButton();
+            loanBook1.setVisible(false);
 
             loanBook1.setToggleGroup(tgl);
 
             Text bookUserSearchTxt = new Text();
             Button loanBookBtn = new Button("Loan Book");
+            loanBookBtn.setVisible(false);
 
             //Medlem ser alla lånade böcker
             Label titleAllLoanedBooks = new Label("All loaned Books");
@@ -367,7 +351,11 @@ public class Scenery extends Application {
                 }
 
                 try {
-                    if(librarianObj.loginLibrarian(nameLibrarianTxt.getText(), Integer.parseInt(idLibrarianTxt.getText()))) {
+                    if(nameLibrarianTxt.getText().length() == 0|| idLibrarianTxt.getText().length() == 0){
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write something in the fields ");
+                        aler.showAndWait();
+                    } else if (librarianObj.loginLibrarian(nameLibrarianTxt.getText(), Integer.parseInt(idLibrarianTxt.getText()))) {
                     titleLibrarian.setVisible(true);
                     nameLibrarianTxt.setVisible(true);
                     nameLibrarianLbl.setVisible(true);
@@ -390,70 +378,78 @@ public class Scenery extends Application {
             Text bookNameGet = new Text();
 
             loginBtn.setOnAction(e-> {
-                String name = nameMemberLoginTxt.getText();
-                String id = idMemberLoginTxt.getText();
-                int idNr = Integer.parseInt(id);
                 try {
-                    boolean verify = userObj.loginUser(name,idNr);
-                    if (verify){
+                    if (nameMemberLoginTxt.getText().length() == 0 || idMemberLoginTxt.getText().length() == 0){
+                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                        aler.setHeaderText("You have to write something");
+                        aler.showAndWait();
+                    } else if(userObj.loginUser(nameMemberLoginTxt.getText(),Integer.parseInt(idMemberLoginTxt.getText()))){
                         rightControl.getChildren().clear();
                         paneRight.setVisible(false);
                         rightControl.getChildren().addAll(paneRight2);
                         paneRight2.setVisible(true);
                         loanBook1.setVisible(false);
-                        idForUser.setText("User: " + name + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
+                        idForUser.setText("User: " + nameMemberLoginTxt.getText() + "/ID: "+Integer.toString(Integer.parseInt(idMemberLoginTxt.getText())));
                         idForUser.setVisible(true);
-                 /*   } else if (){
-                        Alert aler = new Alert(Alert.AlertType.INFORMATION);
-                        aler.setHeaderText("You have to write something");
-                        aler.showAndWait();
 
-                  */
+                        ArrayList<Book> bookOjcc = new ArrayList<Book>();
+                        int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
+                        String nameForSeeAllBooks = nameMemberLoginTxt.getText();
+                        String bookNameg = "";
+                        String bookNameg2 = "";
+
+                        try {
+                            bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
+                            for (Book book:bookOjcc ){
+                                bookNameg = book.getTitle() + ": " + book.getISBN();
+                                bookNameg2 = bookNameg2 + "\n" + bookNameg;
+
+                            }
+                            bookNameGet.setText(bookNameg2);
+
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
                     } else {
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
                         aler.setHeaderText("User doesnt exist");
                         aler.showAndWait();
-
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
 
-                ArrayList<Book> bookOjcc = new ArrayList<Book>();
-                   int prNameForSeeAllBooks = Integer.parseInt(idMemberLoginTxt.getText());
-                   String nameForSeeAllBooks = nameMemberLoginTxt.getText();
-                   String bookNameg = "";
-                   String bookNameg2 = "";
-
-
-                try {
-                    bookOjcc = userObj.myBooks(prNameForSeeAllBooks,nameForSeeAllBooks);
-                    for (Book book:bookOjcc ){
-                        bookNameg = book.getTitle() + ": " + book.getISBN();
-                        bookNameg2 = bookNameg2 + "\n" + bookNameg;
-
-                    }
-                    bookNameGet.setText(bookNameg2);
-
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
             });
-
                     Text getIdForBookToSendForLoan = new Text();
 
             searchBookBtn.setOnAction(e-> {
                 Book bookObc = new Book();
                 String bokName;
                 int iddd;
+                Book nullBook = new Book();
+                nullBook = null;
+
                 try {
+                if (userObj.searchTitle(bookTitleTxt.getText()) == nullBook){
+                    Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                    aler.setHeaderText("The book does not exist");
+                    aler.showAndWait();
+
+                    loanBook1.setVisible(false);
+                    loanBookBtn.setVisible(false);
+                    bookTitleTxt.clear();
+
+                } else {
                     bookObc = userObj.searchTitle(bookTitleTxt.getText());
                     bokName = bookObc.getTitle();
                     iddd = bookObc.getId();
                     getIdForBookToSendForLoan.setText(Integer.toString(iddd));
                     loanBook1.setText(bokName);
                     loanBook1.setVisible(true);
+                    loanBookBtn.setVisible(true);
+                    bookTitleTxt.clear();
+                }
 
                     //Lägg till loan book knappen till att kunna skicka förfrågan om att låna bok
                     } catch (IOException ioException) {
@@ -485,6 +481,9 @@ public class Scenery extends Application {
                     if (loanBook1.isSelected()) {
                         try {
                            userObj.requestLoan(userID,bName,pName,pNumber);
+                            Alert aler = new Alert(Alert.AlertType.INFORMATION);
+                            aler.setHeaderText("A request is sent ");
+                            aler.showAndWait();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
@@ -504,9 +503,10 @@ public class Scenery extends Application {
 
 
                             pendingListView.getSelectionModel().selectedIndexProperty().addListener(ov -> {
-                                namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
-                                prNumberPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
-                                idPending.setText(String.valueOf(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+                            namnPending.setText(pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getName() + " " + "\n" + "Personal number: ");
+                            prNumberPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getPNumber()) + "\n" + "Id: ");
+                            idPending.setText((pendingList1.get(pendingListView.getSelectionModel().getSelectedIndex()).getId()) + "\n");
+
 
                             });
                         }

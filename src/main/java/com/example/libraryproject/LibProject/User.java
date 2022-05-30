@@ -223,14 +223,16 @@ public class User {
             User tempUser = new User(name,persNr,0,request);
             pendingList.add(tempUser);
 
-        for (int i = 0; i < pendingList.size(); i++) {
-            for (int j = i + 1; j < pendingList.size(); j++) {
-                if (pendingList.get(i).Request.equalsIgnoreCase(pendingList.get(j).Request)) {
-                    pendingList.remove(j);
-                    System.out.println("You have already requested a loan of this book");
+        User userTemp = null;
+        for (User user:pendingList) {
+            if (userTemp!=null){
+                if (user.PNumber == userTemp.PNumber && user.Request.contains("AddMe:")){
+                    pendingList.remove(user);
                     logger.info(name+" tried to request twice");
                 }
             }
+
+            userTemp= user;
         }
        storage.updatePendingFile(pendingList);
     }
