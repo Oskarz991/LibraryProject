@@ -131,3 +131,5 @@
 2022-05-30 11:25:19,521 INFO c.e.l.L.User [main] Loaned successfuly
 2022-05-30 11:26:16,270 INFO c.e.l.L.User [main] Lending:The Witcher to1684
 2022-05-30 11:26:16,294 INFO c.e.l.L.User [main] Loaned successfuly
+2022-05-30 11:28:37,303 INFO c.e.l.L.User [main] Sending loanRequest
+2022-05-30 11:28:37,309 INFO c.e.l.L.User [main] Stefan sent loanRequest

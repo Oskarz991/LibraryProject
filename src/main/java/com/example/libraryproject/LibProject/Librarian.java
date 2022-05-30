@@ -404,9 +404,13 @@ public class Librarian {
     public static void main(String[] args) throws IOException{
         Librarian lib = new Librarian();
 
+        User testuser = new User();
+
+        testuser.requestLoan(1684,"The Witcher", "Stefan", 20001006);
+
         Book thebook = new Book(4,"The Witcher",4136,10,"Andrzej Sapkowski");
-        
-        lib.lendBook(thebook,1684);
+
+    //    lib.lendBook(thebook,1684);
 
     }
 }
