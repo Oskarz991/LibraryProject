@@ -47,8 +47,8 @@ public class Librarian {
 
 
    public ArrayList<User> addUser(String name, int pNumber, String role) throws IOException{
-        logger.info("Trying to add User");
-        ArrayList<String> pendingWork = storage.getUserLoanList();
+       logger.info("Trying to add User");
+       ArrayList<User> pendingWork = storage.getPendingList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        int sizeOfUserList = userList.size();
@@ -80,8 +80,8 @@ public class Librarian {
        for (int i = 0; i < userList.size(); i++) {
            for (int j = i+1; j < userList.size(); j++){
                if (userList.get(i).PNumber == (userList.get(j).PNumber)){
-                   userList.remove(j);
                    logger.debug(userList.get(j).PNumber +" was a duplicate found");
+                   userList.remove(j);
                }
            }
        }
@@ -109,15 +109,21 @@ public class Librarian {
        if (sizeOfUserList+1==userList.size()){
            logger.info("User was successfuly added");
        }
-       for (String item: pendingWork){
-           if (item.equals(name));
+       for (User item: pendingWork){
+           if (item.Name.equalsIgnoreCase(name) && item.PNumber==pNumber && item.Request.contains("AddMe: ")){
+               pendingWork.remove(item);
+               break;
+
+           }
        }
+       storage.updatePendingFile(pendingWork);
 
        return userList;
    }
 
    public void deleteUser(int id, boolean request) throws IOException {
-        logger.debug("Deleting user with id:" + id + " was this requested? " + request);
+       logger.debug("Deleting user with id:" + id + " was this requested? " + request);
+       ArrayList<User> pendingWork = storage.getPendingList();
        ArrayList<User>userList = storage.getUserList();
        ArrayList<User>blackList = storage.getBlackList();
        ArrayList<Book>bookList = storage.getBooks();
@@ -219,10 +225,19 @@ public class Librarian {
                    break;
                }
            }
+
            storage.updateBookFile(bookList);
            storage.updateUserFile(userList);
            storage.updateUserLoanFile(userLoanList);
        }
+       for (User item: pendingWork){
+           if (item.Id == id && item.Request.contains("Delete")){
+               pendingWork.remove(item);
+               break;
+
+           }
+       }
+       storage.updatePendingFile(pendingWork);
    }
 
    public void giveTimeout(int id)throws IOException{
@@ -307,8 +322,9 @@ public class Librarian {
    }
 
    public void lendBook(Book theBook, int userId)throws IOException {
-        logger.info("Lending:"+ theBook.Title + " to" + userId);
+       logger.info("Lending:"+ theBook.Title + " to" + userId);
        ArrayList<User>userList = storage.getUserList();
+       ArrayList<User> pendingWork = storage.getPendingList();
 
        User tempUser = new User();
 
@@ -355,8 +371,14 @@ public class Librarian {
            logger.info("Couldnt loan to the user because the user can not loan anymore books");
        }
 
+       for (User item: pendingWork){
+           if (item.Id == userId && item.Request.contains("Loan:")){
+               pendingWork.remove(item);
+               break;
+           }
+       }
+      storage.updatePendingFile(pendingWork);
       storage.updateBookFile(bookList);
-
    }
 
     public boolean loginLibrarian (String name, int id)throws IOException{
@@ -376,5 +398,19 @@ public class Librarian {
         }
 
         return verify;
+    }
+
+
+    public static void main(String[] args) throws IOException{
+        Librarian lib = new Librarian();
+
+        User testuser = new User();
+
+        testuser.requestLoan(1684,"The Witcher", "Stefan", 20001006);
+
+        Book thebook = new Book(4,"The Witcher",4136,10,"Andrzej Sapkowski");
+
+    //    lib.lendBook(thebook,1684);
+
     }
 }

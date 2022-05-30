@@ -10,7 +10,6 @@ public class User {
 
     public static Logger logger = LogManager.getLogger(User.class.getName());
     public String Name;
-    public String Surname;
     public String Role;
     public int PNumber;
     public int Id;
@@ -67,14 +66,6 @@ public class User {
 
     public void setName(String name) {
         Name = name;
-    }
-
-    public String getSurname() {
-        return Surname;
-    }
-
-    public void setSurname(String surname) {
-        Surname = surname;
     }
 
     public String getRole() {
