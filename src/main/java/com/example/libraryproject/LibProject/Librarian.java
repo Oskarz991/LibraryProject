@@ -34,7 +34,7 @@ public class Librarian {
         for (int i = 0; i < bookList.size(); i++) {
             for (int j = i+1; j < bookList.size(); j++)
             if (bookList.get(i).Title.equalsIgnoreCase(bookList.get(j).Title)){
-                bookList.remove(i);
+                bookList.remove(j);
                 logger.info("duplicate was found");
             }
         }
