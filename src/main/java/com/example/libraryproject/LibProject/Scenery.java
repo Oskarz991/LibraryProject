@@ -29,6 +29,7 @@ public class Scenery extends Application {
        public File blackFile = new File("src/main/java/com/example/libraryproject/LibProject/BlackList.txt");
        public File timeoutFile = new File("src/main/java/com/example/libraryproject/LibProject/TimeoutList.txt");
        public File pendingWorkFile = new File("src/main/java/com/example/libraryproject/LibProject/PendingWork.txt");
+       public Storage storage;
 
         public static void main(String[] args) {
 
@@ -36,7 +37,7 @@ public class Scenery extends Application {
         }
 
         @Override
-        public void start(Stage primaryStage) {
+        public void start(Stage primaryStage) throws IOException {
 
             VBox root = new VBox();
             root.setSpacing(5);
@@ -87,19 +88,8 @@ public class Scenery extends Application {
                 e.printStackTrace();
             }
 
-            ArrayList<User> userList = new ArrayList<>();
+            ArrayList<User> userList = storage.getUserList();
 
-            while (userScan.hasNext()){
-                 String Name = userScan.next();
-                 String SurName = userScan.next();
-                 int PNumber = Integer.parseInt(userScan.next());
-                 int Id = Integer.parseInt(userScan.next());
-                 int LocalCounter = Integer.parseInt(userScan.next());
-                 int ViolationCounter = Integer.parseInt(userScan.next());
-                 String Role = userScan.nextLine();
-                 Role = Role.replace(",","");
-                 userList.add(new User(Name,SurName,PNumber,Id,LocalCounter,ViolationCounter,Role));
-            }
 
             ListView<String> memberList = new ListView<>();
             memberList.setPrefWidth(150);
@@ -134,7 +124,6 @@ public class Scenery extends Application {
             memberList.getSelectionModel().selectedIndexProperty().addListener(ov -> {
                 memberList.refresh();
                 namn.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getName()+ " ");
-                surname.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getSurname()+ "\n" );
                 role.setText(userList.get(memberList.getSelectionModel().getSelectedIndex()).getRole()+ "\n" + "\n" + "Id: ");
                 idid.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getId())+"\n" + "Personal Nr: ");
                 prNumber.setText(String.valueOf(userList.get(memberList.getSelectionModel().getSelectedIndex()).getPNumber())+"\n" + "Violation counter: ");
@@ -605,10 +594,9 @@ public class Scenery extends Application {
                     String nameUser = createANewUserNameTxt.getText();
                     int personalNrUser = Integer.parseInt(createANewUserPersonalNumberTxt.getText());
                     String roleUser = createANewUserRoleTxt.getText();
-                    String temporaryTaBort = "S";
 
                     try {
-                        librarianObj.addUser(nameUser,temporaryTaBort,personalNrUser,roleUser);
+                        librarianObj.addUser(nameUser,personalNrUser,roleUser);
                         Alert aler = new Alert(Alert.AlertType.INFORMATION);
                         aler.setHeaderText("User created");
                         aler.showAndWait();

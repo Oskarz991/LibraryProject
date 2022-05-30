@@ -110,7 +110,9 @@ public class Librarian {
            logger.info("User was successfuly added");
        }
        for (String item: pendingWork){
-           if (item.equals(name));
+           if (item.equals(name + "," + pNumber + "," +"0" + "," + "AddMe: " + role));{
+
+           }
        }
 
        return userList;
