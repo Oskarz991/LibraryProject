@@ -1,2 +1,4 @@
 Stefan,1189,6,Loan: Sture P
 Stefan,20001006,1189,Delete
+Hakana,20011012,0,AddMe: Teacher
+David,19891022,0,AddMe: PhD Student
