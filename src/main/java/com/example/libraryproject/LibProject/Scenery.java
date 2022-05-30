@@ -534,7 +534,7 @@ public class Scenery extends Application {
                     }
                 }
             });
-
+//
                 registerBtn.setOnAction(e-> {
                             String nameUser = nameMemberRegisterTxt.getText();
                             int personalNrUser = Integer.parseInt(personalNrMemberRegisterTxt.getText());
